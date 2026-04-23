@@ -4,7 +4,7 @@ import crypto from 'crypto'
 
 export async function POST(request: Request) {
   try {
-    const user = await request.json()
+    const { role, ...user } = await request.json()
     
     // Проверка подписи Телеграма
     const botToken = process.env.TELEGRAM_BOT_TOKEN
@@ -31,6 +31,7 @@ export async function POST(request: Request) {
         username: user.username?.toLowerCase() || null,
         full_name: `${user.first_name} ${user.last_name || ''}`.trim(),
         first_name: user.first_name,
+        role: role,
         is_verified: true,
         updated_at: new Date().toISOString()
       }, { onConflict: 'telegram_id' })

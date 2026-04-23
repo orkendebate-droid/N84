@@ -8,7 +8,7 @@ import TelegramLogin from '@/components/TelegramLogin'
 export default function Home() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState({ fullName: '', telegram: '', role: '' })
+  const [selectedRole, setSelectedRole] = useState<'employer' | 'youth' | null>(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('n84_user')
@@ -19,12 +19,17 @@ export default function Home() {
 
   // Обработка входа через виджет
   const handleTelegramAuth = async (tgUser: any) => {
+    if (!selectedRole) {
+      alert('Пожалуйста, сначала выберите роль (Работодатель или Молодежь)')
+      return
+    }
+
     setLoading(true)
     try {
       const res = await fetch('/api/auth/tg-login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tgUser)
+        body: JSON.stringify({ ...tgUser, role: selectedRole })
       })
       const data = await res.json()
       if (data.success) {
@@ -36,24 +41,6 @@ export default function Home() {
     } finally {
       setLoading(false)
     }
-  }
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!formData.role) return alert('Пожалуйста, выберите роль')
-    setLoading(true)
-    try {
-      const res = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      })
-      const data = await res.json()
-      if (data.success) {
-        setUser(data.profile)
-        localStorage.setItem('n84_user', JSON.stringify(data.profile))
-      }
-    } catch (err) { alert('Ошибка регистрации') } finally { setLoading(false) }
   }
 
   return (
@@ -93,67 +80,54 @@ export default function Home() {
               <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-zinc-800">
                 <h2 className="text-2xl font-black mb-8 tracking-tighter uppercase text-center">ПРИСОЕДИНИТЬСЯ</h2>
                 
-                {/* Telegram Login Section */}
                 <div className="space-y-6">
-                  <div className="bg-blue-50 dark:bg-zinc-800/50 p-6 rounded-3xl border border-blue-100 dark:border-zinc-700 text-center">
-                    <p className="text-sm font-bold opacity-60 mb-4 uppercase tracking-widest">Самый быстрый способ</p>
-                    <TelegramLogin 
-                      botUsername="SauraN84_bot" 
-                      onAuth={handleTelegramAuth} 
-                    />
-                  </div>
-
-                  <div className="relative flex items-center py-2">
-                    <div className="flex-grow border-t border-slate-200 dark:border-zinc-800"></div>
-                    <span className="flex-shrink mx-4 text-xs font-black uppercase opacity-20">ИЛИ ВРУЧНУЮ</span>
-                    <div className="flex-grow border-t border-slate-200 dark:border-zinc-800"></div>
-                  </div>
-
-                  {/* Manual Form */}
-                  <form onSubmit={handleRegister} className="space-y-4">
-                    <input 
-                      required
-                      className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl outline-none focus:ring-2 ring-blue-600 transition-all font-bold"
-                      placeholder="Ваше Имя"
-                      value={formData.fullName}
-                      onChange={e => setFormData({...formData, fullName: e.target.value})}
-                    />
-                    <input 
-                      required
-                      className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl outline-none focus:ring-2 ring-blue-600 transition-all font-bold"
-                      placeholder="@telegram_username"
-                      value={formData.telegram}
-                      onChange={e => setFormData({...formData, telegram: e.target.value})}
-                    />
+                  {/* Step 1: Select Role */}
+                  <div className="space-y-2 text-center">
+                    <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Шаг 1: Выберите вашу роль</p>
                     <div className="grid grid-cols-2 gap-3">
                       <button 
                         type="button"
-                        onClick={() => setFormData({...formData, role: 'employer'})}
-                        className={`p-3 rounded-xl border-2 transition-all text-[10px] font-black uppercase ${formData.role === 'employer' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-transparent bg-slate-50 dark:bg-zinc-800'}`}
+                        onClick={() => setSelectedRole('employer')}
+                        className={`p-5 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${selectedRole === 'employer' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 scale-105' : 'border-transparent bg-slate-50 dark:bg-zinc-800 opacity-60'}`}
                       >
-                        Я Работодатель
+                        <Briefcase size={20} className={selectedRole === 'employer' ? 'text-blue-600' : ''} />
+                        <span className="text-[10px] font-black uppercase tracking-tighter">Работодатель</span>
                       </button>
                       <button 
                         type="button"
-                        onClick={() => setFormData({...formData, role: 'youth'})}
-                        className={`p-3 rounded-xl border-2 transition-all text-[10px] font-black uppercase ${formData.role === 'youth' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-transparent bg-slate-50 dark:bg-zinc-800'}`}
+                        onClick={() => setSelectedRole('youth')}
+                        className={`p-5 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${selectedRole === 'youth' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 scale-105' : 'border-transparent bg-slate-50 dark:bg-zinc-800 opacity-60'}`}
                       >
-                        Я Ищу Работу
+                        <Users size={20} className={selectedRole === 'youth' ? 'text-blue-600' : ''} />
+                        <span className="text-[10px] font-black uppercase tracking-tighter">Студент / Молодежь</span>
                       </button>
                     </div>
-                    <button 
-                      type="submit"
-                      disabled={loading}
-                      className="w-full bg-slate-900 dark:bg-white text-white dark:text-black font-black py-4 rounded-xl hover:opacity-90 transition-all flex items-center justify-center gap-2"
-                    >
-                      {loading ? <Loader2 className="animate-spin" /> : 'СОЗДАТЬ АККАУНТ'}
-                    </button>
-                  </form>
+                  </div>
+
+                  {/* Step 2: Telegram Login (Visible only after role selection or always) */}
+                  <div className={`space-y-4 transition-all duration-500 ${selectedRole ? 'opacity-100 translate-y-0' : 'opacity-30 blur-[2px] pointer-events-none'}`}>
+                    <div className="bg-blue-600/5 dark:bg-blue-600/10 p-6 rounded-3xl border border-blue-600/10 text-center">
+                      <p className="text-xs font-black opacity-60 mb-6 uppercase tracking-widest leading-none">Шаг 2: Вход через Telegram</p>
+                      <TelegramLogin 
+                        botUsername="SauraN84_bot" 
+                        onAuth={handleTelegramAuth} 
+                      />
+                      <p className="text-[10px] opacity-40 mt-6 font-bold leading-tight">
+                        Нажимая кнопку, вы подтверждаете свои данные через официальный сервис Telegram.
+                      </p>
+                    </div>
+                  </div>
+
+                  {loading && (
+                    <div className="flex justify-center">
+                      <Loader2 className="animate-spin text-blue-600" />
+                    </div>
+                  )}
                 </div>
               </div>
             ) : (
               <div className="bg-blue-600 p-10 rounded-[3rem] text-white shadow-2xl rotate-3 animate-in fade-in duration-500">
-                <h2 className="text-3xl font-black mb-8 tracking-tighter uppercase">С возвращением!</h2>
+                <h2 className="text-3xl font-black mb-8 tracking-tighter uppercase leading-none">С возвращением, <br/>{user.first_name}!</h2>
                 <div className="flex flex-col gap-3">
                   <Link 
                     href="/profile" 
@@ -163,7 +137,7 @@ export default function Home() {
                   </Link>
                   <button 
                     onClick={() => { localStorage.removeItem('n84_user'); window.location.reload(); }}
-                    className="text-white/60 font-bold text-xs uppercase hover:text-white transition-colors py-2"
+                    className="text-white/60 font-bold text-[10px] uppercase hover:text-white transition-colors py-2 tracking-widest"
                   >
                     Выйти из аккаунта
                   </button>
@@ -176,10 +150,10 @@ export default function Home() {
 
       <section className="bg-white dark:bg-zinc-900 py-20 border-y border-slate-200 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center text-blue-600 font-black">
-          <div><div className="text-4xl">200+</div><div className="text-[10px] opacity-40">Студентов</div></div>
-          <div><div className="text-4xl">50+</div><div className="text-[10px] opacity-40">Компаний</div></div>
-          <div><div className="text-4xl">AI</div><div className="text-[10px] opacity-40">Matching</div></div>
-          <div><div className="text-4xl">24/7</div><div className="text-[10px] opacity-40">Поддержка</div></div>
+          <div><div className="text-4xl italic">200+</div><div className="text-[10px] opacity-40 uppercase tracking-widest">Студентов</div></div>
+          <div><div className="text-4xl italic">50+</div><div className="text-[10px] opacity-40 uppercase tracking-widest">Компаний</div></div>
+          <div><div className="text-4xl italic">AI</div><div className="text-[10px] opacity-40 uppercase tracking-widest">Matching</div></div>
+          <div><div className="text-4xl italic">24/7</div><div className="text-[10px] opacity-40 uppercase tracking-widest">Поддержка</div></div>
         </div>
       </section>
     </div>
