@@ -1,0 +1,24 @@
+temp_app@0.1.0 C:\Users\user\Desktop\F84
+├── @emnapi/core@1.10.0 extraneous
+├── @emnapi/runtime@1.10.0 extraneous
+├── @emnapi/wasi-threads@1.2.1 extraneous
+├── @napi-rs/wasm-runtime@0.2.12 extraneous
+├── @supabase/supabase-js@2.104.1
+├── @tailwindcss/postcss@4.2.4
+├── @tybys/wasm-util@0.10.1 extraneous
+├── @types/node@20.19.39
+├── @types/react-dom@19.2.3
+├── @types/react@19.2.14
+├── dotenv@17.4.2
+├── eslint-config-next@16.2.4
+├── eslint@9.39.4
+├── grammy@1.42.0
+├── lucide-react@1.9.0
+├── next@16.2.4
+├── openai@6.34.0
+├── postgres@3.4.9
+├── react-dom@19.2.4
+├── react@19.2.4
+├── tailwindcss@4.2.4
+└── typescript@5.9.3
+

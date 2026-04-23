@@ -1,0 +1,7 @@
+Запуск финальной попытки...
+Подключение успешно, создаю таблицы по очереди...
+1. Extension vector - OK
+2. Table profiles - OK
+3. Table vacancies - OK
+4. Table applications - OK
+!!! ВСЁ ГОТОВО !!! Я научился управлять вашей базой.

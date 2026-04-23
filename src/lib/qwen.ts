@@ -1,0 +1,25 @@
+import OpenAI from 'openai'
+
+const qwenApiKey = process.env.QWEN_API_KEY!
+const qwenBaseUrl = process.env.QWEN_BASE_URL || 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1'
+
+export const qwen = new OpenAI({
+  apiKey: qwenApiKey,
+  baseURL: qwenBaseUrl,
+})
+
+export async function askQwen(prompt: string, systemPrompt: string = "You are a helpful assistant for a job platform in Mangystau, Kazakhstan.") {
+  try {
+    const response = await qwen.chat.completions.create({
+      model: "qwen-turbo", // или qwen-max, qwen-plus в зависимости от лимитов
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: prompt }
+      ],
+    })
+    return response.choices[0].message.content
+  } catch (error) {
+    console.error('Error calling Qwen:', error)
+    return null
+  }
+}
