@@ -1,4 +1,4 @@
-import { Bot, webhookCallback } from 'grammy'
+import { Bot, webhookCallback, InlineKeyboard } from 'grammy'
 import { supabaseAdmin } from '@/lib/supabase'
 
 const token = process.env.TELEGRAM_BOT_TOKEN
@@ -6,49 +6,63 @@ if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not set')
 
 const bot = new Bot(token)
 
-// Обработка команды /start
-bot.command('start', (ctx) => 
-  ctx.reply('Привет! Я бот платформы N84. 🚀\n\nЧтобы подтвердить свой аккаунт, отправьте команду:\n/verify [ваш_код_с_сайта]')
-)
-
-// Обработка команды /verify [code]
-bot.command('verify', async (ctx) => {
-  const code = ctx.match
-  if (!code) return ctx.reply('Пожалуйста, укажите код. Пример: /verify 1234')
-
-  try {
-    // Ищем пользователя с таким кодом
-    const { data: profile, error } = await supabaseAdmin
-      .from('profiles')
-      .select('*')
-      .eq('verification_code', code)
-      .single()
-
-    if (error || !profile) {
-      return ctx.reply('❌ Ошибка: Неверный код. Проверьте число на сайте N84.')
-    }
-
-    if (profile.is_verified) {
-      return ctx.reply('✅ Ваш аккаунт уже подтвержден!')
-    }
-
-    // Обновляем профиль
-    const { error: updateError } = await supabaseAdmin
-      .from('profiles')
-      .update({
-        is_verified: true,
-        telegram_id: ctx.from.id,
-        username: ctx.from.username || profile.username
-      })
-      .eq('id', profile.id)
-
-    if (updateError) throw updateError
-
-    ctx.reply(`✅ Успех! Аккаунт ${profile.full_name} подтвержден. Теперь вы можете пользоваться всеми функциями N84!`)
+// Обработка /start с параметром (например, /start reg_123)
+bot.command('start', async (ctx) => {
+  const payload = ctx.match
+  
+  if (payload && payload.startsWith('reg_')) {
+    const profileId = payload.replace('reg_', '')
     
-  } catch (err) {
-    console.error(err)
-    ctx.reply('⚠️ Произошла ошибка при верификации. Попробуйте позже.')
+    try {
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('*')
+        .eq('id', profileId)
+        .single()
+
+      if (profile) {
+        const keyboard = new InlineKeyboard()
+          .text('✅ Да, это я', `verify_yes_${profileId}`)
+          .text('❌ Нет, не я', `verify_no_${profileId}`)
+
+        return ctx.reply(
+          `👋 Привет, ${ctx.from.first_name}!\n\nКто-то (возможно, вы) зарегистрировался на платформе N84 под именем:\n\n👤 *${profile.full_name}*\n\nЭто ваш аккаунт?`,
+          { parse_mode: 'Markdown', reply_markup: keyboard }
+        )
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  ctx.reply('Привет! Я бот платформы N84. 🚀\nЗарегистрируйтесь на сайте, чтобы получить доступ ко всем функциям!')
+})
+
+// Обработка нажатий на кнопки
+bot.on('callback_query:data', async (ctx) => {
+  const data = ctx.callbackQuery.data
+
+  if (data.startsWith('verify_yes_')) {
+    const profileId = data.replace('verify_yes_', '')
+    
+    try {
+      await supabaseAdmin
+        .from('profiles')
+        .update({
+          is_verified: true,
+          telegram_id: ctx.from.id,
+          username: ctx.from.username || null
+        })
+        .eq('id', profileId)
+
+      await ctx.answerCallbackQuery('Успешно подтверждено!')
+      await ctx.editMessageText('✅ *Поздравляем!*\n\nВаш аккаунт успешно подтвержден. Теперь вы можете вернуться на сайт и пользоваться платформой N84.', { parse_mode: 'Markdown' })
+    } catch (err) {
+      await ctx.answerCallbackQuery('Ошибка базы данных')
+    }
+  } else if (data.startsWith('verify_no_')) {
+    await ctx.answerCallbackQuery('Понял, отклоняю')
+    await ctx.editMessageText('❌ *Доступ отклонен.*\n\nМы не подтвердили этот аккаунт. Если это были не вы, не переживайте — ваша безопасность под контролем.', { parse_mode: 'Markdown' })
   }
 })
 

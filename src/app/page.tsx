@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send, ShieldCheck } from "lucide-react";
+import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send, ShieldCheck, ExternalLink } from "lucide-react";
 import Link from 'next/link'
-import TelegramLogin from '@/components/TelegramLogin'
 
 export default function Home() {
   const [user, setUser] = useState<any>(null)
@@ -36,7 +35,7 @@ export default function Home() {
       if (data.success) {
         setUser(data.profile)
         localStorage.setItem('n84_user', JSON.stringify(data.profile))
-        alert('Поздравляем! Вы успешно зарегистрированы в N84.')
+        alert('Поздравляем! Профиль создан. Осталось подтвердить его в Telegram.')
       } else {
         alert('Ошибка при регистрации: ' + data.error)
       }
@@ -62,9 +61,9 @@ export default function Home() {
             {user && (
               <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
-                  {user.first_name?.[0] || 'U'}
+                  {user.full_name?.[0] || 'U'}
                 </div>
-                <span className="font-bold text-sm tracking-tight">{user.full_name || 'Пользователь'}</span>
+                <span className="font-bold text-sm tracking-tight">{user.full_name || 'User'}</span>
                 {user.is_verified && <ShieldCheck size={16} className="text-blue-500" />}
               </div>
             )}
@@ -154,23 +153,21 @@ export default function Home() {
               </div>
             ) : (
               <div className="bg-blue-600 p-10 rounded-[3rem] text-white shadow-2xl rotate-3">
-                <h2 className="text-3xl font-black mb-4 tracking-tighter">С ВОЗВРАЩЕНИЕМ!</h2>
+                <h2 className="text-3xl font-black mb-4 tracking-tighter uppercase">С возвращением!</h2>
                 
                 {!user.is_verified && (
                   <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl mb-8 border border-white/20">
-                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">Шаг 2: Подтвердите аккаунт</p>
-                    <div className="text-3xl font-black tracking-widest mb-4 tracking-tighter">КОД: {user.verification_code}</div>
-                    <p className="text-xs opacity-80 mb-4 font-bold italic">Напишите нашему боту команду:</p>
-                    <code className="block bg-black/20 p-3 rounded-xl text-xs font-mono mb-4 ring-1 ring-white/30 text-center font-bold">
-                      /verify {user.verification_code}
-                    </code>
+                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-4 leading-tight">Шаг 2: Подтвердите аккаунт в боте</p>
                     <a 
-                      href="https://t.me/SauraN84_bot" 
+                      href={`https://t.me/SauraN84_bot?start=reg_${user.id}`} 
                       target="_blank"
-                      className="block text-center bg-white text-blue-600 font-black py-3 rounded-xl hover:scale-105 transition-transform text-sm"
+                      className="block text-center bg-white text-blue-600 font-black py-4 rounded-2xl hover:scale-105 transition-transform flex items-center justify-center gap-2 shadow-xl"
                     >
-                      ОТКРЫТЬ БОТА
+                      ПОДТВЕРДИТЬ В TG <ExternalLink size={18} />
                     </a>
+                    <p className="text-[10px] opacity-60 mt-4 font-bold text-center italic leading-tight">
+                      Бот спросит: «Это вы?». Нужно будет нажать «Да».
+                    </p>
                   </div>
                 )}
 
