@@ -20,7 +20,7 @@ bot.command('start', async (ctx) => {
         .eq('id', profileId)
         .single()
 
-      if (profile) {
+      if (profile && ctx.from) {
         const keyboard = new InlineKeyboard()
           .text('✅ Да, это я', `verify_yes_${profileId}`)
           .text('❌ Нет, не я', `verify_no_${profileId}`)
@@ -44,6 +44,7 @@ bot.on('callback_query:data', async (ctx) => {
 
   if (data.startsWith('verify_yes_')) {
     const profileId = data.replace('verify_yes_', '')
+    if (!ctx.from) return
     
     try {
       await supabaseAdmin
