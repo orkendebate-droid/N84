@@ -1,13 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck } from 'lucide-react'
+import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck, Trash2, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const [formData, setFormData] = useState({
     full_name: '',
     address: '',
@@ -16,7 +17,6 @@ export default function ProfilePage() {
   })
 
   useEffect(() => {
-    // Загружаем данные из localStorage (MVP подход для хакатона)
     const savedUser = localStorage.getItem('n84_user')
     if (savedUser) {
       const user = JSON.parse(savedUser)
@@ -31,7 +31,7 @@ export default function ProfilePage() {
       const res = await fetch(`/api/auth/verify`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ telegram_id: null, id: id }) // Расширим verify для поиска по ID
+        body: JSON.stringify({ telegram_id: null, id: id })
       })
       const data = await res.json()
       if (data.exists) {
@@ -70,6 +70,27 @@ export default function ProfilePage() {
     }
   }
 
+  const handleDelete = async () => {
+    if (!confirm('ВНИМАНИЕ: Это действие нельзя отменить. Вы действительно хотите удалить свой аккаунт из N84?')) return
+    
+    setDeleting(true)
+    try {
+      const res = await fetch('/api/profile/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: profile.id })
+      })
+      const data = await res.json()
+      if (data.success) {
+        localStorage.removeItem('n84_user')
+        window.location.href = '/'
+      }
+    } catch (err) {
+      alert('Ошибка при удалении')
+      setDeleting(false)
+    }
+  }
+
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-zinc-950 font-black italic text-4xl animate-pulse text-blue-600">N84</div>
 
   if (!profile) return (
@@ -99,7 +120,7 @@ export default function ProfilePage() {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar Info */}
           <div className="w-full md:w-1/3 space-y-6">
-            <div className="bg-blue-600 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group">
+            <div className="bg-blue-600 rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden group border border-blue-400/20">
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
                 <Bot size={120} />
               </div>
@@ -144,6 +165,18 @@ export default function ProfilePage() {
               <p className="text-sm opacity-60 leading-relaxed font-bold">
                 Заполните профиль на 100%, чтобы AI смог найти для вас лучшие предложения в Актау.
               </p>
+            </div>
+
+            {/* Danger Zone */}
+            <div className="bg-red-50/50 dark:bg-red-900/10 rounded-[2rem] p-6 border border-red-200 dark:border-red-900/30">
+              <p className="text-[10px] font-black text-red-600 mb-4 uppercase tracking-widest">Опасная зона</p>
+              <button 
+                onClick={handleDelete}
+                disabled={deleting}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/20 disabled:opacity-50"
+              >
+                {deleting ? <Loader2 className="animate-spin" /> : <><Trash2 size={18} /> УДАЛИТЬ АККАУНТ</>}
+              </button>
             </div>
           </div>
 
@@ -201,8 +234,8 @@ export default function ProfilePage() {
 
               <button 
                 type="submit"
-                disabled={saving}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-600/30 transition-all flex items-center justify-center gap-3 text-xl uppercase tracking-tighter disabled:opacity-50"
+                disabled={saving || deleting}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-600/30 transition-all flex items-center justify-center gap-3 text-xl uppercase tracking-tighter disabled:opacity-50 font-bold"
               >
                 {saving ? 'СОХРАНЯЮ...' : 'СОХРАНИТЬ ИЗМЕНЕНИЯ'}
                 <Save />
