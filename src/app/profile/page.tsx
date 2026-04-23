@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles } from 'lucide-react'
+import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ProfilePage() {
@@ -103,14 +103,38 @@ export default function ProfilePage() {
               <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:rotate-12 transition-transform">
                 <Bot size={120} />
               </div>
-              <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-3xl font-black mb-6 border border-white/30">
+              <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-3xl flex items-center justify-center text-3xl font-black mb-6 border border-white/30 relative">
                 {profile.full_name?.[0] || 'U'}
+                {profile.is_verified && (
+                  <div className="absolute -bottom-2 -right-2 bg-white rounded-full p-1 shadow-lg">
+                    <ShieldCheck className="text-blue-600" size={20} />
+                  </div>
+                )}
               </div>
               <h2 className="text-2xl font-black leading-tight mb-2 tracking-tighter uppercase">{profile.full_name}</h2>
-              <p className="text-sm font-bold opacity-70 uppercase tracking-widest italic">
-                {profile.role === 'employer' ? 'Работодатель' : 'Молодежь'}
-              </p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold opacity-70 uppercase tracking-widest italic">
+                  {profile.role === 'employer' ? 'Работодатель' : 'Молодежь'}
+                </p>
+                {profile.is_verified ? (
+                  <span className="bg-white/20 text-[8px] px-2 py-1 rounded-full font-black uppercase tracking-widest">Verified</span>
+                ) : (
+                  <span className="bg-red-500/20 text-[8px] px-2 py-1 rounded-full font-black uppercase tracking-widest">Unverified</span>
+                )}
+              </div>
             </div>
+
+            {!profile.is_verified && (
+              <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-6 border-2 border-dashed border-blue-600/30">
+                <p className="text-[10px] font-black text-blue-600 mb-2 uppercase tracking-widest">Нужно подтверждение</p>
+                <div className="bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl mb-4 text-center">
+                  <div className="text-2xl font-black tracking-widest mb-1 italic">/verify {profile.verification_code}</div>
+                </div>
+                <p className="text-[10px] opacity-60 font-bold leading-tight">
+                  Отправьте этот код нашему боту <a href="https://t.me/SauraN84_bot" target="_blank" className="text-blue-600 underline">@SauraN84_bot</a> для полной активации.
+                </p>
+              </div>
+            )}
 
             <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-6 border border-slate-200 dark:border-zinc-800">
               <div className="flex items-center gap-2 text-blue-600 mb-4 font-black text-xs uppercase tracking-widest">
