@@ -4,8 +4,8 @@ import { supabaseAdmin } from '@/lib/supabase'
 export async function POST(request: Request) {
   try {
     const { fullName, telegram, role } = await request.json()
+    const verifyCode = Math.floor(1000 + Math.random() * 9000).toString()
 
-    // Очищаем username от @ если он есть
     const username = telegram.startsWith('@') ? telegram.substring(1) : telegram
 
     // Сохраняем в базу
@@ -13,8 +13,9 @@ export async function POST(request: Request) {
       .from('profiles')
       .insert({
         full_name: fullName,
-        username: username,
+        username: username.toLowerCase(),
         role: role,
+        verification_code: verifyCode,
         first_name: fullName.split(' ')[0],
         updated_at: new Date().toISOString()
       })

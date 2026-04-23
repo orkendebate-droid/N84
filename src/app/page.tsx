@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send } from "lucide-react";
+import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send, ShieldCheck } from "lucide-react";
 import Link from 'next/link'
+import TelegramLogin from '@/components/TelegramLogin'
 
 export default function Home() {
   const [user, setUser] = useState<any>(null)
@@ -63,7 +64,8 @@ export default function Home() {
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
                   {user.first_name?.[0] || 'U'}
                 </div>
-                <span className="font-bold text-sm">{user.first_name || user.full_name?.split(' ')[0] || 'User'}</span>
+                <span className="font-bold text-sm tracking-tight">{user.full_name || 'Пользователь'}</span>
+                {user.is_verified && <ShieldCheck size={16} className="text-blue-500" />}
               </div>
             )}
           </div>
@@ -152,18 +154,36 @@ export default function Home() {
               </div>
             ) : (
               <div className="bg-blue-600 p-10 rounded-[3rem] text-white shadow-2xl rotate-3">
-                <h2 className="text-3xl font-black mb-4">С возвращением!</h2>
-                <p className="font-bold opacity-80 mb-8">Вы готовы {user.role === 'employer' ? 'найти сотрудников?' : 'найти работу?'}</p>
-                <div className="flex flex-col gap-3">
+                <h2 className="text-3xl font-black mb-4 tracking-tighter">С ВОЗВРАЩЕНИЕМ!</h2>
+                
+                {!user.is_verified && (
+                  <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl mb-8 border border-white/20">
+                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">Шаг 2: Подтвердите аккаунт</p>
+                    <div className="text-3xl font-black tracking-widest mb-4 tracking-tighter">КОД: {user.verification_code}</div>
+                    <p className="text-xs opacity-80 mb-4 font-bold italic">Напишите нашему боту команду:</p>
+                    <code className="block bg-black/20 p-3 rounded-xl text-xs font-mono mb-4 ring-1 ring-white/30 text-center font-bold">
+                      /verify {user.verification_code}
+                    </code>
+                    <a 
+                      href="https://t.me/SauraN84_bot" 
+                      target="_blank"
+                      className="block text-center bg-white text-blue-600 font-black py-3 rounded-xl hover:scale-105 transition-transform text-sm"
+                    >
+                      ОТКРЫТЬ БОТА
+                    </a>
+                  </div>
+                )}
+
+                <div className="flex flex-col gap-3 mt-4">
                   <Link 
                     href="/profile" 
-                    className="bg-white text-blue-600 font-black px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+                    className="bg-white text-blue-600 font-black px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 hover:scale-105 transition-transform text-sm"
                   >
                     ЛИЧНЫЙ КАБИНЕТ <User size={18} />
                   </Link>
                   <Link 
                     href={user.role === 'employer' ? '/vacancies/new' : '/'} 
-                    className="bg-blue-500/20 border border-white/30 text-white font-black px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 hover:bg-white/10 transition-all border-dashed"
+                    className="bg-blue-500/20 border border-white/30 text-white font-black px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 hover:bg-white/10 transition-all border-dashed text-sm"
                   >
                     {user.role === 'employer' ? 'ОПУБЛИКОВАТЬ' : 'НАЙТИ РАБОТУ'} <ArrowRight size={18} />
                   </Link>
