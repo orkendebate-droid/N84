@@ -2,17 +2,13 @@
 
 import { useEffect, useRef } from 'react'
 
-interface TelegramUser {
-  id: number
-  first_name: string
-  last_name?: string
-  username?: string
-  photo_url?: string
-  auth_date: number
-  hash: string
+interface Props {
+  botUsername: string
+  onAuth: (user: any) => void
+  buttonSize?: 'small' | 'medium' | 'large'
 }
 
-export default function TelegramLogin({ onAuth }: { onAuth: (user: TelegramUser) => void }) {
+export default function TelegramLogin({ botUsername, onAuth, buttonSize = 'large' }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -21,25 +17,23 @@ export default function TelegramLogin({ onAuth }: { onAuth: (user: TelegramUser)
       containerRef.current.innerHTML = ''
     }
 
-    const script = document.createElement('script')
-    script.src = 'https://telegram.org/js/telegram-widget.js?22'
-    script.setAttribute('data-telegram-login', process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME || 'SauraN84_bot')
-    script.setAttribute('data-size', 'large')
-    script.setAttribute('data-radius', '15')
-    script.setAttribute('data-onauth', 'onTelegramAuth(user)')
-    script.async = true
-
-    // Глобальная функция для колбэка от Telegram
-    ;(window as any).onTelegramAuth = (user: TelegramUser) => {
+    // Создаем глобальную функцию обратного вызова, которую вызовет TG
+    (window as any).onTelegramAuth = (user: any) => {
       onAuth(user)
     }
 
+    const script = document.createElement('script')
+    script.src = 'https://telegram.org/js/telegram-widget.js?22'
+    script.setAttribute('data-telegram-login', botUsername)
+    script.setAttribute('data-size', buttonSize)
+    script.setAttribute('data-onauth', 'onTelegramAuth(user)')
+    script.setAttribute('data-request-access', 'write')
+    script.async = true
+    
     containerRef.current?.appendChild(script)
-  }, [onAuth])
+  }, [botUsername, onAuth, buttonSize])
 
   return (
-    <div className="flex justify-center p-4">
-      <div ref={containerRef} id="telegram-login-container"></div>
-    </div>
+    <div className="flex justify-center items-center py-4" ref={containerRef} />
   )
 }
