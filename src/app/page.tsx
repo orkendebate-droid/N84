@@ -10,16 +10,38 @@ export default function Home() {
 
   const handleAuth = async (tgUser: any) => {
     console.log('Authenticated:', tgUser)
-    setUser(tgUser)
     
+    // Сначала проверяем, есть ли уже такой пользователь в базе и какая у него роль
+    try {
+      const response = await fetch('/api/auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ telegram_id: tgUser.id })
+      })
+      const data = await response.json()
+      
+      if (data.exists && data.profile.role) {
+        setUser({ ...tgUser, role: data.profile.role })
+      } else {
+        setUser(tgUser) // Роли еще нет, покажем выбор
+      }
+    } catch (err) {
+      setUser(tgUser)
+    }
+  }
+
+  const handleRoleSelect = async (role: string) => {
+    const updatedUser = { ...user, role }
+    setUser(updatedUser)
+
     try {
       await fetch('/api/auth/telegram', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(tgUser)
+        body: JSON.stringify(updatedUser)
       })
     } catch (err) {
-      console.error('Failed to save user:', err)
+      console.error('Failed to save role:', err)
     }
   }
 
@@ -56,37 +78,64 @@ export default function Home() {
 
       {/* Hero Section */}
       <main className="max-w-7xl mx-auto px-6 pt-24 pb-32">
-        <div className="flex flex-col items-center text-center space-y-8">
-          <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest animate-fade-in">
-            <Bot size={14} />
-            <span>AI-Driven Platform for Youth</span>
-          </div>
-          
-          <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] max-w-4xl">
-            РАБОТА В <span className="text-blue-600 italic">АКТАУ</span> СТАЛА ПРОЩЕ
-          </h1>
-          
-          <p className="text-xl text-slate-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
-            Цифровая платформа занятости, объединяющая малый бизнес и молодежь Мангистау. Быстрый поиск сотрудников через AI и удобный Telegram-бот.
-          </p>
+          {user && !user.role ? (
+            <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] shadow-2xl border border-blue-100 dark:border-blue-900/20 max-w-lg w-full animate-in zoom-in-95 duration-300">
+              <h2 className="text-2xl font-black mb-2">Добро пожаловать в Saura!</h2>
+              <p className="opacity-60 mb-8 font-medium">Пожалуйста, выберите вашу роль, чтобы продолжить.</p>
+              
+              <div className="grid grid-cols-1 gap-4">
+                <button 
+                  onClick={() => handleRoleSelect('employer')}
+                  className="flex flex-col items-start p-6 bg-slate-50 dark:bg-zinc-800 hover:ring-2 ring-blue-600 rounded-3xl transition-all group"
+                >
+                  <Briefcase className="text-blue-600 mb-3 group-hover:scale-110 transition-transform" />
+                  <span className="font-black text-lg">Я работодатель</span>
+                  <span className="text-sm opacity-50">Ищу сотрудников для малого бизнеса</span>
+                </button>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
-            {user ? (
-              <Link href="/vacancies/new" className="group relative bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-5 rounded-[2rem] shadow-2xl shadow-blue-600/30 transition-all flex items-center gap-3 text-lg">
-                Опубликовать вакансию
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-            ) : (
-              <div className="flex flex-col items-center gap-4">
-                 <p className="text-sm font-bold uppercase tracking-widest opacity-40 mb-2">Войти через Telegram, чтобы начать</p>
-                 <TelegramLogin onAuth={handleAuth} />
+                <button 
+                  onClick={() => handleRoleSelect('youth')}
+                  className="flex flex-col items-start p-6 bg-slate-50 dark:bg-zinc-800 hover:ring-2 ring-blue-600 rounded-3xl transition-all group"
+                >
+                  <Users className="text-blue-600 mb-3 group-hover:scale-110 transition-transform" />
+                  <span className="font-black text-lg">Я молодежь</span>
+                  <span className="text-sm opacity-50">Ищу работу или подработку в Актау</span>
+                </button>
               </div>
-            )}
-            <button className="bg-white dark:bg-zinc-900 border-2 border-slate-200 dark:border-zinc-800 px-10 py-5 rounded-[2rem] font-bold hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all text-lg">
-              Как это работает?
-            </button>
-          </div>
-        </div>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center text-center space-y-8">
+              <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest animate-fade-in">
+                <Bot size={14} />
+                <span>AI-Driven Platform for Youth</span>
+              </div>
+              
+              <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] max-w-4xl">
+                РАБОТА В <span className="text-blue-600 italic">АКТАУ</span> СТАЛА ПРОЩЕ
+              </h1>
+              
+              <p className="text-xl text-slate-600 dark:text-zinc-400 max-w-2xl leading-relaxed">
+                Цифровая платформа занятости, объединяющая малый бизнес и молодежь Мангистау. Быстрый поиск сотрудников через AI и удобный Telegram-бот.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+                {user ? (
+                  <Link href="/vacancies/new" className="group relative bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-5 rounded-[2rem] shadow-2xl shadow-blue-600/30 transition-all flex items-center gap-3 text-lg">
+                    {user.role === 'employer' ? 'Опубликовать вакансию' : 'Найти работу'}
+                    <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                ) : (
+                  <div className="flex flex-col items-center gap-4">
+                     <p className="text-sm font-bold uppercase tracking-widest opacity-40 mb-2">Войти через Telegram, чтобы начать</p>
+                     <TelegramLogin onAuth={handleAuth} />
+                  </div>
+                )}
+                <button className="bg-white dark:bg-zinc-900 border-2 border-slate-200 dark:border-zinc-800 px-10 py-5 rounded-[2rem] font-bold hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all text-lg">
+                  Как это работает?
+                </button>
+              </div>
+            </div>
+          )}
       </main>
 
       {/* Features Grid */}

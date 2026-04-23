@@ -14,6 +14,7 @@ export async function POST(request: Request) {
         username: user.username,
         first_name: user.first_name,
         last_name: user.last_name,
+        role: user.role, // Добавляем роль
         updated_at: new Date().toISOString()
       }, { onConflict: 'telegram_id' })
       .select()
