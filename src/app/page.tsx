@@ -1,24 +1,59 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send, ShieldCheck, ExternalLink } from "lucide-react";
+import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send, ShieldCheck, ExternalLink, Loader2, RefreshCcw } from "lucide-react";
 import Link from 'next/link'
 
 export default function Home() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(false)
+  const [resendTimer, setResendTimer] = useState(0)
   const [formData, setFormData] = useState({
     fullName: '',
     telegram: '',
     role: ''
   })
 
+  // Загрузка пользователя и таймер
   useEffect(() => {
     const saved = localStorage.getItem('n84_user')
     if (saved) {
       setUser(JSON.parse(saved))
     }
   }, [])
+
+  // Таймер обратного отсчета для "Отправить еще раз"
+  useEffect(() => {
+    if (resendTimer > 0) {
+      const timer = setTimeout(() => setResendTimer(resendTimer - 1), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [resendTimer])
+
+  // POLLING: Проверка статуса верификации
+  useEffect(() => {
+    let interval: any;
+    if (user && !user.is_verified) {
+      interval = setInterval(async () => {
+        try {
+          const res = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: user.id })
+          })
+          const data = await res.json()
+          if (data.exists && data.profile.is_verified) {
+            setUser(data.profile)
+            localStorage.setItem('n84_user', JSON.stringify(data.profile))
+            clearInterval(interval)
+          }
+        } catch (e) {
+          console.error('Polling error', e)
+        }
+      }, 3000)
+    }
+    return () => clearInterval(interval)
+  }, [user])
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,7 +70,7 @@ export default function Home() {
       if (data.success) {
         setUser(data.profile)
         localStorage.setItem('n84_user', JSON.stringify(data.profile))
-        alert('Поздравляем! Профиль создан. Осталось подтвердить его в Telegram.')
+        setResendTimer(60) // Запускаем таймер
       } else {
         alert('Ошибка при регистрации: ' + data.error)
       }
@@ -59,12 +94,16 @@ export default function Home() {
           
           <div className="hidden md:flex items-center space-x-4">
             {user && (
-              <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
+              <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm animate-incoming">
+                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase relative">
                   {user.full_name?.[0] || 'U'}
+                  {user.is_verified && (
+                    <div className="absolute -top-1 -right-1 bg-white dark:bg-zinc-900 rounded-full">
+                      <ShieldCheck size={14} className="text-blue-500" />
+                    </div>
+                  )}
                 </div>
                 <span className="font-bold text-sm tracking-tight">{user.full_name || 'User'}</span>
-                {user.is_verified && <ShieldCheck size={16} className="text-blue-500" />}
               </div>
             )}
           </div>
@@ -91,8 +130,8 @@ export default function Home() {
 
           <div className="flex-1 w-full max-w-md">
             {!user ? (
-              <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-zinc-800">
-                <h2 className="text-2xl font-black mb-6">Создать аккаунт</h2>
+              <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-zinc-800 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                <h2 className="text-2xl font-black mb-6 tracking-tighter">СОЗДАТЬ АККАУНТ</h2>
                 <form onSubmit={handleRegister} className="space-y-4">
                   <div className="space-y-1">
                     <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Имя и Фамилия</label>
@@ -126,17 +165,17 @@ export default function Home() {
                     <button 
                       type="button"
                       onClick={() => setFormData({...formData, role: 'employer'})}
-                      className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${formData.role === 'employer' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-transparent bg-slate-50 dark:bg-zinc-800'}`}
+                      className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${formData.role === 'employer' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 shadow-lg shadow-blue-600/10' : 'border-transparent bg-slate-50 dark:bg-zinc-800 opacity-50'}`}
                     >
-                      <Briefcase size={20} className={formData.role === 'employer' ? 'text-blue-600' : 'opacity-40'} />
+                      <Briefcase size={20} className={formData.role === 'employer' ? 'text-blue-600' : ''} />
                       <span className="text-[10px] font-black uppercase">Бизнес</span>
                     </button>
                     <button 
                       type="button"
                       onClick={() => setFormData({...formData, role: 'youth'})}
-                      className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${formData.role === 'youth' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-transparent bg-slate-50 dark:bg-zinc-800'}`}
+                      className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${formData.role === 'youth' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20 shadow-lg shadow-blue-600/10' : 'border-transparent bg-slate-50 dark:bg-zinc-800 opacity-50'}`}
                     >
-                      <Users size={20} className={formData.role === 'youth' ? 'text-blue-600' : 'opacity-40'} />
+                      <Users size={20} className={formData.role === 'youth' ? 'text-blue-600' : ''} />
                       <span className="text-[10px] font-black uppercase">Молодежь</span>
                     </button>
                   </div>
@@ -146,18 +185,21 @@ export default function Home() {
                     disabled={loading}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-2xl shadow-xl shadow-blue-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                   >
-                    {loading ? 'Секунду...' : 'Зарегистрироваться'}
-                    <Send size={16} />
+                    {loading ? <Loader2 className="animate-spin" /> : <>ЗАРЕГИСТРИРОВАТЬСЯ <Send size={16} /></>}
                   </button>
                 </form>
               </div>
             ) : (
-              <div className="bg-blue-600 p-10 rounded-[3rem] text-white shadow-2xl rotate-3">
+              <div className="bg-blue-600 p-10 rounded-[3rem] text-white shadow-2xl rotate-3 animate-in zoom-in-95 duration-500">
                 <h2 className="text-3xl font-black mb-4 tracking-tighter uppercase">С возвращением!</h2>
                 
-                {!user.is_verified && (
+                {!user.is_verified ? (
                   <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl mb-8 border border-white/20">
-                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-4 leading-tight">Шаг 2: Подтвердите аккаунт в боте</p>
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest opacity-60 mb-4 bg-white/10 w-fit px-3 py-1 rounded-full">
+                      <Loader2 size={12} className="animate-spin" />
+                      <span>Ожидаем подтверждения...</span>
+                    </div>
+                    
                     <a 
                       href={`https://t.me/SauraN84_bot?start=reg_${user.id}`} 
                       target="_blank"
@@ -165,9 +207,28 @@ export default function Home() {
                     >
                       ПОДТВЕРДИТЬ В TG <ExternalLink size={18} />
                     </a>
-                    <p className="text-[10px] opacity-60 mt-4 font-bold text-center italic leading-tight">
-                      Бот спросит: «Это вы?». Нужно будет нажать «Да».
-                    </p>
+
+                    <button 
+                      disabled={resendTimer > 0}
+                      onClick={() => {
+                        window.open(`https://t.me/SauraN84_bot?start=reg_${user.id}`, '_blank');
+                        setResendTimer(60);
+                      }}
+                      className="w-full mt-4 flex items-center justify-center gap-2 text-[10px] font-black uppercase opacity-60 hover:opacity-100 disabled:opacity-30 transition-all"
+                    >
+                      <RefreshCcw size={12} />
+                      {resendTimer > 0 ? `ОТПРАВИТЬ ЕЩЕ РАЗ (${resendTimer}с)` : 'ОТПРАВИТЬ ЕЩЕ РАЗ'}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="bg-white/10 backdrop-blur-md p-6 rounded-2xl mb-8 border border-white/20 flex items-center gap-4 animate-in fade-in duration-1000">
+                    <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-lg">
+                      <ShieldCheck size={28} />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest opacity-60">Статус</p>
+                      <p className="text-xl font-black tracking-tighter">ПОДТВЕРЖДЕНО ✅</p>
+                    </div>
                   </div>
                 )}
 
