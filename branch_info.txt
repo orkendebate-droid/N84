@@ -1,0 +1,3 @@
+* main
+origin	https://github.com/orkendebate-droid/N84.git (fetch)
+origin	https://github.com/orkendebate-droid/N84.git (push)
