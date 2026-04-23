@@ -9,34 +9,55 @@ const bot = new Bot(token)
 // Обработка /start с параметром (например, /start reg_123)
 bot.command('start', async (ctx) => {
   const payload = ctx.match
+  const username = ctx.from?.username?.toLowerCase()
   
+  // 1. Если зашли по прямой ссылке с ID
   if (payload && payload.startsWith('reg_')) {
     const profileId = payload.replace('reg_', '')
-    
-    try {
-      const { data: profile } = await supabaseAdmin
-        .from('profiles')
-        .select('*')
-        .eq('id', profileId)
-        .single()
+    return await showVerifyPrompt(ctx, profileId)
+  }
 
-      if (profile && ctx.from) {
-        const keyboard = new InlineKeyboard()
-          .text('✅ Да, это я', `verify_yes_${profileId}`)
-          .text('❌ Нет, не я', `verify_no_${profileId}`)
+  // 2. Если просто нажали Старт, попробуем найти недавнюю регистрацию по юзернейму
+  if (username) {
+    const { data: profile } = await supabaseAdmin
+      .from('profiles')
+      .select('*')
+      .eq('username', username)
+      .eq('is_verified', false)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single()
 
-        return ctx.reply(
-          `👋 Привет, ${ctx.from.first_name}!\n\nКто-то (возможно, вы) зарегистрировался на платформе N84 под именем:\n\n👤 *${profile.full_name}*\n\nЭто ваш аккаунт?`,
-          { parse_mode: 'Markdown', reply_markup: keyboard }
-        )
-      }
-    } catch (err) {
-      console.error(err)
+    if (profile) {
+      return await showVerifyPrompt(ctx, profile.id)
     }
   }
 
-  ctx.reply('Привет! Я бот платформы N84. 🚀\nЗарегистрируйтесь на сайте, чтобы получить доступ ко всем функциям!')
+  ctx.reply('Привет! Я бот платформы N84. 🚀\n\nЯ не нашел активных запросов на регистрацию для вашего аккаунта. Пожалуйста, зарегистрируйтесь на сайте n84-platform.vercel.app')
 })
+
+async function showVerifyPrompt(ctx: any, profileId: string) {
+  try {
+    const { data: profile } = await supabaseAdmin
+      .from('profiles')
+      .select('*')
+      .eq('id', profileId)
+      .single()
+
+    if (profile) {
+      const keyboard = new InlineKeyboard()
+        .text('✅ Это я', `verify_yes_${profileId}`)
+        .text('❌ Не я (игнорировать)', `verify_no_${profileId}`)
+
+      return ctx.reply(
+        `🔔 *ЗАПРОС НА ПОДТВЕРЖДЕНИЕ*\n\nКто-то зарегистрировался на N84 как:\n👤 *${profile.full_name}*\n\nЭто вы?`,
+        { parse_mode: 'Markdown', reply_markup: keyboard }
+      )
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 // Обработка нажатий на кнопки
 bot.on('callback_query:data', async (ctx) => {
