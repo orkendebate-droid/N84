@@ -3,13 +3,17 @@ import { supabaseAdmin } from '@/lib/supabase'
 
 export async function POST(request: Request) {
   try {
-    const { telegram_id } = await request.json()
+    const { telegram_id, id } = await request.json()
 
-    const { data: profile, error } = await supabaseAdmin
-      .from('profiles')
-      .select('*')
-      .eq('telegram_id', telegram_id)
-      .single()
+    let query = supabaseAdmin.from('profiles').select('*')
+    
+    if (id) {
+      query = query.eq('id', id)
+    } else {
+      query = query.eq('telegram_id', telegram_id)
+    }
+
+    const { data: profile, error } = await query.single()
 
     if (error || !profile) {
       return NextResponse.json({ exists: false })

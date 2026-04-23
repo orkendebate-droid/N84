@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send } from "lucide-react";
 import Link from 'next/link'
 
@@ -12,6 +12,13 @@ export default function Home() {
     telegram: '',
     role: ''
   })
+
+  useEffect(() => {
+    const saved = localStorage.getItem('n84_user')
+    if (saved) {
+      setUser(JSON.parse(saved))
+    }
+  }, [])
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,7 +34,8 @@ export default function Home() {
       const data = await res.json()
       if (data.success) {
         setUser(data.profile)
-        alert('Поздравляем! Вы успешно зарегистрированы в Saura.')
+        localStorage.setItem('n84_user', JSON.stringify(data.profile))
+        alert('Поздравляем! Вы успешно зарегистрированы в N84.')
       } else {
         alert('Ошибка при регистрации: ' + data.error)
       }
@@ -45,17 +53,17 @@ export default function Home() {
       <nav className="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-600/20">S</div>
-            <span className="text-2xl font-black tracking-tighter uppercase italic">Saura</span>
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white font-black italic shadow-lg shadow-blue-600/20">N</div>
+            <span className="text-2xl font-black tracking-tighter uppercase italic">N84</span>
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
             {user && (
               <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm">
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-xs uppercase">
-                  {user.first_name[0]}
+                  {user.first_name?.[0] || 'U'}
                 </div>
-                <span className="font-bold text-sm">{user.first_name}</span>
+                <span className="font-bold text-sm">{user.first_name || user.full_name?.split(' ')[0] || 'User'}</span>
               </div>
             )}
           </div>
@@ -76,7 +84,7 @@ export default function Home() {
             </h1>
             
             <p className="text-xl text-slate-600 dark:text-zinc-400 max-w-xl leading-relaxed">
-              Цифровая платформа занятости, объединяющая малый бизнес и молодежь Мангистау. 
+              Цифровая платформа занятости, объединяющая малый бизнес и молодежь Мангистау через ИИ. 
             </p>
           </div>
 
@@ -146,12 +154,20 @@ export default function Home() {
               <div className="bg-blue-600 p-10 rounded-[3rem] text-white shadow-2xl rotate-3">
                 <h2 className="text-3xl font-black mb-4">С возвращением!</h2>
                 <p className="font-bold opacity-80 mb-8">Вы готовы {user.role === 'employer' ? 'найти сотрудников?' : 'найти работу?'}</p>
-                <Link 
-                  href={user.role === 'employer' ? '/vacancies/new' : '/'} 
-                  className="bg-white text-blue-600 font-black px-8 py-4 rounded-2xl inline-flex items-center gap-2 hover:scale-105 transition-transform"
-                >
-                  Продолжить <ArrowRight size={18} />
-                </Link>
+                <div className="flex flex-col gap-3">
+                  <Link 
+                    href="/profile" 
+                    className="bg-white text-blue-600 font-black px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+                  >
+                    ЛИЧНЫЙ КАБИНЕТ <User size={18} />
+                  </Link>
+                  <Link 
+                    href={user.role === 'employer' ? '/vacancies/new' : '/'} 
+                    className="bg-blue-500/20 border border-white/30 text-white font-black px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 hover:bg-white/10 transition-all border-dashed"
+                  >
+                    {user.role === 'employer' ? 'ОПУБЛИКОВАТЬ' : 'НАЙТИ РАБОТУ'} <ArrowRight size={18} />
+                  </Link>
+                </div>
               </div>
             )}
           </div>
@@ -179,6 +195,19 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-12 bg-slate-50 dark:bg-zinc-950 border-t border-slate-200 dark:border-zinc-800">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center space-x-2">
+            <div className="w-6 h-6 bg-blue-600 rounded flex items-center justify-center text-white text-[10px] font-black italic">N</div>
+            <span className="text-sm font-black uppercase italic">N84 Platform 2024</span>
+          </div>
+          <div className="text-xs font-bold uppercase tracking-widest opacity-40">
+            Made for Hackathon Decentrathon 5.0
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }
