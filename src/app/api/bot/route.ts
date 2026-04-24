@@ -28,7 +28,7 @@ async function sendLoginCode(ctx: any) {
     .from('profiles')
     .upsert({
       telegram_id: telegramId,
-      username: ctx.from?.username?.toLowerCase().replace('@', '') || null,
+      username: ctx.from?.username?.toLowerCase().replace('@', '') || telegramId.toString(),
       full_name: `${ctx.from?.first_name || ''} ${ctx.from?.last_name || ''}`.trim() || 'Пользователь',
       otp_code: code,
       updated_at: new Date().toISOString()
@@ -39,7 +39,8 @@ async function sendLoginCode(ctx: any) {
     return ctx.reply(`Ошибка при генерации кода: ${upsertError.message}. Попробуйте позже или обратитесь в поддержку.`)
   }
 
-  await ctx.reply(`Ваш секретный код: *${code}*\n\nВведите его на сайте для входа или регистрации. 🔐`, { parse_mode: 'Markdown' })
+  const loginName = ctx.from?.username?.toLowerCase().replace('@', '') || telegramId.toString()
+  await ctx.reply(`Ваш логин (Ник): *${loginName}*\nВаш секретный код: *${code}*\n\nВведите их на сайте для входа или регистрации бизнеса. 🔐`, { parse_mode: 'Markdown' })
 }
 
 bot.command('login', sendLoginCode)
@@ -122,7 +123,7 @@ bot.on('message:text', async (ctx) => {
         .from('profiles')
         .upsert({
           telegram_id: telegramId,
-          username: ctx.from.username?.toLowerCase().replace('@', '') || null,
+          username: ctx.from.username?.toLowerCase().replace('@', '') || telegramId.toString(),
           full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim() || 'Студент',
           address: ctx.session.registration.area,
           birthday: ctx.session.registration.birthday,
