@@ -110,32 +110,46 @@ export default function Home() {
                     </button>
                   </div>
 
-                  {/* Highlight for Youth */}
-                  {selectedRole === 'youth' && (
-                    <div className="bg-blue-600 text-white p-6 rounded-[2rem] shadow-xl shadow-blue-600/20 space-y-4">
-                       <p className="text-xs font-black uppercase tracking-widest leading-none flex items-center gap-2">
-                         <Bot size={16} /> РЕКОМЕНДУЕМЫЙ СПОСОБ
-                       </p>
-                       <p className="text-[11px] font-bold leading-tight opacity-90">
-                         Если ты пришел из TikTok или соцсетей, удобнее всего зарегистрироваться прямо в Телеграме. Просто нажми на ссылку:
-                       </p>
-                       <a 
-                         href="https://t.me/SauraN84_bot" 
-                         target="_blank"
-                         className="w-full bg-white text-blue-600 font-black py-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-tighter hover:scale-105 transition-all"
-                       >
-                         ОТКРЫТЬ @SauraN84_bot <Send size={14} />
-                       </a>
-                    </div>
-                  )}
+                  {/* Conditional Login Methods */}
+                  <div className="space-y-6">
+                    {selectedRole === 'employer' ? (
+                      <div className="bg-slate-50 dark:bg-zinc-800/50 p-8 rounded-[2rem] border border-slate-100 dark:border-zinc-800 text-center animate-in slide-in-from-right-4 duration-300">
+                        <p className="text-xs font-black opacity-60 mb-6 uppercase tracking-widest leading-none italic">Вход для Работодателей</p>
+                        <TelegramLogin botUsername="SauraN84_bot" onAuth={handleTelegramAuth} />
+                        <p className="text-[10px] opacity-40 mt-6 font-bold leading-tight">
+                           Используйте официальный виджет для управления вакансиями и поиска сотрудников.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="bg-blue-600 text-white p-8 rounded-[2.5rem] shadow-2xl shadow-blue-600/30 space-y-6 animate-in slide-in-from-left-4 duration-300 text-center relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-white/20 transition-all"></div>
+                        
+                        <div className="space-y-2 relative">
+                          <p className="text-xs font-black uppercase tracking-widest leading-none flex items-center justify-center gap-2">
+                             <Bot size={18} /> ТОЛЬКО ЧЕРЕЗ БОТА
+                          </p>
+                          <h3 className="text-lg font-black tracking-tighter uppercase italic leading-none">Регистрация Молодежи</h3>
+                        </div>
 
-                  {/* Standard Way */}
-                  <div className="bg-slate-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-zinc-800 text-center">
-                    <p className="text-[10px] font-black opacity-60 mb-6 uppercase tracking-widest leading-none">Вход через браузер</p>
-                    <TelegramLogin botUsername="SauraN84_bot" onAuth={handleTelegramAuth} />
-                    <p className="text-[10px] opacity-40 mt-4 font-bold leading-tight uppercase italic underline underline-offset-4">
-                       Для управления профилем
-                    </p>
+                        <p className="text-[11px] font-bold leading-relaxed opacity-90 relative">
+                          Для школьников и студентов регистрация доступна только через наш официальный Телеграм-бот. Это удобнее и быстрее.
+                        </p>
+
+                        <a 
+                          href="https://t.me/SauraN84_bot" 
+                          target="_blank"
+                          className="w-full bg-white text-blue-600 font-black py-5 rounded-2xl flex items-center justify-center gap-2 text-sm uppercase tracking-tighter hover:scale-[1.03] active:scale-95 transition-all shadow-xl relative"
+                        >
+                          ОТКРЫТЬ @SauraN84_bot <Send size={18} />
+                        </a>
+
+                        <div className="pt-2 border-t border-white/10">
+                          <p className="text-[9px] font-black uppercase opacity-60 italic tracking-widest">
+                             Доступ к личному кабинету — внутри бота
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {loading && (
