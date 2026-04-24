@@ -260,53 +260,82 @@ export default function ProfilePage() {
             <div className="bg-white dark:bg-zinc-900 rounded-[3rem] p-8 md:p-10 border border-slate-200 dark:border-zinc-800 shadow-xl">
               <h3 className="text-xl font-black uppercase tracking-tighter mb-8">Настройки Профиля</h3>
               <form onSubmit={handleSave} className="space-y-6">
-                {profile?.role === 'employer' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-600/5 mb-6">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Название Компании</label>
-                      <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="ИП 'Актау Сити'" value={formData.company_name} onChange={e => setFormData({...formData, company_name: e.target.value})} />
+                {/* Блок для Работодателя */}
+                {profile?.role === 'employer' ? (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-600/5 mb-6">
+                      <div className="col-span-full mb-2">
+                        <span className="text-[10px] font-black bg-blue-600 text-white px-3 py-1 rounded-full uppercase italic">Данные Бизнеса</span>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Название Компании</label>
+                        <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="ИП 'Актау Сити'" value={formData.company_name} onChange={e => setFormData({...formData, company_name: e.target.value})} />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">БИН / ИИН</label>
+                        <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="12 цифр" value={formData.bin_iin} onChange={e => setFormData({...formData, bin_iin: e.target.value})} />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Сфера деятельности</label>
+                        <select className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold appearance-none" value={formData.industry} onChange={e => setFormData({...formData, industry: e.target.value})}>
+                          <option value="">Выбрать...</option>
+                          <option value="catering">Общепит / Кафе</option>
+                          <option value="retail">Ритейл / Магазины</option>
+                          <option value="services">Услуги / Сервис</option>
+                          <option value="it">IT / Digital</option>
+                        </select>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Instagram / Сайт</label>
+                        <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="@company_aktau" value={formData.link} onChange={e => setFormData({...formData, link: e.target.value})} />
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Контактное лицо (ФИО)</label>
+                        <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Адрес офиса / магазина</label>
+                        <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
+                      </div>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">БИН / ИИН</label>
-                      <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="12 цифр" value={formData.bin_iin} onChange={e => setFormData({...formData, bin_iin: e.target.value})} />
+                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Краткое описание компании</label>
+                      <textarea rows={3} className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold resize-none" value={formData.bio} onChange={e => setFormData({...formData, bio: e.target.value})} />
+                    </div>
+                  </>
+                ) : (
+                  /* Блок для Молодежи */
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Имя / Фамилия</label>
+                        <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Район / Микрорайон</label>
+                        <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-black uppercase opacity-40 ml-2">Дата рождения</label>
+                        <input 
+                          className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" 
+                          placeholder="ДД.ММ.ГГГГ" 
+                          value={(formData as any).user_age || (formData as any).birthday || ''} 
+                          onChange={e => setFormData({...formData, [(profile?.user_age !== undefined ? 'user_age' : 'birthday')]: e.target.value} as any)} 
+                        />
+                      </div>
                     </div>
                     <div className="space-y-1">
-                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Сфера деятельности</label>
-                      <select className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold appearance-none" value={formData.industry} onChange={e => setFormData({...formData, industry: e.target.value})}>
-                        <option value="">Выбрать...</option>
-                        <option value="catering">Общепит / Кафе</option>
-                        <option value="retail">Ритейл / Магазины</option>
-                        <option value="services">Услуги / Сервис</option>
-                        <option value="it">IT / Digital</option>
-                      </select>
+                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">О себе / Навыки</label>
+                      <textarea rows={4} className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold resize-none" placeholder="Расскажи что ты умеешь или где хочешь работать..." value={formData.bio} onChange={e => setFormData({...formData, bio: e.target.value})} />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Instagram / Сайт</label>
-                      <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="@company_aktau" value={formData.link} onChange={e => setFormData({...formData, link: e.target.value})} />
-                    </div>
-                  </div>
+                  </>
                 )}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-black uppercase opacity-40 ml-2">
-                      {profile?.role === 'employer' ? 'Контактное лицо (ФИО)' : 'Имя / Фамилия'}
-                    </label>
-                    <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} />
-                  </div>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-black uppercase opacity-40 ml-2">
-                       {profile?.role === 'employer' ? 'Адрес офиса / магазина' : 'Адрес / Мкр'}
-                    </label>
-                    <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase opacity-40 ml-2">
-                    {profile?.role === 'employer' ? 'Описание компании' : 'О себе / Навыки'}
-                  </label>
-                  <textarea rows={3} className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold resize-none" value={formData.bio} onChange={e => setFormData({...formData, bio: e.target.value})} />
-                </div>
-                <button type="submit" disabled={saving} className="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-600/20 uppercase tracking-tighter flex items-center justify-center gap-2">
+
+                <button type="submit" disabled={saving} className="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-600/20 uppercase tracking-tighter flex items-center justify-center gap-2 mt-4">
                   {saving ? 'СОХРАНЯЮ...' : 'СОХРАНИТЬ ИЗМЕНЕНИЯ'} <Save size={18} />
                 </button>
               </form>
