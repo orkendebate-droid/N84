@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Briefcase, Users, Bot, ArrowRight, Send, ShieldCheck, TrendingUp, Globe, Sparkles, MessageSquare, ChevronRight } from "lucide-react";
+import { Briefcase, Users, Bot, ArrowRight, Send, ShieldCheck, TrendingUp, Globe, Sparkles, MessageSquare, ChevronRight, User } from "lucide-react";
 import Link from 'next/link'
 
 export default function Home() {
@@ -67,9 +67,9 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-6">
-                <a href="https://t.me/SauraN84_bot" target="_blank" className="w-full sm:w-auto bg-blue-600 text-white px-10 py-6 rounded-[2rem] font-black text-sm uppercase tracking-tighter flex items-center justify-center gap-3 shadow-2xl shadow-blue-600/30 hover:scale-[1.03] active:scale-95 transition-all group">
-                   Я ИЩУ РАБОТУ <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </a>
+                <Link href="/login" className="w-full sm:w-auto bg-blue-600 text-white px-10 py-6 rounded-[2rem] font-black text-sm uppercase tracking-tighter flex items-center justify-center gap-3 shadow-2xl shadow-blue-600/30 hover:scale-[1.03] active:scale-95 transition-all group">
+                   ЛИЧНЫЙ КАБИНЕТ <User size={20} className="group-hover:rotate-12 transition-transform" />
+                </Link>
                 <Link href="/login" className="w-full sm:w-auto bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-10 py-6 rounded-[2rem] font-black text-sm uppercase tracking-tighter flex items-center justify-center gap-3 shadow-md hover:border-blue-600 transition-all">
                    РАЗМЕСТИТЬ ВАКАНСИЮ <Briefcase size={20} />
                 </Link>
