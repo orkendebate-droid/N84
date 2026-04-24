@@ -26,14 +26,17 @@ export async function POST(request: Request) {
     if (!vacancy) throw new Error('Failed to create vacancy record')
 
     // 2. ИИ-матчинг: выбираем только подходящих ребят
+    console.log(`[POST-JOB] Matching candidates for vacancy: ${vacancy.id}`);
     const matchedUsers = await matchCandidates(vacancy)
+    console.log(`[POST-JOB] AI matched ${matchedUsers?.length || 0} candidates`);
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN
     
     if (matchedUsers && matchedUsers.length > 0 && botToken) {
       for (const user of matchedUsers) {
-        if (!user) continue;
+        if (!user || !user.telegram_id) continue;
         try {
+          console.log(`[POST-JOB] Sending notification to ${user.telegram_id}...`);
           const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
                           `🎯 *Подходимость:* ${user.match_score}/10\n` +
                           `💼 *Должность:* ${title}\n` +
@@ -44,20 +47,12 @@ export async function POST(request: Request) {
           const keyboard = {
             inline_keyboard: [
               [
-                { text: '📂 Подробнее', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } },
-                { text: '✅ Откликнуться', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }
-              ],
-              [
-                { text: '❌ Отклонить', callback_data: `reject_vacancy` }
-              ],
-              [
-                { text: '👍 Классная подборка', callback_data: `feedback_up` },
-                { text: '👎 Не совсем то', callback_data: `feedback_down` }
+                { text: '📂 Подробнее', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }
               ]
             ]
           }
 
-          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -67,10 +62,15 @@ export async function POST(request: Request) {
               reply_markup: keyboard
             })
           })
+          const tgData = await tgRes.json();
+          console.log(`[POST-JOB] Telegram response for ${user.telegram_id}:`, tgData.ok ? 'SUCCESS' : 'FAILED: ' + JSON.stringify(tgData));
         } catch (botErr) {
-          console.error(`Failed to send to user ${user.telegram_id}`, botErr)
+          console.error(`[POST-JOB] Failed to send to user ${user.telegram_id}`, botErr)
         }
       }
+    } else {
+       if (!botToken) console.error('[POST-JOB] TELEGRAM_BOT_TOKEN is missing!');
+       if (!matchedUsers || matchedUsers.length === 0) console.log('[POST-JOB] No users matched this vacancy.');
     }
 
     return NextResponse.json({ success: true, vacancy })
