@@ -20,7 +20,8 @@ const bot = new Bot<any>(token)
 // Используем сессии
 bot.use(session({ initial: (): SessionData => ({ step: 'idle', registration: {} }) }))
 
-bot.command('login', async (ctx) => {
+// КОМАНДА ЛОГИНА (отправляет код)
+async function sendLoginCode(ctx: any) {
   const code = Math.floor(1000 + Math.random() * 9000).toString()
   
   const { error } = await supabaseAdmin
@@ -32,8 +33,11 @@ bot.command('login', async (ctx) => {
     return ctx.reply('Сначала нажми /start, чтобы я тебя запомнил! 😊')
   }
 
-  await ctx.reply(`Твой секретный код для входа: *${code}*\n\nВведите его на сайте, чтобы подтвердить личность. 🔐`, { parse_mode: 'Markdown' })
-})
+  await ctx.reply(`Твой секретный код для входа: *${code}*\n\nВведите его на сайте в поле «Код подтверждения». 🔐\n_Код действует 10 минут._`, { parse_mode: 'Markdown' })
+}
+
+bot.command('login', sendLoginCode)
+bot.callbackQuery('get_login_code', sendLoginCode)
 
 bot.command('start', async (ctx) => {
   // Очищаем сессию при новом старте
@@ -49,33 +53,33 @@ bot.command('start', async (ctx) => {
     const keyboard = new InlineKeyboard()
       .webApp('📚 Открыть доску вакансий', 'https://n84-platform.vercel.app/board')
       .row()
-      .text('👤 Мой профиль на сайте', 'reg_employer_info') // Показываем ссылку на сайт
+      .text('🚪 Получить код для входа на сайт', 'get_login_code')
 
     return ctx.reply(
-      `Привет, ${profile.full_name}! 👋\n\nЯ уже знаю тебя. Как только появится подходящая работа в твоем районе (*${profile.address}*), я сразу пришлю тебе пуш! 🔔`,
+      `Привет, ${profile.full_name}! 👋\n\nРад тебя видеть. Ты можешь просматривать вакансии прямо здесь или зайти в свой личный кабинет на сайте.`,
       { reply_markup: keyboard }
     )
   }
 
   const keyboard = new InlineKeyboard()
-    .text('📝 Заполнить анкету и получать работу', 'start_reg_youth')
+    .text('📝 Заполнить анкету (Я ищу работу)', 'start_reg_youth')
     .row()
     .text('💼 Я работодатель (на сайт)', 'reg_employer_info')
 
   ctx.reply(
-    'Салем! 🌊 Это N84 — ИИ-платформа для поиска работы молодежи в Актау.\n\nЗаполни анкету за 1 минуту, и я буду присылать тебе только те вакансии, которые подходят тебе по району и интересам!',
+    'Салем! 🌊 Это N84 — ИИ-платформа для молодежи Актау.\n\nЗаполни анкету за 1 минуту, чтобы получать только те вакансии, которые подходят тебе!',
     { reply_markup: keyboard }
   )
 })
 
 bot.callbackQuery('reg_employer_info', (ctx) => {
-  ctx.reply('Для бизнеса и работодателей у нас есть удобная веб-панель: https://n84-platform.vercel.app\n\nТам вы сможете подтвердить свою компанию (БИН) и опубликовать вакансии. 🤖🏦')
+  ctx.reply('Для бизнеса и работодателей у нас есть удобная веб-панель: https://n84-platform.vercel.app/login\n\nТам вы сможете зарегистрировать компанию и опубликовать вакансии. 🤖🏦')
 })
 
 bot.callbackQuery('start_reg_youth', async (ctx) => {
   ctx.session.step = 'wait_area'
   await ctx.answerCallbackQuery()
-  await ctx.reply('Круто! Начнем. 🚀\n\n📍 *Где ты живешь в Актау?*\nНапиши номер микрорайона (например: 14 мкр, 27 мкр или Приозёрный).', { parse_mode: 'Markdown' })
+  await ctx.reply('Круто! Начнем. 🚀\n\n📍 *Где ты живешь в Актау?*\nНапиши номер микрорайона (например: 14 мкр, 27 мкр).', { parse_mode: 'Markdown' })
 })
 
 bot.on('message:text', async (ctx) => {
@@ -85,13 +89,13 @@ bot.on('message:text', async (ctx) => {
   if (step === 'wait_area') {
     ctx.session.registration.area = text
     ctx.session.step = 'wait_age'
-    return ctx.reply('Запомнил! ✅\n\n📊 *Твой возраст?*\n(Напиши просто цифру, например: 18)')
+    return ctx.reply('📊 *Твой возраст?*\n(Напиши просто цифру).')
   }
 
   if (step === 'wait_age') {
     ctx.session.registration.birthday = text
     ctx.session.step = 'wait_bio'
-    return ctx.reply('И последнее... ✍️\n\n🎓 *О себе и своих интересах?*\nЧем хочешь заниматься? Что умеешь? (Например: Продажи, IT, Курьер, Официант, Бариста)')
+    return ctx.reply('🎓 *О тебе и интересах?*\nЧем хочешь заниматься? (Например: IT, Курьер, Официант)')
   }
 
   if (step === 'wait_bio') {
@@ -99,7 +103,6 @@ bot.on('message:text', async (ctx) => {
     ctx.session.step = 'idle'
     
     try {
-      // Сохраняем ТОЛЬКО как youth
       const { error } = await supabaseAdmin
         .from('profiles')
         .upsert({
@@ -109,7 +112,7 @@ bot.on('message:text', async (ctx) => {
           address: ctx.session.registration.area,
           birthday: ctx.session.registration.birthday,
           bio: ctx.session.registration.bio,
-          role: 'youth', // ГАРАНТИЯ: только молодежь
+          role: 'youth',
           is_verified: true,
           updated_at: new Date().toISOString()
         })
@@ -120,12 +123,12 @@ bot.on('message:text', async (ctx) => {
         .webApp('🚀 Посмотреть все вакансии', 'https://n84-platform.vercel.app/board')
 
       await ctx.reply(
-        '🎉 *ПОЗДРАВЛЯЮ, ТЫ В СИСТЕМЕ!*\n\nТеперь ты будешь получать уведомления о лучших вакансиях Актау. Я подберу их специально под тебя. \n\nПока можешь посмотреть, что есть на доске сейчас! 👇', 
+        '🎉 *ПОЗДРАВЛЯЮ!*\nТы в системе. Теперь я буду присылать тебе лучшие вакансии Актау под твой профиль. \n\nМожешь начать просмотр прямо сейчас! 👇', 
         { parse_mode: 'Markdown', reply_markup: keyboard }
       )
     } catch (err) {
       console.error(err)
-      ctx.reply('Упс, что-то пошло не так при сохранении анкеты. Попробуй нажать /start еще раз.')
+      ctx.reply('Ошибка сохранения. Попробуй /start снова.')
     }
     return
   }
@@ -133,16 +136,13 @@ bot.on('message:text', async (ctx) => {
 
 // Feedback Handlers
 bot.callbackQuery('feedback_up', async (ctx) => {
-  await ctx.answerCallbackQuery('Рады, что попали в точку! Поиск станет ещё лучше. 🚀')
+  await ctx.answerCallbackQuery('Рады, что попали в точку! 🚀')
 })
-
 bot.callbackQuery('feedback_down', async (ctx) => {
-  await ctx.answerCallbackQuery('Поняли вас. ИИ учтет это и подберет другие варианты. ⚙️')
+  await ctx.answerCallbackQuery('Учтем это при следующем подборе. ⚙️')
 })
-
 bot.callbackQuery('reject_vacancy', async (ctx) => {
-  await ctx.editMessageText(ctx.msg?.text + '\n\n❌ _Эта вакансия была вами отклонена._', { parse_mode: 'Markdown' })
-  await ctx.answerCallbackQuery('Вакансия скрыта.')
+  await ctx.editMessageText(ctx.msg?.text + '\n\n❌ _Вакансия отклонена._', { parse_mode: 'Markdown' })
 })
 
 export const POST = webhookCallback(bot, 'std/http')

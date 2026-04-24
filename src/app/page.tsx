@@ -1,23 +1,11 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Briefcase, Users, Bot, MapPin, Search, ArrowRight, User, AtSign, Send, ShieldCheck, ExternalLink, Loader2, RefreshCcw, LogIn, ChevronRight, MessageSquare, KeyRound, Building2, Sparkles, TrendingUp, Globe } from "lucide-react";
+import { Briefcase, Users, Bot, ArrowRight, Send, ShieldCheck, TrendingUp, Globe, Sparkles, MessageSquare, ChevronRight } from "lucide-react";
 import Link from 'next/link'
 
 export default function Home() {
   const [user, setUser] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
-  const [selectedRole, setSelectedRole] = useState<'employer' | 'youth'>('youth')
-  const [mode, setMode] = useState<'login' | 'register'>('login')
-  
-  const [formData, setFormData] = useState({
-    username: '',
-    code: '',
-    full_name: '',
-    company_name: '',
-    bin_iin: '',
-    industry: ''
-  })
 
   useEffect(() => {
     const saved = localStorage.getItem('n84_user')
@@ -26,37 +14,12 @@ export default function Home() {
     }
   }, [])
 
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    const endpoint = mode === 'login' ? '/api/auth/otp-login' : '/api/auth/register-employer'
-    
-    try {
-      const res = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, role: selectedRole })
-      })
-      const data = await res.json()
-      if (data.success) {
-        setUser(data.profile)
-        localStorage.setItem('n84_user', JSON.stringify(data.profile))
-      } else {
-        alert(data.error)
-      }
-    } catch (err) {
-      alert('Ошибка соединения')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-50 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden">
-      {/* Dynamic Background Elements */}
+    <div className="min-h-screen bg-white dark:bg-zinc-950 text-slate-900 dark:text-zinc-50 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden">
+      {/* Background Decor */}
       <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none opacity-20">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-600 blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-blue-400 blur-[100px] delay-1000"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600 blur-[130px] animate-pulse"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-blue-400 blur-[100px]"></div>
       </div>
 
       {/* Navbar */}
@@ -68,178 +31,98 @@ export default function Home() {
           </Link>
           
           <div className="hidden md:flex items-center space-x-8 text-[10px] font-black uppercase tracking-widest opacity-60">
-             <Link href="/board" className="hover:text-blue-600 transition-colors">Вакансии</Link>
-             <a href="https://t.me/SauraN84_bot" target="_blank" className="hover:text-blue-600 transition-colors">Telegram</a>
-             <Link href="/about" className="hover:text-blue-600 transition-colors">О проекте</Link>
+             <Link href="/board" className="hover:text-blue-600 transition-colors">Доска вакансий</Link>
+             <a href="https://t.me/SauraN84_bot" target="_blank" className="hover:text-blue-600 transition-colors">Бот в Телеграм</a>
+             <Link href="/login" className="hover:text-blue-600 transition-colors">Вход / Регистрация</Link>
           </div>
 
-          {user && (
+          {user ? (
             <Link href="/profile" className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm hover:border-blue-600 transition-all group">
               <span className="font-bold text-sm tracking-tight">{user.full_name}</span>
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-xs uppercase">{user.full_name?.[0]}</div>
             </Link>
+          ) : (
+            <Link href="/login" className="bg-blue-600 text-white px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:scale-[1.03] active:scale-95 transition-all">Войти</Link>
           )}
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 lg:px-12 py-8 lg:py-12">
-        <div className="flex flex-col lg:flex-row items-center gap-12 xl:gap-16">
+      <main className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24">
+        <div className="flex flex-col lg:flex-row items-center gap-20">
           
-          {/* Left Side: Content */}
+          {/* Main Hero */}
           <div className="flex-1 space-y-10 text-center lg:text-left">
-            <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest animate-fade-in">
+            <div className="inline-flex items-center space-x-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest animate-fade-in">
               <Sparkles size={14} className="animate-spin-slow" />
-              <span>AI-платформа №1 в Мангистау</span>
+              <span>Hackathon Project - Aktau 2024</span>
             </div>
             
-            <div className="space-y-4">
-                <h1 className="text-4xl md:text-6xl xl:text-7xl font-black tracking-tighter leading-[0.95] uppercase italic">
+            <div className="space-y-6">
+                <h1 className="text-5xl md:text-7xl xl:text-8xl font-black tracking-tighter leading-[0.95] uppercase italic">
                   ТВОЯ <span className="text-blue-600 not-italic">КАРЬЕРА</span><br/> НАЧИНАЕТСЯ ЗДЕСЬ
                 </h1>
-                <p className="text-xl text-slate-600 dark:text-zinc-400 max-w-xl leading-relaxed font-medium mx-auto lg:mx-0">
-                  Мы соединяем амбициозную молодежь Актау с лучшими работодателями через умные алгоритмы Qwen AI и Telegram. 🌊🚀
+                <p className="text-lg md:text-xl text-slate-600 dark:text-zinc-400 max-w-xl self-center mx-auto lg:mx-0 leading-relaxed font-medium">
+                   ИИ-платформа Актау, которая помогает молодежи найти работу мечты через умного бота и мгновенные пуши. 🌊🚀
                 </p>
             </div>
 
-            {/* Desktop-only Stats */}
-            <div className="hidden md:grid grid-cols-3 gap-8 pt-4">
-              <div className="space-y-1">
-                <p className="text-2xl font-black text-blue-600">500+</p>
-                <p className="text-[10px] font-black uppercase opacity-40">Студентов</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-2xl font-black text-blue-600">120+</p>
-                <p className="text-[10px] font-black uppercase opacity-40">Компаний</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-2xl font-black text-blue-600">Актау</p>
-                <p className="text-[10px] font-black uppercase opacity-40">Локация</p>
-              </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-6">
+                <a href="https://t.me/SauraN84_bot" target="_blank" className="w-full sm:w-auto bg-blue-600 text-white px-10 py-6 rounded-[2rem] font-black text-sm uppercase tracking-tighter flex items-center justify-center gap-3 shadow-2xl shadow-blue-600/30 hover:scale-[1.03] active:scale-95 transition-all group">
+                   Я ИЩУ РАБОТУ <Send size={20} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                </a>
+                <Link href="/login" className="w-full sm:w-auto bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-10 py-6 rounded-[2rem] font-black text-sm uppercase tracking-tighter flex items-center justify-center gap-3 shadow-md hover:border-blue-600 transition-all">
+                   РАЗМЕСТИТЬ ВАКАНСИЮ <Briefcase size={20} />
+                </Link>
             </div>
 
-            <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 text-[10px] font-black uppercase opacity-50">
-                   <TrendingUp size={14} /> Рост карьеры
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-900 rounded-xl border border-slate-200 dark:border-zinc-800 text-[10px] font-black uppercase opacity-50">
-                   <Globe size={14} /> Весь Актау
-                </div>
+            <div className="flex flex-wrap justify-center lg:justify-start gap-8 pt-10">
+               <div className="space-y-1 border-l-2 border-blue-600 pl-4 text-left">
+                 <p className="text-2xl font-black leading-none">500+</p>
+                 <p className="text-[9px] font-black uppercase opacity-40 tracking-widest leading-none">Соискателей</p>
+               </div>
+               <div className="space-y-1 border-l-2 border-blue-600 pl-4 text-left">
+                 <p className="text-2xl font-black leading-none">120+</p>
+                 <p className="text-[9px] font-black uppercase opacity-40 tracking-widest leading-none">Компаний</p>
+               </div>
+               <div className="space-y-1 border-l-2 border-blue-600 pl-4 text-left">
+                 <p className="text-2xl font-black leading-none italic">AI</p>
+                 <p className="text-[9px] font-black uppercase opacity-40 tracking-widest leading-none">Matching</p>
+               </div>
             </div>
           </div>
 
-          {/* Right Side: Auth Card */}
-          <div className="w-full lg:w-[480px] shrink-0 animate-in slide-in-from-right-8 duration-700">
-            {!user ? (
-                <div className="bg-white dark:bg-zinc-900 p-8 md:p-10 rounded-[3.5rem] shadow-2xl border border-slate-200 dark:border-zinc-800 relative group overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-blue-600/10 transition-all"></div>
-                    
-                    <div className="flex gap-4 mb-8 relative">
-                        <button 
-                            onClick={() => { setSelectedRole('youth'); setMode('login'); }}
-                            className={`flex-1 py-5 rounded-2xl font-black text-[10px] uppercase tracking-tighter transition-all flex flex-col items-center gap-2 ${selectedRole === 'youth' ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20' : 'bg-slate-50 dark:bg-zinc-800 opacity-40 hover:opacity-60'}`}
-                        >
-                            <Users size={20} />
-                            Молодежь
-                        </button>
-                        <button 
-                            onClick={() => setSelectedRole('employer')}
-                            className={`flex-1 py-5 rounded-2xl font-black text-[10px] uppercase tracking-tighter transition-all flex flex-col items-center gap-2 ${selectedRole === 'employer' ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20' : 'bg-slate-50 dark:bg-zinc-800 opacity-40 hover:opacity-60'}`}
-                        >
-                            <Briefcase size={20} />
-                            Работодатель
-                        </button>
-                    </div>
-
-                    {selectedRole === 'employer' && (
-                        <div className="flex bg-slate-50 dark:bg-zinc-800 p-1.5 rounded-[1.5rem] mb-8 relative">
-                            <button onClick={() => setMode('login')} className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase transition-all ${mode === 'login' ? 'bg-white dark:bg-zinc-700 shadow-sm' : 'opacity-40'}`}>Вход</button>
-                            <button onClick={() => setMode('register')} className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase transition-all ${mode === 'register' ? 'bg-white dark:bg-zinc-700 shadow-sm' : 'opacity-40'}`}>Регистрация</button>
-                        </div>
-                    )}
-
-                    <form onSubmit={handleAuth} className="space-y-5 relative">
-                        {selectedRole === 'youth' ? (
-                            <div className="bg-blue-600 text-white p-8 rounded-[2.5rem] text-center space-y-8 animate-in slide-in-from-bottom-4 shadow-2xl shadow-blue-600/30">
-                                <div className="space-y-2">
-                                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60 italic">Exclusive Bot Path</p>
-                                    <h3 className="text-2xl font-black uppercase italic tracking-tighter leading-none">@SAURAN84_BOT</h3>
-                                </div>
-                                <p className="text-[11px] font-bold opacity-80 leading-relaxed italic">Регистрация соискателей проходит исключительно в Телеграм. Это гарантирует 100% доставку уведомлений.</p>
-                                <a href="https://t.me/SauraN84_bot" target="_blank" className="block w-full bg-white text-blue-600 font-black py-5 rounded-2xl text-sm uppercase tracking-tighter hover:scale-105 active:scale-95 transition-all shadow-xl">ОТКРЫТЬ БОТА <Send size={18} className="inline ml-2" /></a>
-                                <div className="pt-6 border-t border-white/10 space-y-4">
-                                   <p className="text-[10px] font-black uppercase opacity-40 tracking-widest">Уже есть профиль?</p>
-                                   <div className="space-y-3">
-                                       <div className="relative">
-                                          <AtSign className="absolute left-4 top-3.5 opacity-30" size={16} />
-                                          <input className="w-full bg-white/10 border-none p-4 pl-12 rounded-2xl text-xs font-bold placeholder:text-white/40 outline-none focus:bg-white/20 transition-all" placeholder="Username (без @)" value={formData.username} onChange={e => setFormData({...formData, username: e.target.value})} />
-                                       </div>
-                                       <div className="flex gap-2">
-                                          <input className="flex-1 bg-white/10 border-none p-4 rounded-2xl text-xs font-black text-center tracking-[.8em] outline-none focus:bg-white/20 transition-all" placeholder="КOД" maxLength={4} value={formData.code} onChange={e => setFormData({...formData, code: e.target.value})} />
-                                          <button type="submit" className="bg-white text-blue-600 px-8 rounded-2xl font-black shadow-lg hover:scale-[1.05] active:scale-95 transition-all"><ChevronRight size={24} /></button>
-                                       </div>
-                                   </div>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="space-y-4 animate-in fade-in duration-500">
-                                {mode === 'register' && (
-                                    <div className="space-y-3">
-                                        <div className="grid grid-cols-1 gap-3">
-                                            <input className="bg-slate-50 dark:bg-zinc-800 p-5 rounded-2xl text-sm font-bold border-none outline-none focus:ring-2 ring-blue-600/20 transition-all" placeholder="ФИО Ответственного" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} />
-                                            <input className="bg-slate-50 dark:bg-zinc-800 p-5 rounded-2xl text-sm font-bold border-none outline-none focus:ring-2 ring-blue-600/20 transition-all" placeholder="Название компании" value={formData.company_name} onChange={e => setFormData({...formData, company_name: e.target.value})} />
-                                            <input className="bg-slate-50 dark:bg-zinc-800 p-5 rounded-2xl text-sm font-bold border-none outline-none focus:ring-2 ring-blue-600/20 transition-all" placeholder="БИН 12 цифр" value={formData.bin_iin} onChange={e => setFormData({...formData, bin_iin: e.target.value})} />
-                                        </div>
-                                    </div>
-                                )}
-                                <div className="space-y-4">
-                                    <div className="flex items-center bg-slate-50 dark:bg-zinc-800 rounded-2xl px-5 border border-transparent focus-within:border-blue-600/20 transition-all">
-                                        <AtSign size={18} className="text-blue-600 opacity-40" />
-                                        <input className="flex-1 bg-transparent p-5 rounded-2xl text-sm font-bold border-none outline-none" placeholder="Telegram ник" value={formData.username} onChange={e => setFormData({...formData, username: e.target.value})} />
-                                    </div>
-                                    <div className="p-6 bg-blue-50 dark:bg-blue-900/10 rounded-[2rem] border border-blue-600/10 flex items-center justify-between gap-4">
-                                        <div className="space-y-1">
-                                            <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Код доступа</p>
-                                            <p className="text-[9px] font-bold opacity-40 leading-none">Команда /login в @SauraN84_bot</p>
-                                        </div>
-                                        <input className="w-24 bg-white dark:bg-zinc-700 p-3 rounded-xl text-center font-black text-xl tracking-widest border-none outline-none shadow-sm" maxLength={4} value={formData.code} onChange={e => setFormData({...formData, code: e.target.value})} />
-                                    </div>
-                                </div>
-                                <button type="submit" disabled={loading} className="w-full bg-slate-900 dark:bg-white text-white dark:text-black font-black py-6 rounded-[2rem] shadow-2xl text-sm uppercase tracking-tighter flex justify-center items-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 mt-6 group">
-                                    {loading ? <Loader2 className="animate-spin" /> : <>{mode === 'login' ? 'ВОЙТИ В КАБИНЕТ' : 'СОЗДАТЬ АККАУНТ'} <LogIn size={20} className="group-hover:translate-x-1 transition-transform" /></>}
-                                </button>
-                            </div>
-                        )}
-                    </form>
+          {/* Side Graphic / Info */}
+          <div className="flex-1 w-full max-w-lg animate-in fade-in zoom-in duration-1000 hidden xl:block">
+             <div className="bg-slate-50 dark:bg-zinc-900 rounded-[4rem] p-12 border border-slate-200 dark:border-zinc-800 relative group overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                <div className="space-y-8 relative">
+                   <div className="w-20 h-20 bg-blue-600 rounded-[2rem] flex items-center justify-center text-white shadow-2xl">
+                      <ShieldCheck size={32} />
+                   </div>
+                   <div className="space-y-4">
+                      <h3 className="text-3xl font-black uppercase tracking-tighter leading-none italic">Почему выбирают N84?</h3>
+                      <p className="text-sm font-medium opacity-60 leading-relaxed">Система использует Qwen-max для анализа твоего профиля и подбирает работу только в твоем районе Актау. Никакого спама — только реальные предложения.</p>
+                   </div>
+                   <ul className="space-y-4 pt-4 text-xs font-black uppercase tracking-widest">
+                      <li className="flex items-center gap-3 text-blue-600"><div className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></div> Мгновенные пуши в Телеграм</li>
+                      <li className="flex items-center gap-3 opacity-40"><div className="w-2 h-2 bg-slate-300 dark:bg-zinc-700 rounded-full"></div> Только верифицированные BIN</li>
+                      <li className="flex items-center gap-3 opacity-40"><div className="w-2 h-2 bg-slate-300 dark:bg-zinc-700 rounded-full"></div> Фильтр по микрорайонам</li>
+                   </ul>
                 </div>
-            ) : (
-                <div className="bg-blue-600 p-12 lg:p-16 rounded-[4rem] text-white shadow-2xl flex flex-col items-center text-center space-y-10 animate-in zoom-in-95 duration-500 relative overflow-hidden">
-                    <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -ml-32 -mt-32"></div>
-                    <div className="w-32 h-32 bg-white/20 backdrop-blur-xl rounded-[2.5rem] flex items-center justify-center text-5xl font-black border border-white/30 rotate-6 shadow-2xl leading-none relative">
-                        {user.full_name?.[0]}
-                    </div>
-                    <div className="space-y-2 relative">
-                        <h2 className="text-4xl lg:text-5xl font-black tracking-tighter uppercase leading-none italic">Салем, {user.full_name?.split(' ')[0]}!</h2>
-                        <p className="text-white/60 font-black uppercase tracking-[0.3em] text-[10px]">Your Dashboard is ready</p>
-                    </div>
-                    <div className="w-full space-y-4 relative">
-                        <Link href="/profile" className="w-full bg-white text-blue-600 font-black py-6 rounded-[2rem] flex items-center justify-center gap-3 hover:scale-[1.03] transition-all shadow-2xl text-sm uppercase tracking-tighter">ПЕРЕЙТИ К УПРАВЛЕНИЮ <ChevronRight size={20} /></Link>
-                        <button onClick={() => { localStorage.removeItem('n84_user'); window.location.reload(); }} className="w-full py-2 text-[10px] font-black uppercase opacity-40 hover:opacity-100 transition-opacity tracking-widest">Выйти из системы</button>
-                    </div>
-                </div>
-            )}
+             </div>
           </div>
         </div>
       </main>
 
-      <footer className="max-w-7xl mx-auto px-6 lg:px-12 py-16 border-t border-slate-200 dark:border-zinc-800 opacity-30 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-[0.2em]">
-         <div className="flex items-center gap-4">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span>N84 Aktau High-Tech Platform © 2024</span>
+      <footer className="max-w-7xl mx-auto px-6 py-12 border-t border-slate-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-8 opacity-30 text-[10px] font-black uppercase tracking-[0.2em]">
+         <div className="flex items-center gap-3">
+            <Globe size={14} />
+            <span>N84 Platform Aktau © 2024</span>
          </div>
-         <div className="flex gap-10 italic">
+         <div className="flex gap-8 italic">
             <span>Powered by Qwen AI</span>
-            <span>GrammY Bot Core</span>
-            <span>Supabase Database</span>
+            <span>GrammY Core</span>
+            <span>Supabase Cloud</span>
          </div>
       </footer>
     </div>
