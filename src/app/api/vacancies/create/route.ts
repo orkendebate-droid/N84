@@ -35,15 +35,18 @@ export async function POST(request: Request) {
     if (users && botToken) {
       for (const user of users) {
         try {
-          const message = `✨ *НОВАЯ ВАКАНСИЯ В ${area?.toUpperCase()}!*\n\n💼 *${title}*\n💰 Зарплата: ${salary}\n\n📍 Район: ${area}\n\nНажми кнопку ниже, чтобы узнать подробности и откликнуться! 👇`
+          const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
+                          `💼 *Должность:* ${title}\n` +
+                          `💰 *Зарплата:* ${salary}\n` +
+                          `📍 *Район:* ${area}\n\n` +
+                          `📝 *Кратко:* ${description?.substring(0, 100)}...\n\n` +
+                          `Нажми кнопку ниже, чтобы увидеть полные требования и связаться с работодателем! 👇`
           
           const keyboard = {
-            inline_keyboard: [[
-              { 
-                text: 'Посмотреть детали 🔍', 
-                web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } 
-              }
-            ]]
+            inline_keyboard: [
+              [{ text: 'Узнать подробнее 📍', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }],
+              [{ text: 'Смотреть все вакансии 📚', web_app: { url: `https://n84-platform.vercel.app/board` } }]
+            ]
           }
 
           await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
