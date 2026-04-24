@@ -2,7 +2,7 @@ const { createClient } = require('@supabase/supabase-js');
 const dotenv = require('dotenv');
 const path = require('path');
 
-dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -19,9 +19,9 @@ async function testAiAndVector() {
         'Authorization': `Bearer ${process.env.QWEN_API_KEY}`
       },
       body: JSON.stringify({
-        model: process.env.QWEN_MODEL || "qwen-max",
+        model: process.env.QWEN_MODEL || "qwen-plus",
         messages: [{ role: "user", content: "Привет! Ты работаешь в системе поиска работы N84 для Актау?" }],
-        enable_thinking: false
+        extra_body: { "enable_thinking": false }
       })
     });
     const data = await aiRes.json();
@@ -44,8 +44,7 @@ async function testAiAndVector() {
     if (cols && cols.length > 0) {
       console.log(`✅ Векторная колонка 'embedding' найдена. Тип: ${cols[0].data_type}`);
     } else {
-      // Фолбэк для прямого подтверждения, если RPC вернул пустоту
-      console.log('✅ Векторная колонка найдена (подтверждено прямым SQL)!');
+      console.error('❌ Векторная колонка не найдена. Убедитесь, что pgvector установлен.');
     }
   } catch (err) {
     console.error('❌ Ошибка при доступе к вектору:', err.message);

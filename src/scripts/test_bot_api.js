@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-dotenv.config({ path: path.resolve(__dirname, '../.env.local') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env.local') });
 
 async function testBot() {
   console.log('🧪 ЗАПУСК ТЕСТА TELEGRAM BOT API\n');

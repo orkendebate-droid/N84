@@ -1,1 +1,0 @@
-COLUMN: birthday, TYPE: date

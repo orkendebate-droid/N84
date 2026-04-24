@@ -1,3 +1,0 @@
-◇ injected env (0) from .env // tip: ⌁ auth for agents [www.vestauth.com]
-Подключение к базе по новому адресу...
-Ошибка: 

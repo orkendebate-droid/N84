@@ -1,3 +1,0 @@
-◇ injected env (9) from .env.local // tip: ⌁ auth for agents [www.vestauth.com]
-Подключение к https://fmweyzcdippvfcsmwnqt.supabase.co
-Связь есть! Но таблица profiles не найдена (это нормально, если вы еще не запустили SQL).

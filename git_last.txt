@@ -1,3 +1,0 @@
-﻿0474465 fix: ensure profile changes are reflected in UI and localStorage after saving
-34bd9f1 fix: resolve 500 error by unifying youth_id column across DB and API
-2878cb3 fix: correct db schema, vacancy apply flow, and application joins
