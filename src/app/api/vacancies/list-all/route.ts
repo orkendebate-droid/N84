@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     let query = supabaseAdmin
       .from('vacancies')
       .select('*')
-      .eq('is_active', true)
+      .neq('is_active', false) // показываем всё кроме явно отключённых
 
     if (area) {
       query = query.ilike('area', `%${area}%`)
