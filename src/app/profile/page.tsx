@@ -125,6 +125,22 @@ export default function ProfilePage() {
     } catch (err) { alert('Ошибка'); setDeleting(false) }
   }
 
+  const handleDeleteVacancy = async (id: string) => {
+    if (!confirm('Вы уверены, что хотите удалить эту вакансию?')) return
+    try {
+      const res = await fetch('/api/vacancies/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      })
+      if ((await res.json()).success) {
+        setVacancies(vacancies.filter(v => v.id !== id))
+      }
+    } catch (err) {
+      alert('Ошибка при удалении')
+    }
+  }
+
   if (loading) return <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-zinc-950 font-black italic text-4xl animate-pulse text-blue-600">N84</div>
 
   return (
@@ -254,9 +270,17 @@ export default function ProfilePage() {
                             <h4 className="font-black text-lg leading-none mb-1 uppercase italic tracking-tighter">{v.title}</h4>
                             <p className="text-xs font-bold opacity-40">{v.area} • {v.salary}</p>
                           </div>
-                          <Link href={`/vacancy/${v.id}`} className="w-10 h-10 bg-white dark:bg-zinc-700 rounded-xl flex items-center justify-center shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
-                            <ChevronRight size={20} />
-                          </Link>
+                          <div className="flex items-center gap-2">
+                            <button 
+                              onClick={() => handleDeleteVacancy(v.id)}
+                              className="w-10 h-10 bg-red-50 dark:bg-red-900/10 text-red-600 rounded-xl flex items-center justify-center hover:bg-red-600 hover:text-white transition-all opacity-0 group-hover:opacity-100"
+                            >
+                              <Trash2 size={18} />
+                            </button>
+                            <Link href={`/vacancy/${v.id}`} className="w-10 h-10 bg-white dark:bg-zinc-700 rounded-xl flex items-center justify-center shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
+                              <ChevronRight size={20} />
+                            </Link>
+                          </div>
                         </div>
                       ))}
                     </div>
