@@ -73,19 +73,19 @@ bot.on('message:text', async (ctx) => {
   if (step === 'wait_name') {
     ctx.session.registration.full_name = text
     ctx.session.step = 'wait_area'
-    return ctx.reply('📍 *В каком микрорайоне ты живешь?*', { parse_mode: 'Markdown' })
+    return ctx.reply('📍 *В каком микрорайоне ты живешь?*\n(Пример: 14 мкр или мкр. Самал)', { parse_mode: 'Markdown' })
   }
 
   if (step === 'wait_area') {
     ctx.session.registration.area = text
     ctx.session.step = 'wait_age'
-    return ctx.reply('📅 *Сколько тебе лет?*', { parse_mode: 'Markdown' })
+    return ctx.reply('📅 *Когда у тебя день рождения?*\n(Пример: 15.05.2008)', { parse_mode: 'Markdown' })
   }
 
   if (step === 'wait_age') {
     ctx.session.registration.birthday = text
     ctx.session.step = 'wait_bio'
-    return ctx.reply('🎓 *О себе?* (Кем хочешь работать или что умеешь?)', { parse_mode: 'Markdown' })
+    return ctx.reply('🎓 *О тебе?* (Кем хочешь работать или что умеешь?)', { parse_mode: 'Markdown' })
   }
 
   if (step === 'wait_bio') {
