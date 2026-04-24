@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       .single()
 
     if (error) throw error
+    if (!vacancy) throw new Error('Failed to create vacancy record')
 
     // 2. ИИ-матчинг: выбираем только подходящих ребят
     const matchedUsers = await matchCandidates(vacancy)
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
     
     if (matchedUsers && matchedUsers.length > 0 && botToken) {
       for (const user of matchedUsers) {
+        if (!user) continue;
         try {
           const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
                           `🎯 *Подходимость:* ${user.match_score}/10\n` +

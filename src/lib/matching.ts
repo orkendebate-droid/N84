@@ -26,14 +26,10 @@ export async function matchCandidates(vacancy: any) {
 
       ЗАДАЧА:
       Для каждого кандидата из списка определи оценку совместимости от 0 до 10.
-      Учитывай:
-      1. Близость района проживания к месту работы.
-      2. Соответствие навыков описанию вакансии.
-      3. Потенциальную заинтересованность.
+      Выдай только тех, у кого score >= 5.
 
       ОТВЕТЬ ТОЛЬКО JSON-массивом объектов в формате:
       [{"id": "id1", "score": 9}, {"id": "id2", "score": 6}]
-      Выдай только тех, у кого score >= 5.
     `
 
     const response = await qwen.chat.completions.create({
@@ -48,11 +44,11 @@ export async function matchCandidates(vacancy: any) {
     const content = response.choices[0].message.content
     const results: any[] = JSON.parse(content || "[]")
 
-    // Склеиваем данные профилей с их оценками
+    // Используем Type Predicate для корректной типизации в TS
     return results.map(res => {
       const user = users.find(u => u.id === res.id)
       return user ? { ...user, match_score: res.score } : null
-    }).filter(Boolean)
+    }).filter((u): u is any => u !== null)
   } catch (err) {
     console.error('Matching Error:', err)
     return []
