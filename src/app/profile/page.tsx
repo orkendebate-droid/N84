@@ -85,8 +85,22 @@ export default function ProfilePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: profile.id, ...formData })
       })
-      if ((await res.json()).success) alert('Профиль обновлен!')
-    } catch (err) { alert('Ошибка') } finally { setSaving(false) }
+      const data = await res.json()
+      if (data.success) {
+        // Обновляем локальное состояние, чтобы изменения сразу отобразились
+        setProfile(data.profile)
+        // Обновляем localStorage для сохранения сессии
+        localStorage.setItem('n84_user', JSON.stringify(data.profile))
+        alert('Профиль обновлен! ✨')
+      } else {
+        alert('Ошибка при сохранении: ' + data.error)
+      }
+    } catch (err) { 
+      console.error(err)
+      alert('Ошибка соединения') 
+    } finally { 
+      setSaving(false) 
+    }
   }
 
   const handleDelete = async () => {
