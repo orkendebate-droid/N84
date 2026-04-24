@@ -21,27 +21,22 @@ bot.use(session({ initial: (): SessionData => ({ step: 'idle', registration: {} 
 // УНИВЕРСАЛЬНАЯ ФУНКЦИЯ ГЕНЕРАЦИИ КОДА
 async function sendLoginCode(ctx: any) {
   const code = Math.floor(1000 + Math.random() * 9000).toString()
+  const telegramId = Number(ctx.from?.id) // Конвертируем в число для BIGINT
   
-  // Обновляем код для существующего пользователя (по id)
-  const { error } = await supabaseAdmin
+  // Используем UPSERT сразу, так проще и надежнее
+  const { error: upsertError } = await supabaseAdmin
     .from('profiles')
-    .update({ otp_code: code })
-    .eq('telegram_id', ctx.from?.id.toString())
+    .upsert({
+      telegram_id: telegramId,
+      username: ctx.from?.username?.toLowerCase().replace('@', '') || null,
+      full_name: `${ctx.from?.first_name || ''} ${ctx.from?.last_name || ''}`.trim() || 'Пользователь',
+      otp_code: code,
+      updated_at: new Date().toISOString()
+    }, { onConflict: 'telegram_id' })
 
-  if (error) {
-    // Если пользователя нет в базе - создаем временную запись, чтобы он мог зарегистрироваться на сайте
-    const { error: insertError } = await supabaseAdmin
-      .from('profiles')
-      .upsert({
-        telegram_id: ctx.from?.id.toString(),
-        username: ctx.from?.username?.toLowerCase() || null,
-        full_name: `${ctx.from?.first_name || ''} ${ctx.from?.last_name || ''}`.trim(),
-        otp_code: code,
-        role: 'youth', // по умолчанию, на сайте при регистрации бизнеса поменяется на employer
-        updated_at: new Date().toISOString()
-      })
-    
-    if (insertError) return ctx.reply('Ошибка. Попробуй позже.')
+  if (upsertError) {
+    console.error('❌ Ошибка при генерации OTP в боте:', upsertError)
+    return ctx.reply(`Ошибка при генерации кода: ${upsertError.message}. Попробуйте позже или обратитесь в поддержку.`)
   }
 
   await ctx.reply(`Ваш секретный код: *${code}*\n\nВведите его на сайте для входа или регистрации. 🔐`, { parse_mode: 'Markdown' })
@@ -52,11 +47,12 @@ bot.callbackQuery('get_login_code', sendLoginCode)
 
 bot.command('start', async (ctx) => {
   ctx.session = { step: 'idle', registration: {} }
+  const telegramId = Number(ctx.from?.id)
 
   const { data: profile } = await supabaseAdmin
     .from('profiles')
     .select('*')
-    .eq('telegram_id', ctx.from?.id.toString())
+    .eq('telegram_id', telegramId)
     .single()
 
   if (profile) {
@@ -66,7 +62,7 @@ bot.command('start', async (ctx) => {
       .text('🔑 Получить код для сайта', 'get_login_code')
 
     return ctx.reply(
-      `Салем, ${profile.full_name}! 👋\n\nВы в системе N84. Используйте кнопки ниже для поиска работы или входа в личный кабинет на сайте.`,
+      `Салем, ${profile.full_name || 'друг'}! 👋\n\nВы в системе N84. Используйте кнопки ниже для поиска работы или входа в личный кабинет на сайте.`,
       { reply_markup: keyboard }
     )
   }
@@ -103,6 +99,7 @@ bot.callbackQuery('start_reg_youth', async (ctx) => {
 bot.on('message:text', async (ctx) => {
   const step = ctx.session.step
   const text = ctx.msg.text
+  const telegramId = Number(ctx.from.id)
 
   if (step === 'wait_area') {
     ctx.session.registration.area = text
@@ -124,21 +121,22 @@ bot.on('message:text', async (ctx) => {
       const { error } = await supabaseAdmin
         .from('profiles')
         .upsert({
-          telegram_id: ctx.from.id.toString(),
-          username: ctx.from.username?.toLowerCase() || null,
-          full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim(),
+          telegram_id: telegramId,
+          username: ctx.from.username?.toLowerCase().replace('@', '') || null,
+          full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim() || 'Студент',
           address: ctx.session.registration.area,
           birthday: ctx.session.registration.birthday,
           bio: ctx.session.registration.bio,
           role: 'youth',
           is_verified: true,
           updated_at: new Date().toISOString()
-        })
+        }, { onConflict: 'telegram_id' })
 
       if (error) throw error
       await ctx.reply('🎉 *Готoво!* Твоя анкета в базе. Жди уведомления о новых вакансиях! 🔔', { parse_mode: 'Markdown' })
-    } catch (err) {
-      ctx.reply('Ошибка. Жми /start')
+    } catch (err: any) {
+      console.error('❌ Ошибка регистрации в боте:', err)
+      ctx.reply(`Ошибка: ${err.message}. Попробуй снова /start`)
     }
     return
   }
