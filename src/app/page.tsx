@@ -82,8 +82,8 @@ export default function Home() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-6 lg:px-12 py-12 lg:py-24">
-        <div className="flex flex-col lg:flex-row items-center gap-16 xl:gap-24">
+      <main className="max-w-7xl mx-auto px-6 lg:px-12 py-8 lg:py-12">
+        <div className="flex flex-col lg:flex-row items-center gap-12 xl:gap-16">
           
           {/* Left Side: Content */}
           <div className="flex-1 space-y-10 text-center lg:text-left">
