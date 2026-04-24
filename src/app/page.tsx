@@ -143,10 +143,14 @@ export default function Home() {
                           ОТКРЫТЬ @SauraN84_bot <Send size={18} />
                         </a>
 
-                        <div className="pt-2 border-t border-white/10">
-                          <p className="text-[9px] font-black uppercase opacity-60 italic tracking-widest">
-                             Доступ к личному кабинету — внутри бота
+                        <div className="pt-4 border-t border-white/10 space-y-4">
+                          <p className="text-[9px] font-black uppercase opacity-60 italic tracking-widest leading-none">
+                             Уже зарегистрирован в боте?
                           </p>
+                          <div className="bg-white/10 p-4 rounded-2xl backdrop-blur-sm">
+                            <TelegramLogin botUsername="SauraN84_bot" onAuth={handleTelegramAuth} />
+                            <p className="text-[9px] font-bold mt-3 opacity-60 uppercase">Чтобы войти в кабинет</p>
+                          </div>
                         </div>
                       </div>
                     )}
