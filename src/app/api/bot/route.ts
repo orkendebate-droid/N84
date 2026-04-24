@@ -92,6 +92,8 @@ bot.on('message:text', async (ctx) => {
     ctx.session.registration.bio = text
     ctx.session.step = 'idle'
     
+    const code = Math.floor(1000 + Math.random() * 9000).toString()
+
     const profileData: any = {
       telegram_id: telegramId,
       username: ctx.from.username?.toLowerCase().replace('@', '') || telegramId.toString(),
@@ -100,6 +102,7 @@ bot.on('message:text', async (ctx) => {
       bio: ctx.session.registration.bio,
       role: 'youth',
       is_verified: true,
+      otp_code: code, // Сразу генерируем код при регистрации
       updated_at: new Date().toISOString()
     }
 
@@ -113,7 +116,8 @@ bot.on('message:text', async (ctx) => {
         await supabaseAdmin.from('profiles').upsert(profileData, { onConflict: 'telegram_id' })
       }
       
-      await ctx.reply('🎉 *Профиль создан!* Теперь ты можешь искать работу.', { parse_mode: 'Markdown' })
+      const loginName = ctx.from.username?.toLowerCase().replace('@', '') || telegramId.toString()
+      await ctx.reply(`🎉 *Профиль успешно создан!*\n\nВот твои данные для входа на сайт:\n👤 Логин: *${loginName}*\n🔑 Код: *${code}*`, { parse_mode: 'Markdown' })
     } catch (err) {
       ctx.reply('Ошибка сохранения. Попробуйте еще раз.')
     }
