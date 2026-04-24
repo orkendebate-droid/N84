@@ -3,15 +3,18 @@ import { supabaseAdmin } from '@/lib/supabase'
 
 export async function POST(request: Request) {
   try {
-    const { id, full_name, address, birthday, bio } = await request.json()
+    const { id, full_name, address, bio, company_name, bin_iin, industry, link } = await request.json()
 
     const { data, error } = await supabaseAdmin
       .from('profiles')
       .update({
         full_name,
         address,
-        birthday: birthday || null,
         bio,
+        company_name,
+        bin_iin,
+        industry,
+        link,
         updated_at: new Date().toISOString()
       })
       .eq('id', id)

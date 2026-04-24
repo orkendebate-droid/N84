@@ -10,7 +10,15 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
-  const [formData, setFormData] = useState({ full_name: '', address: '', birthday: '', bio: '' })
+  const [formData, setFormData] = useState({ 
+    full_name: '', 
+    address: '', 
+    bio: '',
+    company_name: '',
+    bin_iin: '',
+    industry: '',
+    link: ''
+  })
 
   useEffect(() => {
     const savedUser = localStorage.getItem('n84_user')
@@ -33,8 +41,11 @@ export default function ProfilePage() {
         setFormData({
           full_name: data.profile.full_name || '',
           address: data.profile.address || '',
-          birthday: data.profile.birthday || '',
-          bio: data.profile.bio || ''
+          bio: data.profile.bio || '',
+          company_name: data.profile.company_name || '',
+          bin_iin: data.profile.bin_iin || '',
+          industry: data.profile.industry || '',
+          link: data.profile.link || ''
         })
         if (data.profile.role === 'employer') fetchMyVacancies(id)
       }
@@ -151,6 +162,32 @@ export default function ProfilePage() {
             <div className="bg-white dark:bg-zinc-900 rounded-[3rem] p-8 md:p-10 border border-slate-200 dark:border-zinc-800 shadow-xl">
               <h3 className="text-xl font-black uppercase tracking-tighter mb-8">Настройки Профиля</h3>
               <form onSubmit={handleSave} className="space-y-6">
+                {profile.role === 'employer' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-blue-50/50 dark:bg-blue-900/10 p-6 rounded-3xl border border-blue-600/5 mb-6">
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Название Компании</label>
+                      <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="ИП 'Актау Сити'" value={formData.company_name} onChange={e => setFormData({...formData, company_name: e.target.value})} />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">БИН / ИИН</label>
+                      <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="12 цифр" value={formData.bin_iin} onChange={e => setFormData({...formData, bin_iin: e.target.value})} />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Сфера деятельности</label>
+                      <select className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold appearance-none" value={formData.industry} onChange={e => setFormData({...formData, industry: e.target.value})}>
+                        <option value="">Выбрать...</option>
+                        <option value="catering">Общепит / Кафе</option>
+                        <option value="retail">Ритейл / Магазины</option>
+                        <option value="services">Услуги / Сервис</option>
+                        <option value="it">IT / Digital</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-black uppercase opacity-40 ml-2">Instagram / Сайт</label>
+                      <input className="w-full bg-white dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" placeholder="@company_aktau" value={formData.link} onChange={e => setFormData({...formData, link: e.target.value})} />
+                    </div>
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
                     <label className="text-[10px] font-black uppercase opacity-40 ml-2">Название / Имя</label>
