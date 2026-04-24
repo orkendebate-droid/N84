@@ -16,6 +16,10 @@ export async function askQwen(prompt: string, systemPrompt: string = "You are a 
         { role: "system", content: systemPrompt || "You are a helpful assistant for a job platform in Mangystau, Kazakhstan." },
         { role: "user", content: prompt }
       ],
+      // @ts-ignore - Отключаем "мышление", которое ломает обычные запросы в Dashscope
+      extra_body: {
+        "enable_thinking": false
+      }
     })
     return response.choices[0].message.content
   } catch (error) {
