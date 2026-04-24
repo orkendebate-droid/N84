@@ -87,9 +87,9 @@ export default function Home() {
           <div className="flex-1 w-full max-w-md">
             {!user ? (
               <div className="bg-white dark:bg-zinc-900 p-8 rounded-[3rem] shadow-2xl border border-slate-200 dark:border-zinc-800 relative">
-                <div className="absolute -top-4 -right-4 bg-blue-600 text-white text-[10px] font-black px-4 py-2 rounded-xl rotate-12 shadow-lg">FAST AUTH</div>
+                <div className="absolute -top-4 -right-4 bg-blue-600 text-white text-[10px] font-black px-4 py-2 rounded-xl rotate-12 shadow-lg">JOIN N84</div>
                 
-                <h2 className="text-3xl font-black mb-8 tracking-tighter uppercase text-center italic">Вход и Регистрация</h2>
+                <h2 className="text-3xl font-black mb-8 tracking-tighter uppercase text-center italic">Присоединиться</h2>
                 
                 <div className="space-y-8">
                   {/* Step 1: Role Selection */}
@@ -99,36 +99,43 @@ export default function Home() {
                       className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${selectedRole === 'employer' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-transparent bg-slate-50 dark:bg-zinc-800 opacity-40'}`}
                     >
                       <Briefcase size={20} className={selectedRole === 'employer' ? 'text-blue-600' : ''} />
-                      <span className="text-[10px] font-black uppercase tracking-tighter">Бизнес</span>
+                      <span className="text-[10px] font-black uppercase tracking-tighter">Работодатель</span>
                     </button>
                     <button 
                       onClick={() => setSelectedRole('youth')}
                       className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-2 ${selectedRole === 'youth' ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20' : 'border-transparent bg-slate-50 dark:bg-zinc-800 opacity-40'}`}
                     >
                       <Users size={20} className={selectedRole === 'youth' ? 'text-blue-600' : ''} />
-                      <span className="text-[10px] font-black uppercase tracking-tighter">Молодежь</span>
+                      <span className="text-[10px] font-black uppercase tracking-tighter">Школьник / Студент</span>
                     </button>
                   </div>
 
-                  {/* Step 2: Main Access Way */}
-                  <div className="bg-slate-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-zinc-800 text-center space-y-6">
-                    <div>
-                      <p className="text-xs font-black opacity-60 mb-1 uppercase tracking-widest leading-none">Быстрый вход через сайт</p>
-                      <p className="text-[10px] opacity-40 font-bold mb-6">Ваш профиль создастся автоматически</p>
-                      <TelegramLogin botUsername="SauraN84_bot" onAuth={handleTelegramAuth} />
+                  {/* Highlight for Youth */}
+                  {selectedRole === 'youth' && (
+                    <div className="bg-blue-600 text-white p-6 rounded-[2rem] shadow-xl shadow-blue-600/20 space-y-4">
+                       <p className="text-xs font-black uppercase tracking-widest leading-none flex items-center gap-2">
+                         <Bot size={16} /> РЕКОМЕНДУЕМЫЙ СПОСОБ
+                       </p>
+                       <p className="text-[11px] font-bold leading-tight opacity-90">
+                         Если ты пришел из TikTok или соцсетей, удобнее всего зарегистрироваться прямо в Телеграме. Просто нажми на ссылку:
+                       </p>
+                       <a 
+                         href="https://t.me/SauraN84_bot" 
+                         target="_blank"
+                         className="w-full bg-white text-blue-600 font-black py-4 rounded-xl flex items-center justify-center gap-2 text-xs uppercase tracking-tighter hover:scale-105 transition-all"
+                       >
+                         ОТКРЫТЬ @SauraN84_bot <Send size={14} />
+                       </a>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Alternative Way */}
-                  <div className="pt-4 border-t border-slate-100 dark:border-zinc-800 text-center">
-                    <p className="text-[10px] font-bold opacity-30 uppercase tracking-widest mb-4">Альтернативный способ</p>
-                    <a 
-                      href="https://t.me/SauraN84_bot" 
-                      target="_blank"
-                      className="inline-flex items-center gap-2 text-blue-600 font-black text-sm hover:gap-3 transition-all"
-                    >
-                      РЕГИСТРАЦИЯ ЧЕРЕЗ БОТА <ArrowRight size={18} />
-                    </a>
+                  {/* Standard Way */}
+                  <div className="bg-slate-50 dark:bg-zinc-800/50 p-6 rounded-[2rem] border border-slate-100 dark:border-zinc-800 text-center">
+                    <p className="text-[10px] font-black opacity-60 mb-6 uppercase tracking-widest leading-none">Вход через браузер</p>
+                    <TelegramLogin botUsername="SauraN84_bot" onAuth={handleTelegramAuth} />
+                    <p className="text-[10px] opacity-40 mt-4 font-bold leading-tight uppercase italic underline underline-offset-4">
+                       Для управления профилем
+                    </p>
                   </div>
 
                   {loading && (
