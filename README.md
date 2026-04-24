@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌊 N84 Employment Platform — Актау
 
-## Getting Started
+**N84** — это интеллектуальная платформа для трудоустройства молодежи г. Актау, которая объединяет локальный малый бизнес и соискателей с помощью искусственного интеллекта.
 
-First, run the development server:
+---
 
+## 🚀 Основная Концепция
+Проект решает проблему разрыва между молодежью (ищущей подработку/работу) и малым бизнесом города. Вместо сложной бюрократии — быстрый вход через Telegram-бота и мгновенный "умный" поиск.
+
+### Ключевые возможности:
+*   **🤖 AI Matching (Qwen)**: Система автоматически анализирует профили молодежи и сопоставляет их с новыми вакансиями в режиме реального времени.
+*   **⚡ Мгновенный отклик**: Работодатель получает уведомление в Telegram с ИИ-анализом кандидата и кнопкой для прямой связи.
+*   **🔑 Гибридная Авторизация**: Регистрация через бота с мгновенной выдачей OTP-кода для входа на веб-панель.
+*   **📍 Локальный фокус**: Учет микрорайонов Актау для подбора работы "у дома".
+
+---
+
+## 🛠 Технологический Стек
+*   **Frontend/Backend**: Next.js 15 (App Router, TypeScript)
+*   **Database**: Supabase (PostgreSQL)
+*   **Bot Framework**: grammY
+*   **AI Engine**: Qwen 2.5 (32B/72B) via Dashscope/Together AI
+*   **Hosting**: Vercel
+
+---
+
+## 🧪 Система Тестирования
+Мы внедрили автоматизированную систему проверки здоровья проекта, чтобы гарантировать стабильность перед жюри.
+
+**Файл тестов:** `src/scripts/run_tests.js`
+
+### Что проверяют тесты:
+1.  **Database Connection**: Успешное соединение с облачной базой данных.
+2.  **Schema Consistency**: Проверка наличия всех 20+ критических колонок (БИН, Район, О себе, Дата рождения и т.д.).
+3.  **API Health**: Работоспособность всех эндпоинтов (Список вакансий, Отклики, Профили).
+4.  **Security/Auth**: Корректная работа OTP-кодов и защита от несанкционированного доступа.
+5.  **Data Integrity**: Отсутствие "битых" связей между вакансиями и работодателями.
+
+**Как запустить тесты:**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+node src/scripts/run_tests.js
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚙️ Установка и Настройка
+1. Скопируйте `.env.example` в `.env.local`.
+2. Заполните ключи:
+   * `TELEGRAM_BOT_TOKEN`
+   * `SUPABASE_SERVICE_ROLE_KEY`
+   * `QWEN_API_KEY`
+   * `QWEN_MODEL` (например: `qwen-max` или `qwen2.5-32b-instruct`)
+3. Запустите миграцию для подготовки базы:
+   ```bash
+   node src/scripts/mega_fix.js
+   ```
+4. Установите зависимости и запустите проект:
+   ```bash
+   npm install
+   npm run dev
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📈 Будущее Проекта (Roadmap)
+*   Интеграция видео-резюме (анализ через Vision AI).
+*   Автоматическая генерация договоров по БИН компании.
+*   Рейтинг "Доверенного работодателя" на основе отзывов молодежи.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+**Разработано для Хакатона N84.** 🌊🚀
