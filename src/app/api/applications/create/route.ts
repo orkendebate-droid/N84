@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       .from('applications')
       .select('id')
       .eq('vacancy_id', vacancy_id)
-      .eq('applicant_id', youth.id)
+      .eq('youth_id', youth.id)
       .single()
 
     if (existing) {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       .from('applications')
       .insert({
         vacancy_id,
-        applicant_id: youth.id
+        youth_id: youth.id
       })
       .select()
       .single()
@@ -41,7 +41,6 @@ export async function POST(request: Request) {
     if (appError) throw appError
 
     // 4. Уведомляем работодателя по Telegram
-    // Сначала находим работодателя вакансии
     const { data: vacancy } = await supabaseAdmin
       .from('vacancies')
       .select('title, employer_id')

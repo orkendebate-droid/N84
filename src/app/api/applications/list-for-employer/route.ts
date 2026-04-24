@@ -8,7 +8,6 @@ export async function GET(request: Request) {
 
     if (!employer_id) return NextResponse.json({ success: false, error: 'Employer ID required' }, { status: 400 })
 
-    // 1. Получаем ID всех вакансий этого работодателя
     const { data: vacancies } = await supabaseAdmin
       .from('vacancies')
       .select('id, title')
@@ -20,7 +19,6 @@ export async function GET(request: Request) {
 
     const vacancyIds = vacancies.map(v => v.id)
 
-    // 2. Получаем отклики для этих вакансий вместе с данными соискателей
     const { data: applications, error: appError } = await supabaseAdmin
       .from('applications')
       .select(`
@@ -28,7 +26,7 @@ export async function GET(request: Request) {
         status,
         created_at,
         vacancy:vacancy_id(title),
-        youth:applicant_id(full_name, bio, address, telegram_id)
+        youth:youth_id(full_name, bio, address, telegram_id)
       `)
       .in('vacancy_id', vacancyIds)
       .order('created_at', { ascending: false })
