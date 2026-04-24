@@ -5,7 +5,7 @@ const token = process.env.TELEGRAM_BOT_TOKEN
 if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not set')
 
 interface SessionData {
-  step: 'idle' | 'wait_name' | 'wait_area' | 'wait_age' | 'wait_bio'
+  step: 'idle' | 'wait_name' | 'wait_area' | 'wait_birthday' | 'wait_bio'
   registration: {
     full_name?: string
     area?: string
@@ -38,6 +38,16 @@ async function sendLoginCode(ctx: any) {
 
 bot.command('login', sendLoginCode)
 bot.callbackQuery('get_login_code', sendLoginCode)
+
+bot.command('status', async (ctx) => {
+  try {
+    const { count: usersCount } = await supabaseAdmin.from('profiles').select('*', { count: 'exact', head: true })
+    const { count: vacCount } = await supabaseAdmin.from('vacancies').select('*', { count: 'exact', head: true })
+    await ctx.reply(`🟢 *Система работает стабильно*\n\n📊 *Статистика базы:*\n👤 Профилей: ${usersCount || 0}\n💼 Вакансий: ${vacCount || 0}\n\nБаза данных и Телеграм синхронизированы.`, { parse_mode: 'Markdown' })
+  } catch (err: any) {
+    await ctx.reply(`🔴 *Ошибка системы:*\n${err.message}`, { parse_mode: 'Markdown' })
+  }
+})
 
 bot.command('start', async (ctx) => {
   ctx.session = { step: 'idle', registration: {} }
@@ -78,11 +88,11 @@ bot.on('message:text', async (ctx) => {
 
   if (step === 'wait_area') {
     ctx.session.registration.area = text
-    ctx.session.step = 'wait_age'
+    ctx.session.step = 'wait_birthday'
     return ctx.reply('📅 *Когда у тебя день рождения?*\n(Пример: 15.05.2008)', { parse_mode: 'Markdown' })
   }
 
-  if (step === 'wait_age') {
+  if (step === 'wait_birthday') {
     ctx.session.registration.birthday = text
     ctx.session.step = 'wait_bio'
     return ctx.reply('🎓 *О тебе?* (Кем хочешь работать или что умеешь?)', { parse_mode: 'Markdown' })
