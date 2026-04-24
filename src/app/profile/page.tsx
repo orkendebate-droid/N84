@@ -146,6 +146,20 @@ export default function ProfilePage() {
 
           {/* Content */}
           <div className="lg:col-span-8 space-y-8">
+            {profile?.role === 'youth' && (
+              <div className="bg-white dark:bg-zinc-900 rounded-[3rem] p-8 md:p-10 border border-slate-200 dark:border-zinc-800 shadow-xl mb-8 flex flex-col items-center justify-center text-center relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-5">
+                  <Sparkles size={160} />
+                </div>
+                <Sparkles size={48} className="text-blue-600 mb-6" />
+                <h3 className="text-2xl font-black uppercase tracking-tighter mb-4">Найти Мечту</h3>
+                <p className="font-medium opacity-60 mb-8 max-w-sm">Используйте нашу доску, чтобы откликаться на лучшие предложения города, или заполните профиль, чтобы работодатели вас заметили.</p>
+                <Link href="/board" className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg shadow-blue-600/30 hover:scale-105 transition-all w-full md:w-auto">
+                  Смотреть Вакансии
+                </Link>
+              </div>
+            )}
+
             {profile?.role === 'employer' && (
               <>
                 {/* Applications Section */}
@@ -251,16 +265,22 @@ export default function ProfilePage() {
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-black uppercase opacity-40 ml-2">Название / Имя</label>
+                    <label className="text-[10px] font-black uppercase opacity-40 ml-2">
+                      {profile?.role === 'employer' ? 'Контактное лицо (ФИО)' : 'Имя / Фамилия'}
+                    </label>
                     <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.full_name} onChange={e => setFormData({...formData, full_name: e.target.value})} />
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-black uppercase opacity-40 ml-2">Адрес / Мкр</label>
+                    <label className="text-[10px] font-black uppercase opacity-40 ml-2">
+                       {profile?.role === 'employer' ? 'Адрес офиса / магазина' : 'Адрес / Мкр'}
+                    </label>
                     <input className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold" value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} />
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-black uppercase opacity-40 ml-2">Описание / Навыки</label>
+                  <label className="text-[10px] font-black uppercase opacity-40 ml-2">
+                    {profile?.role === 'employer' ? 'Описание компании' : 'О себе / Навыки'}
+                  </label>
                   <textarea rows={3} className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold resize-none" value={formData.bio} onChange={e => setFormData({...formData, bio: e.target.value})} />
                 </div>
                 <button type="submit" disabled={saving} className="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-xl shadow-blue-600/20 uppercase tracking-tighter flex items-center justify-center gap-2">
