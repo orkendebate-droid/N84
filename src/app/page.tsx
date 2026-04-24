@@ -93,7 +93,7 @@ export default function Home() {
             </div>
             
             <div className="space-y-4">
-                <h1 className="text-6xl md:text-8xl xl:text-9xl font-black tracking-tighter leading-[0.85] uppercase italic">
+                <h1 className="text-4xl md:text-6xl xl:text-7xl font-black tracking-tighter leading-[0.95] uppercase italic">
                   ТВОЯ <span className="text-blue-600 not-italic">КАРЬЕРА</span><br/> НАЧИНАЕТСЯ ЗДЕСЬ
                 </h1>
                 <p className="text-xl text-slate-600 dark:text-zinc-400 max-w-xl leading-relaxed font-medium mx-auto lg:mx-0">
