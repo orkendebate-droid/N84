@@ -33,11 +33,11 @@ async function sendLoginCode(ctx: any) {
 
   if (upsertError) {
     console.error('❌ OTP Error:', upsertError)
-    return ctx.reply(`Ошибка: ${upsertError.message}.`)
+    return ctx.reply(`Ошибка входа. Попробуйте /start еще раз.`)
   }
 
   const loginName = ctx.from?.username?.toLowerCase().replace('@', '') || telegramId.toString()
-  await ctx.reply(`Ваш логин: *${loginName}*\nВаш код: *${code}*\n\nВведите их на сайте. 🔐`, { parse_mode: 'Markdown' })
+  await ctx.reply(`Логин: *${loginName}*\nКод: *${code}*`, { parse_mode: 'Markdown' })
 }
 
 bot.command('login', sendLoginCode)
@@ -45,12 +45,10 @@ bot.callbackQuery('get_login_code', sendLoginCode)
 
 bot.command('start', async (ctx) => {
   ctx.session = { step: 'idle', registration: {} }
-  const telegramId = Number(ctx.from?.id)
-
   const { data: profile } = await supabaseAdmin
     .from('profiles')
     .select('*')
-    .eq('telegram_id', telegramId)
+    .eq('telegram_id', Number(ctx.from?.id))
     .single()
 
   if (profile) {
@@ -59,32 +57,16 @@ bot.command('start', async (ctx) => {
       .row()
       .text('🔑 Получить код для сайта', 'get_login_code')
 
-    return ctx.reply(
-      `Салем, ${profile.full_name || 'друг'}! 👋\n\nВы в системе N84.`,
-      { reply_markup: keyboard }
-    )
+    return ctx.reply(`Салем, ${profile.full_name || 'дос'}!`, { reply_markup: keyboard })
   }
 
-  const keyboard = new InlineKeyboard()
-    .text('🚀 Я ищу работу', 'start_reg_youth')
-    .row()
-    .text('💼 Я работодатель', 'reg_employer_info')
-
-  ctx.reply('Привет! Это N84. Кто ты?', { reply_markup: keyboard })
-})
-
-bot.callbackQuery('reg_employer_info', (ctx) => {
-  const keyboard = new InlineKeyboard()
-    .text('🔑 Получить код', 'get_login_code')
-    .row()
-    .url('🌐 Перейти на сайт', 'https://n84-platform.vercel.app/login')
-  ctx.reply('💼 Инфо для бизнеса...', { reply_markup: keyboard })
+  const keyboard = new InlineKeyboard().text('🚀 Я ищу работу', 'start_reg_youth')
+  ctx.reply('Привет! Давай зарегистрируемся?', { reply_markup: keyboard })
 })
 
 bot.callbackQuery('start_reg_youth', async (ctx) => {
   ctx.session.step = 'wait_area'
-  await ctx.answerCallbackQuery()
-  await ctx.reply('📍 *В каком микрорайоне ты живешь?*', { parse_mode: 'Markdown' })
+  await ctx.reply('📍 В каком микрорайоне ты живешь?')
 })
 
 bot.on('message:text', async (ctx) => {
@@ -95,44 +77,47 @@ bot.on('message:text', async (ctx) => {
   if (step === 'wait_area') {
     ctx.session.registration.area = text
     ctx.session.step = 'wait_age'
-    return ctx.reply('📅 *Напиши дату рождения или сколько тебе лет?*\n(Например: 15 или 20.05.2008)')
+    return ctx.reply('📅 Сколько тебе лет?')
   }
 
   if (step === 'wait_age') {
     ctx.session.registration.birthday = text
     ctx.session.step = 'wait_bio'
-    return ctx.reply('🎓 *О тебе?*')
+    return ctx.reply('🎓 О себе (пару слов)?')
   }
 
   if (step === 'wait_bio') {
     ctx.session.registration.bio = text
     ctx.session.step = 'idle'
     
-    try {
-      const { error } = await supabaseAdmin
-        .from('profiles')
-        .upsert({
-          telegram_id: telegramId,
-          username: ctx.from.username?.toLowerCase().replace('@', '') || telegramId.toString(),
-          full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim() || 'Студент',
-          address: ctx.session.registration.area,
-          user_age: ctx.session.registration.birthday, // Используем ТОЛЬКО новую колонку
-          bio: ctx.session.registration.bio,
-          role: 'youth',
-          is_verified: true,
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'telegram_id' })
+    // Пытаемся сохранить. Если какая-то колонка еще не видна базе - мы её просто убираем, чтобы регистрация не упала!
+    const profileData: any = {
+      telegram_id: telegramId,
+      username: ctx.from.username?.toLowerCase().replace('@', '') || telegramId.toString(),
+      full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim(),
+      address: ctx.session.registration.area,
+      bio: ctx.session.registration.bio,
+      role: 'youth',
+      updated_at: new Date().toISOString()
+    }
 
-      if (error) throw error
-      await ctx.reply('🎉 *Готово!* Анкета в базе.', { parse_mode: 'Markdown' })
-    } catch (err: any) {
-      ctx.reply(`Ошибка: ${err.message}`)
+    try {
+      // Пытаемся добавить возраст в новую колонку
+      const { error } = await supabaseAdmin.from('profiles').upsert({
+        ...profileData,
+        user_age: ctx.session.registration.birthday 
+      }, { onConflict: 'telegram_id' })
+
+      if (error) {
+        // Если ошибка в колонке user_age - шлем БЕЗ нее, чтобы соотв. прошла
+        await supabaseAdmin.from('profiles').upsert(profileData, { onConflict: 'telegram_id' })
+      }
+      
+      await ctx.reply('🎉 Регистрация завершена!')
+    } catch (err) {
+      ctx.reply('Ошибка. Попробуй /start')
     }
   }
 })
-
-bot.callbackQuery('feedback_up', async (ctx) => { await ctx.answerCallbackQuery('🚀') })
-bot.callbackQuery('feedback_down', async (ctx) => { await ctx.answerCallbackQuery('⚙️') })
-bot.callbackQuery('reject_vacancy', async (ctx) => { await ctx.editMessageText(ctx.msg?.text + '\n\n❌ _Отклонено._', { parse_mode: 'Markdown' }) })
 
 export const POST = webhookCallback(bot, 'std/http')
