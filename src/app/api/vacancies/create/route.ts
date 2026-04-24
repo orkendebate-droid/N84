@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { matchCandidates } from '@/lib/matching'
 
 export async function POST(request: Request) {
   try {
@@ -22,18 +23,13 @@ export async function POST(request: Request) {
 
     if (error) throw error
 
-    // 2. Имитация AI-матчинга и Рассылка уведомлений молодежи
-    // В реальности здесь вызывается Qwen для фильтрации, но сейчас отправим всем 'youth'
-    const { data: users } = await supabaseAdmin
-      .from('profiles')
-      .select('telegram_id, full_name')
-      .eq('role', 'youth')
-      .not('telegram_id', 'is', null)
+    // 2. ИИ-матчинг: выбираем только подходящих ребят
+    const matchedUsers = await matchCandidates(vacancy)
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN
     
-    if (users && botToken) {
-      for (const user of users) {
+    if (matchedUsers && matchedUsers.length > 0 && botToken) {
+      for (const user of matchedUsers) {
         try {
           const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
                           `💼 *Должность:* ${title}\n` +
