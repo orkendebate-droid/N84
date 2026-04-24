@@ -139,4 +139,18 @@ bot.on('message:text', async (ctx) => {
   }
 })
 
+// Feedback Handlers
+bot.callbackQuery('feedback_up', async (ctx) => {
+  await ctx.answerCallbackQuery('Рады, что попали в точку! Поиск станет ещё лучше. 🚀')
+})
+
+bot.callbackQuery('feedback_down', async (ctx) => {
+  await ctx.answerCallbackQuery('Поняли вас. ИИ учтет это и подберет другие варианты. ⚙️')
+})
+
+bot.callbackQuery('reject_vacancy', async (ctx) => {
+  await ctx.editMessageText(ctx.msg?.text + '\n\n❌ _Эта вакансия была вами отклонена._', { parse_mode: 'Markdown' })
+  await ctx.answerCallbackQuery('Вакансия скрыта.')
+})
+
 export const POST = webhookCallback(bot, 'std/http')

@@ -17,40 +17,44 @@ export async function matchCandidates(vacancy: any) {
       ВАКАНСИЯ:
       Название: ${vacancy.title}
       Место: ${vacancy.area}
+      Сфера: ${vacancy.industry}
       Зарплата: ${vacancy.salary}
       Описание: ${vacancy.description}
-      Требования: ${vacancy.requirements}
 
       СПИСОК КАНДИДАТОВ:
       ${users.map((u, i) => `${i+1}. [ID: ${u.id}] Проживание: ${u.address}, О себе: ${u.bio}, Возраст: ${u.birthday}`).join('\n')}
 
       ЗАДАЧА:
-      Выбери до 10 наиболее подходящих кандидатов из списка выше. 
+      Для каждого кандидата из списка определи оценку совместимости от 0 до 10.
       Учитывай:
-      1. Близость района проживания к месту работы (Актау - микрорайоны).
+      1. Близость района проживания к месту работы.
       2. Соответствие навыков описанию вакансии.
-      3. Возраст (если работа для школьников).
+      3. Потенциальную заинтересованность.
 
-      ОТВЕТЬ ТОЛЬКО JSON-массивом ID подходящих пользователей в формате:
-      ["id1", "id2", ...]
+      ОТВЕТЬ ТОЛЬКО JSON-массивом объектов в формате:
+      [{"id": "id1", "score": 9}, {"id": "id2", "score": 6}]
+      Выдай только тех, у кого score >= 5.
     `
 
     const response = await qwen.chat.completions.create({
       model: "qwen-max",
       messages: [
-        { role: "system", content: "You are an AI Job Matching Expert for N84 platform in Aktau. Respond ONLY with a raw JSON array of strings." },
+        { role: "system", content: "You are an AI Job Matching Expert. Respond ONLY with a raw JSON array of objects with 'id' and 'score'." },
         { role: "user", content: prompt }
       ],
       response_format: { type: "json_object" }
     })
 
     const content = response.choices[0].message.content
-    const matchedIds: string[] = JSON.parse(content || "[]")
+    const results: any[] = JSON.parse(content || "[]")
 
-    // Возвращаем полные профили выбранных ребят
-    return users.filter(u => matchedIds.includes(u.id))
+    // Склеиваем данные профилей с их оценками
+    return results.map(res => {
+      const user = users.find(u => u.id === res.id)
+      return user ? { ...user, match_score: res.score } : null
+    }).filter(Boolean)
   } catch (err) {
     console.error('Matching Error:', err)
-    return [] // В случае ошибки возвращаем пустой список или можно вернуть всех как фолбек
+    return []
   }
 }

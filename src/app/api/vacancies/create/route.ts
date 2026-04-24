@@ -34,16 +34,25 @@ export async function POST(request: Request) {
       for (const user of matchedUsers) {
         try {
           const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
+                          `🎯 *Подходимость:* ${user.match_score}/10\n` +
                           `💼 *Должность:* ${title}\n` +
                           `💰 *Зарплата:* ${salary}\n` +
                           `📍 *Район:* ${area}\n\n` +
-                          `📝 *Кратко:* ${description?.substring(0, 100)}...\n\n` +
-                          `Нажми кнопку ниже, чтобы увидеть полные требования и связаться с работодателем! 👇`
+                          `_Наш ИИ проанализировал твой профиль и считает, что эта вакансия тебе подходит!_`
           
           const keyboard = {
             inline_keyboard: [
-              [{ text: 'Узнать подробнее 📍', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }],
-              [{ text: 'Смотреть все вакансии 📚', web_app: { url: `https://n84-platform.vercel.app/board` } }]
+              [
+                { text: '📂 Подробнее', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } },
+                { text: '✅ Откликнуться', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }
+              ],
+              [
+                { text: '❌ Отклонить', callback_data: `reject_vacancy` }
+              ],
+              [
+                { text: '👍 Классная подборка', callback_data: `feedback_up` },
+                { text: '👎 Не совсем то', callback_data: `feedback_down` }
+              ]
             ]
           }
 
