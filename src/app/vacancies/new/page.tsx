@@ -60,7 +60,9 @@ export default function NewVacancyPage() {
     }
   }
 
-  const isComplete = user?.company_name && user?.bin_iin
+  // Если это работодатель, он должен иметь название компании. 
+  // Мы не блокируем жестко, но предупреждаем.
+  const isComplete = user?.role === 'employer' ? (!!user?.company_name) : false;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 p-6 font-sans">
