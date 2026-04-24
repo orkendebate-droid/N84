@@ -126,7 +126,7 @@ bot.on('message:text', async (ctx) => {
           username: ctx.from.username?.toLowerCase().replace('@', '') || telegramId.toString(),
           full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim() || 'Студент',
           address: ctx.session.registration.area,
-          birthday: ctx.session.registration.birthday,
+          user_age: ctx.session.registration.birthday, // Записываем в новую рабочую колонку
           bio: ctx.session.registration.bio,
           role: 'youth',
           is_verified: true,
