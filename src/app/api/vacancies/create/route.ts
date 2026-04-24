@@ -17,8 +17,7 @@ export async function POST(request: Request) {
         requirements,
         employer_id,
         employment_type,
-        industry,
-        updated_at: new Date().toISOString()
+        industry
       })
       .select()
       .single()
