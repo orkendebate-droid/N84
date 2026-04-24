@@ -12,7 +12,9 @@ export default function NewVacancyPage() {
     description: '',
     salary: '',
     area: '',
-    requirements: ''
+    requirements: '',
+    industry: '',
+    employment_type: 'full_time'
   })
 
   useEffect(() => {
@@ -135,15 +137,36 @@ export default function NewVacancyPage() {
                 </div>
               </div>
 
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Описание работы</label>
-                <textarea 
-                  rows={4}
-                  className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-6 rounded-2xl outline-none focus:ring-2 ring-blue-600 transition-all font-bold resize-none"
-                  placeholder="Расскажите подробнее о задачах..."
-                  value={formData.description}
-                  onChange={e => setFormData({...formData, description: e.target.value})}
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Сфера</label>
+                  <select 
+                    required
+                    className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold appearance-none outline-none focus:ring-2 ring-blue-600"
+                    value={formData.industry}
+                    onChange={e => setFormData({...formData, industry: e.target.value})}
+                  >
+                    <option value="">Выбрать...</option>
+                    <option value="catering">Общепит</option>
+                    <option value="retail">Ритейл / Трейд</option>
+                    <option value="services">Услуги</option>
+                    <option value="it">IT / Digital</option>
+                    <option value="delivery">Курьерская служба</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Занятость</label>
+                  <select 
+                    required
+                    className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 rounded-xl font-bold appearance-none outline-none focus:ring-2 ring-blue-600"
+                    value={formData.employment_type}
+                    onChange={e => setFormData({...formData, employment_type: e.target.value})}
+                  >
+                    <option value="full_time">Полная</option>
+                    <option value="part_time">Частичная</option>
+                    <option value="gig">Подработка</option>
+                  </select>
+                </div>
               </div>
 
               <div className="space-y-1">

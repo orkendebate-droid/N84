@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import { MapPin, DollarSign, ListChecks, Briefcase, MessageCircle, Clock, ChevronLeft } from 'lucide-react'
+import { MapPin, DollarSign, ListChecks, Briefcase, MessageCircle, Clock, ChevronLeft, Loader2, CheckCircle, Send } from 'lucide-react'
 import Link from 'next/link'
 
 export default function VacancyDetailPage() {
@@ -10,9 +10,47 @@ export default function VacancyDetailPage() {
   const [vacancy, setVacancy] = useState<any>(null)
   const [loading, setLoading] = useState(true)
 
+  const [applying, setApplying] = useState(false)
+  const [applied, setApplied] = useState(false)
+
   useEffect(() => {
     fetchVacancy()
   }, [])
+
+  const handleApply = async () => {
+    // 1. Пытаемся получить пользователя из Telegram WebApp
+    const tg = (window as any).Telegram?.WebApp
+    const tgUser = tg?.initDataUnsafe?.user
+
+    if (!tgUser) {
+      return alert('Пожалуйста, откройте это приложение внутри Telegram, чтобы откликнуться!')
+    }
+
+    setApplying(true)
+    try {
+      const res = await fetch('/api/applications/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          vacancy_id: vacancy.id,
+          telegram_id: tgUser.id
+        })
+      })
+      const data = await res.json()
+      if (data.success) {
+        setApplied(true)
+        tg.HapticFeedback.notificationOccurred('success')
+      } else {
+        alert(data.error || 'Ошибка при отклике')
+      }
+    } catch (err) {
+      alert('Ошибка соединения')
+    } finally {
+      setApplying(false)
+    }
+  }
+
+  // ... (existing loading/not found checks)
 
   const fetchVacancy = async () => {
     try {
@@ -86,12 +124,13 @@ export default function VacancyDetailPage() {
 
         {/* Action Button */}
         <div className="fixed bottom-8 left-6 right-6">
-          <a 
-            href={`https://t.me/SauraN84_bot`} 
-            className="w-full bg-blue-600 text-white font-black py-5 rounded-2xl shadow-2xl shadow-blue-600/30 flex items-center justify-center gap-3 text-lg uppercase tracking-tighter hover:scale-105 active:scale-95 transition-all"
+          <button 
+            onClick={handleApply}
+            disabled={applying || applied}
+            className={`w-full ${applied ? 'bg-green-600' : 'bg-blue-600'} text-white font-black py-5 rounded-3xl shadow-2xl ${applied ? 'shadow-green-600/30' : 'shadow-blue-600/30'} flex items-center justify-center gap-3 text-lg uppercase tracking-tighter hover:scale-105 active:scale-95 transition-all disabled:opacity-80`}
           >
-            ОТКЛИКНУТЬСЯ В TG <MessageCircle size={22} />
-          </a>
+            {applying ? <Loader2 className="animate-spin" /> : applied ? <><CheckCircle size={22} /> ОТКЛИК ОТПРАВЛЕН</> : <>ОТКЛИКНУТЬСЯ СЕЙЧАС <Send size={22} /></>}
+          </button>
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { matchCandidates } from '@/lib/matching'
 
 export async function POST(request: Request) {
   try {
-    const { title, description, salary, area, requirements, employer_id } = await request.json()
+    const { title, description, salary, area, requirements, employer_id, employment_type, industry } = await request.json()
 
     // 1. Создаем вакансию в БД
     const { data: vacancy, error } = await supabaseAdmin
@@ -16,6 +16,8 @@ export async function POST(request: Request) {
         area,
         requirements,
         employer_id,
+        employment_type,
+        industry,
         updated_at: new Date().toISOString()
       })
       .select()
