@@ -6,7 +6,7 @@ if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not set')
 
 // Интерфейс для хранения состояния регистрации
 interface SessionData {
-  step: 'idle' | 'wait_name' | 'wait_area' | 'wait_age' | 'wait_bio'
+  step: 'idle' | 'wait_area' | 'wait_age' | 'wait_bio'
   registration: {
     full_name?: string
     area?: string
@@ -17,81 +17,52 @@ interface SessionData {
 
 const bot = new Bot<any>(token)
 
-// Используем сессии для хранения шага регистрации
+// Используем сессии
 bot.use(session({ initial: (): SessionData => ({ step: 'idle', registration: {} }) }))
 
 bot.command('start', async (ctx) => {
-  const username = ctx.from?.username?.toLowerCase()
-  
-  // Проверяем, есть ли уже такой пользователь
+  // Очищаем сессию при новом старте
+  ctx.session = { step: 'idle', registration: {} }
+
   const { data: profile } = await supabaseAdmin
     .from('profiles')
     .select('*')
-    .eq('telegram_id', ctx.from?.id)
+    .eq('telegram_id', ctx.from?.id.toString())
     .single()
 
   if (profile) {
-    return ctx.reply(`Рад тебя видеть снова, ${profile.full_name}! 👋\nЯ сообщу тебе, как только появится подходящая работа в Актау.`)
+    const keyboard = new InlineKeyboard()
+      .webApp('📚 Открыть доску вакансий', 'https://n84-platform.vercel.app/board')
+      .row()
+      .text('👤 Мой профиль на сайте', 'reg_employer_info') // Показываем ссылку на сайт
+
+    return ctx.reply(
+      `Привет, ${profile.full_name}! 👋\n\nЯ уже знаю тебя. Как только появится подходящая работа в твоем районе (*${profile.address}*), я сразу пришлю тебе пуш! 🔔`,
+      { reply_markup: keyboard }
+    )
   }
 
   const keyboard = new InlineKeyboard()
-    .text('🚀 Найти работу', 'view_recent_jobs')
+    .text('📝 Заполнить анкету и получать работу', 'start_reg_youth')
     .row()
-    .text('💼 Я работодатель', 'reg_employer_info')
+    .text('💼 Я работодатель (на сайт)', 'reg_employer_info')
 
   ctx.reply(
-    'Привет! Это N84 — платформа для поиска работы молодежи в Актау. 🌊\n\nБот поможет тебе найти подработку или первую работу прямо в твоем микрорайоне.',
+    'Салем! 🌊 Это N84 — ИИ-платформа для поиска работы молодежи в Актау.\n\nЗаполни анкету за 1 минуту, и я буду присылать тебе только те вакансии, которые подходят тебе по району и интересам!',
     { reply_markup: keyboard }
   )
 })
 
 bot.callbackQuery('reg_employer_info', (ctx) => {
-  ctx.reply('Для работодателей у нас есть удобный сайт: https://n84-platform.vercel.app\n\nЗайдите туда, чтобы опубликовать вакансию! 💼')
-})
-
-bot.callbackQuery('view_recent_jobs', async (ctx) => {
-  await ctx.answerCallbackQuery()
-  
-  // Берем последние 5 вакансий
-  const { data: vacancies } = await supabaseAdmin
-    .from('vacancies')
-    .select('*')
-    .eq('is_active', true)
-    .order('created_at', { ascending: false })
-    .limit(5)
-
-  if (!vacancies || vacancies.length === 0) {
-    return ctx.reply('К сожалению, сейчас новых вакансий нет. Попробуй позже! 👋')
-  }
-
-  await ctx.reply('📋 *ПОДБОРКА СВЕЖИХ ВАКАНСИЙ ДЛЯ ТЕБЯ:*', { parse_mode: 'Markdown' })
-
-  for (const v of vacancies) {
-    const message = `🏷️ *Название:* ${v.title}\n💰 *Зарплата:* ${v.salary}\n📍 *Район:* ${v.area}`
-    const keyboard = new InlineKeyboard()
-      .webApp('Подробнее 📍', `https://n84-platform.vercel.app/vacancy/${v.id}`)
-    
-    await ctx.reply(message, { 
-      parse_mode: 'Markdown',
-      reply_markup: keyboard
-    })
-  }
-
-  const moreKeyboard = new InlineKeyboard()
-    .webApp('📚 Открыть всю доску', 'https://n84-platform.vercel.app/board')
-    .row()
-    .text('📝 Создать анкету', 'start_reg_youth')
-
-  await ctx.reply('Хочешь увидеть больше или настроить уведомления?', { reply_markup: moreKeyboard })
+  ctx.reply('Для бизнеса и работодателей у нас есть удобная веб-панель: https://n84-platform.vercel.app\n\nТам вы сможете подтвердить свою компанию (БИН) и опубликовать вакансии. 🤖🏦')
 })
 
 bot.callbackQuery('start_reg_youth', async (ctx) => {
   ctx.session.step = 'wait_area'
   await ctx.answerCallbackQuery()
-  await ctx.reply('Отлично! Давай создадим твой профиль. 📝\n\nВ каком микрорайоне или районе Актау ты живешь?\n(Напиши, например: 14 мкр или Верхняя зона)')
+  await ctx.reply('Круто! Начнем. 🚀\n\n📍 *Где ты живешь в Актау?*\nНапиши номер микрорайона (например: 14 мкр, 27 мкр или Приозёрный).', { parse_mode: 'Markdown' })
 })
 
-// Обработка текстовых сообщений (анкета)
 bot.on('message:text', async (ctx) => {
   const step = ctx.session.step
   const text = ctx.msg.text
@@ -99,13 +70,13 @@ bot.on('message:text', async (ctx) => {
   if (step === 'wait_area') {
     ctx.session.registration.area = text
     ctx.session.step = 'wait_age'
-    return ctx.reply('Принято! Теперь напиши свой возраст (например: 19 лет).')
+    return ctx.reply('Запомнил! ✅\n\n📊 *Твой возраст?*\n(Напиши просто цифру, например: 18)')
   }
 
   if (step === 'wait_age') {
     ctx.session.registration.birthday = text
     ctx.session.step = 'wait_bio'
-    return ctx.reply('Какие у тебя есть навыки или чем ты хочешь заниматься?\n(Например: умею монтировать видео, хочу работать официантом или курьером)')
+    return ctx.reply('И последнее... ✍️\n\n🎓 *О себе и своих интересах?*\nЧем хочешь заниматься? Что умеешь? (Например: Продажи, IT, Курьер, Официант, Бариста)')
   }
 
   if (step === 'wait_bio') {
@@ -113,27 +84,33 @@ bot.on('message:text', async (ctx) => {
     ctx.session.step = 'idle'
     
     try {
-      // Сохраняем в Supabase
+      // Сохраняем ТОЛЬКО как youth
       const { error } = await supabaseAdmin
         .from('profiles')
         .upsert({
-          telegram_id: ctx.from.id,
+          telegram_id: ctx.from.id.toString(),
           username: ctx.from.username?.toLowerCase() || null,
           full_name: `${ctx.from.first_name} ${ctx.from.last_name || ''}`.trim(),
           address: ctx.session.registration.area,
           birthday: ctx.session.registration.birthday,
           bio: ctx.session.registration.bio,
-          role: 'youth',
+          role: 'youth', // ГАРАНТИЯ: только молодежь
           is_verified: true,
           updated_at: new Date().toISOString()
         })
 
       if (error) throw error
 
-      await ctx.reply('✅ Поздравляю! Твоя анкета создана.\n\nТеперь я буду присылать тебе лучшие вакансии Актау, которые подходят именно тебе. Как только что-то найдется — я сразу напишу! 🔔')
+      const keyboard = new InlineKeyboard()
+        .webApp('🚀 Посмотреть все вакансии', 'https://n84-platform.vercel.app/board')
+
+      await ctx.reply(
+        '🎉 *ПОЗДРАВЛЯЮ, ТЫ В СИСТЕМЕ!*\n\nТеперь ты будешь получать уведомления о лучших вакансиях Актау. Я подберу их специально под тебя. \n\nПока можешь посмотреть, что есть на доске сейчас! 👇', 
+        { parse_mode: 'Markdown', reply_markup: keyboard }
+      )
     } catch (err) {
       console.error(err)
-      ctx.reply('Упс, произошла ошибка при сохранении анкеты. Попробуйте еще раз позже.')
+      ctx.reply('Упс, что-то пошло не так при сохранении анкеты. Попробуй нажать /start еще раз.')
     }
     return
   }
