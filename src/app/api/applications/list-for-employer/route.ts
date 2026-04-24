@@ -26,7 +26,7 @@ export async function GET(request: Request) {
         status,
         created_at,
         vacancy:vacancy_id(title),
-        youth:youth_id(full_name, bio, address, telegram_id)
+        youth:youth_id(full_name, bio, address, telegram_id, username)
       `)
       .in('vacancy_id', vacancyIds)
       .order('created_at', { ascending: false })

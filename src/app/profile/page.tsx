@@ -198,13 +198,16 @@ export default function ProfilePage() {
                             <div className="space-y-2">
                               <div className="flex items-center gap-2">
                                 <h4 className="font-black text-lg leading-none uppercase italic">{app.youth.full_name}</h4>
+                                {app.youth.username && (
+                                  <span className="text-[10px] font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md">@{app.youth.username}</span>
+                                )}
                                 <span className="bg-blue-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest">{app.vacancy.title}</span>
                               </div>
                               <p className="text-[10px] font-bold opacity-50 leading-tight"><MapPin size={10} className="inline mr-1" /> {app.youth.address}</p>
                               <p className="text-xs font-medium opacity-70 line-clamp-2 italic">"{app.youth.bio}"</p>
                             </div>
                             <a 
-                              href={`https://t.me/${app.youth.telegram_id}`} 
+                              href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
                               target="_blank"
                               className="bg-blue-600 text-white p-4 rounded-2xl shadow-lg hover:scale-110 transition-all shrink-0"
                             >
