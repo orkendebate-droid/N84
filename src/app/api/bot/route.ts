@@ -20,6 +20,21 @@ const bot = new Bot<any>(token)
 // Используем сессии
 bot.use(session({ initial: (): SessionData => ({ step: 'idle', registration: {} }) }))
 
+bot.command('login', async (ctx) => {
+  const code = Math.floor(1000 + Math.random() * 9000).toString()
+  
+  const { error } = await supabaseAdmin
+    .from('profiles')
+    .update({ otp_code: code })
+    .eq('telegram_id', ctx.from?.id.toString())
+
+  if (error) {
+    return ctx.reply('Сначала нажми /start, чтобы я тебя запомнил! 😊')
+  }
+
+  await ctx.reply(`Твой секретный код для входа: *${code}*\n\nВведите его на сайте, чтобы подтвердить личность. 🔐`, { parse_mode: 'Markdown' })
+})
+
 bot.command('start', async (ctx) => {
   // Очищаем сессию при новом старте
   ctx.session = { step: 'idle', registration: {} }
