@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import { askQwen } from '@/lib/qwen'
 
 export async function POST(request: Request) {
   try {
@@ -40,27 +41,34 @@ export async function POST(request: Request) {
 
     if (appError) throw appError
 
-    // 4. Уведомляем работодателя по Telegram
-    const { data: vacancy } = await supabaseAdmin
+    // 4. Уведомляем работодателя по Telegram + Генерируем ИИ-анализ
+    const { data: vFull } = await supabaseAdmin
       .from('vacancies')
-      .select('title, employer_id')
+      .select('title, employer_id, requirements, area')
       .eq('id', vacancy_id)
       .single()
 
-    if (vacancy) {
+    if (vFull) {
       const { data: employer } = await supabaseAdmin
         .from('profiles')
         .select('telegram_id')
-        .eq('id', vacancy.employer_id)
+        .eq('id', vFull.employer_id)
         .single()
 
       if (employer && employer.telegram_id) {
+        // Вызов ИИ через наш хелпер
+        const systemPrompt = "Ты помощник по найму. Сравни профиль кандидата и вакансию. Напиши ОДНУ очень короткую фразу (5-7 слов), почему он подходит. На русском языке."
+        const userPrompt = `Вакансия: ${vFull.title}. Кандидат: ${youth.full_name}, район: ${youth.address}, био: ${youth.bio}`
+        
+        const aiReason = await askQwen(userPrompt, systemPrompt) || "Рекомендуется к рассмотрению."
+
         const botToken = process.env.TELEGRAM_BOT_TOKEN
         const text = `🎯 *НОВЫЙ ОТКЛИК!*\n\n` +
-                     `💼 Вакансия: *${vacancy.title}*\n` +
+                     `💼 Вакансия: *${vFull.title}*\n` +
                      `👤 Кандидат: *${youth.full_name}*\n` +
-                     `📍 Район: ${youth.address || 'Не указан'}\n\n` +
-                     `Посмотрите подробности в личном кабинете на сайте!`
+                     `📍 Район: ${youth.address || 'Не указан'}\n` +
+                     `🤖 *ИИ-Анализ:* _${aiReason}_\n\n` +
+                     `Свяжитесь с кандидатом в один клик:`
 
         await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
           method: 'POST',
@@ -68,7 +76,12 @@ export async function POST(request: Request) {
           body: JSON.stringify({
             chat_id: employer.telegram_id,
             text,
-            parse_mode: 'Markdown'
+            parse_mode: 'Markdown',
+            reply_markup: {
+              inline_keyboard: [[
+                { text: "💬 Написать в Telegram", url: `https://t.me/${youth.username || youth.telegram_id}` }
+              ]]
+            }
           })
         })
       }

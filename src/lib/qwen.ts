@@ -11,9 +11,9 @@ export const qwen = new OpenAI({
 export async function askQwen(prompt: string, systemPrompt: string = "You are a helpful assistant for a job platform in Mangystau, Kazakhstan.") {
   try {
     const response = await qwen.chat.completions.create({
-      model: "qwen-turbo", // или qwen-max, qwen-plus в зависимости от лимитов
+      model: process.env.QWEN_MODEL || "qwen-plus",
       messages: [
-        { role: "system", content: systemPrompt },
+        { role: "system", content: systemPrompt || "You are a helpful assistant for a job platform in Mangystau, Kazakhstan." },
         { role: "user", content: prompt }
       ],
     })
