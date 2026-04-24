@@ -268,7 +268,7 @@ export default function ProfilePage() {
                         <div key={v.id} className="group bg-slate-50 dark:bg-zinc-800/50 p-6 rounded-2xl flex items-center justify-between border border-transparent hover:border-blue-600/20 transition-all">
                           <div>
                             <h4 className="font-black text-lg leading-none mb-1 uppercase italic tracking-tighter">{v.title}</h4>
-                            <p className="text-xs font-bold opacity-40">{v.area} • {v.salary}</p>
+                            <p className="text-xs font-bold opacity-40">{v.area} • {v.salary} ₸</p>
                           </div>
                           <div className="flex items-center gap-2">
                             <button 

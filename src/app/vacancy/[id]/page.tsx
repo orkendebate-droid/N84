@@ -116,7 +116,7 @@ export default function VacancyDetailPage() {
           <div className="space-y-1">
             <p className="text-[10px] font-black uppercase opacity-40">Зарплата</p>
             <div className="flex items-center gap-2 text-blue-600 font-bold text-lg leading-none italic">
-              <DollarSign size={18} /> {vacancy.salary}
+              <span className="font-black">₸</span> {vacancy.salary}
             </div>
           </div>
           <div className="space-y-1">

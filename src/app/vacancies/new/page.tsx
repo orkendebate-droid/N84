@@ -143,11 +143,11 @@ export default function NewVacancyPage() {
                 <div className="space-y-1">
                   <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Зарплата</label>
                   <div className="relative">
-                    <DollarSign className="absolute left-4 top-4.5 opacity-30 text-blue-600" size={18} />
+                    <span className="absolute left-4 top-4 font-bold text-blue-600 opacity-40">₸</span>
                     <input 
                       required
                       className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-4 pl-12 rounded-xl outline-none focus:ring-2 ring-blue-600 transition-all font-bold"
-                      placeholder="150,000 ₸"
+                      placeholder="150,000"
                       value={formData.salary}
                       onChange={e => setFormData({...formData, salary: e.target.value})}
                     />
