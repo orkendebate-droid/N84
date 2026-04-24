@@ -24,6 +24,7 @@ export async function GET(request: Request) {
       .select(`
         id,
         status,
+        match_score,
         created_at,
         vacancy:vacancy_id(title),
         youth:youth_id(full_name, bio, address, telegram_id, username)

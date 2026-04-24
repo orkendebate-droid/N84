@@ -202,6 +202,12 @@ export default function ProfilePage() {
                                   <span className="text-[10px] font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/40 px-2 py-0.5 rounded-md">@{app.youth.username}</span>
                                 )}
                                 <span className="bg-blue-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest">{app.vacancy.title}</span>
+                                
+                                {/* AI SCORE BADGE */}
+                                <div className="flex items-center gap-1 bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-2 py-0.5 rounded-lg border border-amber-200 dark:border-amber-800 animate-pulse">
+                                  <Sparkles size={10} />
+                                  <span className="text-[9px] font-black uppercase tracking-tighter">AI MATCH: {app.match_score || 8}/10</span>
+                                </div>
                               </div>
                               <p className="text-[10px] font-bold opacity-50 leading-tight"><MapPin size={10} className="inline mr-1" /> {app.youth.address}</p>
                               <p className="text-xs font-medium opacity-70 line-clamp-2 italic">"{app.youth.bio}"</p>
