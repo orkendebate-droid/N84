@@ -35,7 +35,8 @@ bot.command('start', async (ctx) => {
   }
 
   const keyboard = new InlineKeyboard()
-    .text('🚀 Найти работу', 'start_reg_youth')
+    .text('🚀 Найти работу', 'view_recent_jobs')
+    .row()
     .text('💼 Я работодатель', 'reg_employer_info')
 
   ctx.reply(
@@ -46,6 +47,42 @@ bot.command('start', async (ctx) => {
 
 bot.callbackQuery('reg_employer_info', (ctx) => {
   ctx.reply('Для работодателей у нас есть удобный сайт: https://n84-platform.vercel.app\n\nЗайдите туда, чтобы опубликовать вакансию! 💼')
+})
+
+bot.callbackQuery('view_recent_jobs', async (ctx) => {
+  await ctx.answerCallbackQuery()
+  
+  // Берем последние 5 вакансий
+  const { data: vacancies } = await supabaseAdmin
+    .from('vacancies')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
+    .limit(5)
+
+  if (!vacancies || vacancies.length === 0) {
+    return ctx.reply('К сожалению, сейчас новых вакансий нет. Попробуй позже! 👋')
+  }
+
+  await ctx.reply('📋 *ПОДБОРКА СВЕЖИХ ВАКАНСИЙ ДЛЯ ТЕБЯ:*', { parse_mode: 'Markdown' })
+
+  for (const v of vacancies) {
+    const message = `🏷️ *Название:* ${v.title}\n💰 *Зарплата:* ${v.salary}\n📍 *Район:* ${v.area}`
+    const keyboard = new InlineKeyboard()
+      .webApp('Подробнее 📍', `https://n84-platform.vercel.app/vacancy/${v.id}`)
+    
+    await ctx.reply(message, { 
+      parse_mode: 'Markdown',
+      reply_markup: keyboard
+    })
+  }
+
+  const moreKeyboard = new InlineKeyboard()
+    .webApp('📚 Открыть всю доску', 'https://n84-platform.vercel.app/board')
+    .row()
+    .text('📝 Создать анкету', 'start_reg_youth')
+
+  await ctx.reply('Хочешь увидеть больше или настроить уведомления?', { reply_markup: moreKeyboard })
 })
 
 bot.callbackQuery('start_reg_youth', async (ctx) => {
