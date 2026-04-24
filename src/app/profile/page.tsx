@@ -127,17 +127,23 @@ export default function ProfilePage() {
 
   const handleDeleteVacancy = async (id: string) => {
     if (!confirm('Вы уверены, что хотите удалить эту вакансию?')) return
+    console.log('[DELETE] Attempting to delete vacancy:', id);
     try {
       const res = await fetch('/api/vacancies/delete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id })
       })
-      if ((await res.json()).success) {
+      const data = await res.json()
+      console.log('[DELETE] Server response:', data);
+      if (data.success) {
         setVacancies(vacancies.filter(v => v.id !== id))
+      } else {
+        alert('Ошибка сервера: ' + data.error)
       }
     } catch (err) {
-      alert('Ошибка при удалении')
+      console.error('[DELETE] Fetch error:', err);
+      alert('Ошибка при удалении. Проверьте консоль.')
     }
   }
 
