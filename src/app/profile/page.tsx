@@ -80,28 +80,33 @@ export default function ProfilePage() {
     e.preventDefault()
     setSaving(true)
     try {
+      const currentId = profile?.id || JSON.parse(localStorage.getItem('n84_user') || '{}').id
+      
+      if (!currentId) {
+        alert('Ошибка: сессия истекла. Пожалуйста, войдите снова.')
+        return
+      }
+
       const res = await fetch('/api/profile/update', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
-          id: profile.id, 
+          id: currentId, 
           ...formData,
           user_age: (formData as any).user_age || (formData as any).birthday || ''
         })
       })
       const data = await res.json()
       if (data.success) {
-        // Обновляем локальное состояние, чтобы изменения сразу отобразились
         setProfile(data.profile)
-        // Обновляем localStorage для сохранения сессии
         localStorage.setItem('n84_user', JSON.stringify(data.profile))
-        alert('Профиль обновлен! ✨')
+        alert('Успешно сохранено! ✨')
       } else {
-        alert('Ошибка при сохранении: ' + data.error)
+        alert('Сервер вернул ошибку: ' + data.error)
       }
     } catch (err) { 
       console.error(err)
-      alert('Ошибка соединения') 
+      alert('Ошибка сети или сервера. Проверьте интернет.') 
     } finally { 
       setSaving(false) 
     }
@@ -349,7 +354,7 @@ export default function ProfilePage() {
                 )}
 
                 <button type="submit" disabled={saving} className="w-full bg-blue-600 text-white font-black py-6 rounded-[2rem] shadow-2xl shadow-blue-600/30 uppercase tracking-widest flex items-center justify-center gap-2 hover:scale-[1.01] transition-all active:scale-95 mt-4">
-                  {saving ? 'СОХРАНЯЮ РЕЗУЛЬТАТЫ...' : 'ОБНОВИТЬ ПРОФИЛЬ'} <Save size={20} />
+                  {saving ? 'СОХРАНЯЮ...' : 'СОХРАНИТЬ ИЗМЕНЕНИЯ'} <Save size={20} />
                 </button>
               </form>
             </div>

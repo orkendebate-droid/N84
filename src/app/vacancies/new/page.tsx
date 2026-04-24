@@ -26,14 +26,21 @@ export default function NewVacancyPage() {
   }, [])
 
   const fetchProfile = async (id: string) => {
-    const res = await fetch('/api/auth/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id })
-    })
-    const data = await res.json()
-    if (data.exists) {
-      setUser(data.profile)
+    setLoading(true)
+    try {
+      const res = await fetch('/api/auth/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      })
+      const data = await res.json()
+      if (data.exists) {
+        setUser(data.profile)
+      }
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -62,6 +69,10 @@ export default function NewVacancyPage() {
 
   // Если это работодатель, он должен иметь название компании. 
   // Мы не блокируем жестко, но предупреждаем.
+  if (!user && !loading) {
+    return <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-zinc-950 font-black italic text-4xl animate-pulse text-blue-600">N84</div>
+  }
+
   const isComplete = user?.role === 'employer' ? (!!user?.company_name) : false;
 
   return (
@@ -71,7 +82,12 @@ export default function NewVacancyPage() {
           <ArrowLeft size={16} /> НАЗАД
         </Link>
         
-        {!isComplete ? (
+        {loading ? (
+           <div className="flex flex-col items-center justify-center py-20 opacity-40">
+              <Loader2 className="animate-spin mb-4" size={48} />
+              <p className="font-black italic">ПРОВЕРКА ПРОФИЛЯ...</p>
+           </div>
+        ) : !isComplete ? (
           <div className="bg-white dark:bg-zinc-900 rounded-[3rem] p-12 text-center border-2 border-dashed border-red-200 dark:border-red-900/30">
             <div className="w-20 h-20 bg-red-50 dark:bg-red-900/10 rounded-full flex items-center justify-center text-red-600 mx-auto mb-6">
               <ShieldCheck size={40} />
