@@ -10,8 +10,9 @@ export const qwen = new OpenAI({
 
 export async function askQwen(prompt: string, systemPrompt: string = "You are a helpful assistant for a job platform in Mangystau, Kazakhstan.") {
   try {
+    console.log(`[QWEN] Using model: ${process.env.QWEN_MODEL || 'MISSING'}`);
     const response = await qwen.chat.completions.create({
-      model: process.env.QWEN_MODEL || "qwen-plus",
+      model: process.env.QWEN_MODEL || "qwen-max", // qwen-max как более надежный фолбэк если нет в env
       messages: [
         { role: "system", content: systemPrompt || "You are a helpful assistant for a job platform in Mangystau, Kazakhstan." },
         { role: "user", content: prompt }
