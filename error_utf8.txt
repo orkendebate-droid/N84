@@ -1,0 +1,14 @@
+﻿git : Everything up-to-date
+строка:1 знак:115
++ ... nv:GIT_TERMINAL_PROMPT="0"; g
+it push origin main --force 2> erro
+r.txt
++                                 ~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~
+    + CategoryInfo          : NotS 
+   pecified: (Everything up-to-da  
+  te:String) [], RemoteException
+    + FullyQualifiedErrorId : Nati 
+   veCommandError
+ 
