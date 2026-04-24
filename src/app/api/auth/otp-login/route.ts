@@ -11,11 +11,11 @@ export async function POST(request: Request) {
 
     const cleanUsername = username.toLowerCase().replace('@', '')
 
-    // 1. Ищем сначала по username
+    // 1. Ищем сначала по username (регистронезависимо)
     let { data: profile, error } = await supabaseAdmin
       .from('profiles')
       .select('*')
-      .eq('username', cleanUsername)
+      .ilike('username', cleanUsername)
       .eq('otp_code', code)
       .single()
 
