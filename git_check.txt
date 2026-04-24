@@ -1,0 +1,5 @@
+﻿7de1384 fix: resolve telegram_id type mismatch and enhance bot error reporting
+898d582 feat: complete bot logic overhaul to support hybrid on-site auth flow
+deacbfc feat: unified login page with separate business registration
+d0e385b style: updated main CTAs to focus on personal cabinet and fixed imports
+6ca97d0 feat: separated auth logic into /login page and enhanced bot interaction

@@ -5,11 +5,11 @@ export async function POST(request: Request) {
   try {
     const { vacancy_id, telegram_id } = await request.json()
 
-    // 1. Находим профиль соискателя по telegram_id
+    // 1. Находим профиль соискателя по telegram_id (поддерживаем число и строку)
     const { data: youth, error: youthError } = await supabaseAdmin
       .from('profiles')
       .select('*')
-      .eq('telegram_id', telegram_id.toString())
+      .eq('telegram_id', Number(telegram_id))
       .single()
 
     if (youthError || !youth) {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       .from('applications')
       .select('id')
       .eq('vacancy_id', vacancy_id)
-      .eq('youth_id', youth.id)
+      .eq('applicant_id', youth.id)
       .single()
 
     if (existing) {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       .from('applications')
       .insert({
         vacancy_id,
-        youth_id: youth.id
+        applicant_id: youth.id
       })
       .select()
       .single()
