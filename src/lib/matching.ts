@@ -19,7 +19,7 @@ export async function matchCandidates(vacancy: any) {
           address: '20 мкр',
           bio: 'хочет любую роботу но хорошо подходит как бариста',
           user_age: '18',
-          match_score: 10
+          match_score: 8
        }]
     }
 
