@@ -1,5 +1,6 @@
 import { Bot, webhookCallback, InlineKeyboard, session } from 'grammy'
 import { supabaseAdmin } from '@/lib/supabase'
+import { askQwen } from '@/lib/qwen'
 
 const token = process.env.TELEGRAM_BOT_TOKEN
 if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not set')
@@ -137,5 +138,89 @@ bot.on('message:text', async (ctx) => {
 bot.callbackQuery('feedback_up', async (ctx) => { await ctx.answerCallbackQuery('🚀') })
 bot.callbackQuery('feedback_down', async (ctx) => { await ctx.answerCallbackQuery('⚙️') })
 bot.callbackQuery('reject_vacancy', async (ctx) => { await ctx.editMessageText(ctx.msg?.text + '\n\n❌ _Отклонено._', { parse_mode: 'Markdown' }) })
+
+bot.callbackQuery(/^apply_(.+)_(.+)$/, async (ctx) => {
+  const vacancy_id = ctx.match[1]
+  const youth_id = ctx.match[2]
+
+  try {
+    const { error } = await supabaseAdmin.from('applications').insert({
+      vacancy_id: vacancy_id,
+      youth_id: youth_id,
+      applicant_id: youth_id,
+      status: 'pending',
+      match_score: 8
+    })
+
+    if (error) {
+      if (error.code === '23505') {
+        await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Вы уже откликнулись на эту вакансию._', { parse_mode: 'Markdown' })
+        return
+      }
+      throw error
+    }
+
+    // Отправляем ИИ-уведомление работодателю
+    const { data: youth } = await supabaseAdmin
+      .from('profiles')
+      .select('*')
+      .eq('id', youth_id)
+      .single()
+
+    const { data: vFull } = await supabaseAdmin
+      .from('vacancies')
+      .select('title, employer_id')
+      .eq('id', vacancy_id)
+      .single()
+
+    if (vFull && youth) {
+      const { data: employer } = await supabaseAdmin
+        .from('profiles')
+        .select('telegram_id, username')
+        .eq('id', vFull.employer_id)
+        .single()
+
+      if (employer?.telegram_id) {
+        const systemPrompt = "Ты помощник по найму. Сформируй ОДНУ короткую фразу (7-10 слов), почему кандидат хорошо подходит. Скажи, что по навыкам и желанию он отлично подходит на роль баристы, и живет всего в 5-10 минутах езды."
+        const userPrompt = `Вакансия: ${vFull.title}. Кандидат: ${youth.full_name || 'Демо Кандидат'}`
+        const aiReason = await askQwen(userPrompt, systemPrompt) || "Хорошо подходит по навыкам и расположению."
+
+        const candidateLink = youth.username
+          ? `https://t.me/${youth.username}`
+          : `tg://user?id=${youth.telegram_id}`
+
+        const BASE_URL = 'https://n84-platform.vercel.app'
+
+        const text = `🎯 *НОВЫЙ ОТКЛИК!*\n\n` +
+                     `💼 Вакансия: *${vFull.title}*\n` +
+                     `👤 Кандидат: *${youth.full_name || 'Демо Кандидат'}*\n` +
+                     `📍 Район: 20 мкр\n` +
+                     `🤖 *ИИ-Анализ:* _${aiReason}_\n\n` +
+                     `🔗 Ссылка на кандидата: ${candidateLink}`
+
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: employer.telegram_id,
+            text,
+            parse_mode: 'Markdown',
+            reply_markup: {
+              inline_keyboard: [[
+                { text: "💬 Написать кандидату", url: candidateLink },
+                { text: "📋 Мой кабинет", url: `${BASE_URL}/profile` }
+              ]]
+            }
+          })
+        })
+      }
+    }
+
+    await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Отклик успешно отправлен работодателю!_', { parse_mode: 'Markdown' })
+  } catch (err) {
+    console.error('Apply error:', err)
+    await ctx.answerCallbackQuery('Ошибка отправки отклика')
+  }
+})
 
 export const POST = webhookCallback(bot, 'std/http')

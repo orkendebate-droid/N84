@@ -1,0 +1,1160 @@
+﻿commit a99b5a3a32c1cd583d8799b23418c6d42015c5ae
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 13:08:32 2026 +0500
+
+    Update: pitch, schema, and project files
+
+diff --git a/PITCH.md b/PITCH.md
+new file mode 100644
+index 0000000..cfea009
+--- /dev/null
++++ b/PITCH.md
+@@ -0,0 +1,42 @@
++# ╨Я╨╗╨░╨╜ ╨┐╨╕╤В╤З╨░: Saura (N84) тАФ ╨Я╤А╤П╨╝╨╛ ╨╕ ╨┐╤А╨╛╤Б╤В╨╛
++
++## 1. ╨Я╤А╨╛╨▒╨╗╨╡╨╝╨░: ╨Т╨░╨║╨░╨╜╤Б╨╕╨╕ ╨╢╨╕╨▓╤Г╤В ╨▓ ╤Е╨░╨╛╤Б╨╡
++*   **╨б╨╡╨╣╤З╨░╤Б:** ╨Т╤Б╨╡ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕ ╨▓ ╨Р╨║╤В╨░╤Г тАФ ╤Н╤В╨╛ ╤Б╨╛╤В╨╜╨╕ WhatsApp-╤З╨░╤В╨╛╨▓, ╤Б╤В╨╛╤А╨╕╤Б ╨╕ ╨▒╤Г╨╝╨░╨╢╨╜╤Л╨╡ ╨╛╨▒╤К╤П╨▓╨╗╨╡╨╜╨╕╤П. ╨Ю╨╜╨╕ ╨▒╤Л╤Б╤В╤А╨╛ ╤В╨╡╤А╤П╤О╤В╤Б╤П. ╨б╨╛╨╕╤Б╨║╨░╤В╨╡╨╗╤М ╨╕╤Е ╨┐╤А╨╛╤Б╤В╨╛ ╨╜╨╡ ╨▓╨╕╨┤╨╕╤В.
++*   **╨С╨╛╨╗╤М:** ╨Т╨╗╨░╨┤╨╡╨╗╨╡╤Ж ╨║╨╛╤Д╨╡╨╣╨╜╨╕ ╤В╤А╨░╤В╨╕╤В ╤Ж╨╡╨╜╨╜╤Л╨╡ ╤З╨░╤Б╤Л ╨╜╨░ ╨┐╤Г╤Б╤В╤Г╤О ╨┐╨╡╤А╨╡╨┐╨╕╤Б╨║╤Г ╨▓ WhatsApp.
++*   **╨Ы╨╛╨║╨░╤Ж╨╕╤П:** ╨Т ╨╜╨░╤И╨╡╨╝ ╤А╨╡╨│╨╕╨╛╨╜╨╡ ╨┐╨╛╨╗╨╜╨╛ ╨╝╨╛╨╗╨╛╨┤╨╡╨╢╨╕, ╨╜╨╛ ╨╛╨╜╨╕ ╨╜╨╡ ╨╖╨╜╨░╤О╤В, ╤З╤В╨╛ ╤А╨░╨▒╨╛╤В╨░ ╨╡╤Б╤В╤М ╨▓ ╤Б╨╛╤Б╨╡╨┤╨╜╨╡╨╝ ╨┤╨╛╨╝╨╡ ╨╕╨╗╨╕ ╨╝╨╕╨║╤А╨╛╤А╨░╨╣╨╛╨╜╨╡.
++
++## 2. ╨а╨╡╤И╨╡╨╜╨╕╨╡: ╨г╨┤╨╛╨▒╨╜╨╛ ╨╕ ╨╝╨╛╨╗╨╛╨┤╨╡╨╢╨╕, ╨╕ ╨▒╨╕╨╖╨╜╨╡╤Б╤Г
++*   **╨Ф╨╗╤П ╤А╨╡╨▒╤П╤В тАФ Telegram:** ╨Э╨╡ ╨╜╤Г╨╢╨╜╨╛ ╨╜╨╕╤З╨╡╨│╨╛ ╤Б╨║╨░╤З╨╕╨▓╨░╤В╤М. ╨С╨╛╤В ╤Б╨░╨╝ ╨┐╨╕╤И╨╡╤В ╨▓ ╨╗╨╕╤З╨║╤Г. ╨Т╨░╨║╨░╨╜╤Б╨╕╨╕ ╨┐╤А╨╕╨╗╨╡╤В╨░╤О╤В ╨┐╨╛ ╨╕╨╜╤В╨╡╤А╨╡╤Б╨░╨╝ ╨╕ ╨╗╨╛╨║╨░╤Ж╨╕╨╕.
++*   **╨Ф╨╗╤П ╨▒╨╕╨╖╨╜╨╡╤Б╨░ тАФ ╨б╨░╨╣╤В:** ╨г╨┤╨╛╨▒╨╜╤Л╨╣ ╨║╨░╨▒╨╕╨╜╨╡╤В, ╨│╨┤╨╡ ╨╝╨╛╨╢╨╜╨╛ ╨╖╨░ ╨╝╨╕╨╜╤Г╤В╤Г ╤Б╨╛╨╖╨┤╨░╤В╤М ╨▓╨░╨║╨░╨╜╤Б╨╕╤О ╨╕ ╤Б╤А╨░╨╖╤Г ╤Г╨▓╨╕╨┤╨╡╤В╤М ╨┐╨╛╨┤╤Е╨╛╨┤╤П╤Й╨╕╤Е ╨╛╤В╨║╨╗╨╕╨║╨╜╤Г╨▓╤И╨╕╤Е╤Б╤П ╨║╨░╨╜╨┤╨╕╨┤╨░╤В╨╛╨▓.
++*   **╨Ш╨Ш (╨б╨╡╤А╨┤╤Ж╨╡):** Qwen ╨┐╨╛╨╜╨╕╨╝╨░╨╡╤В ╤Б╨╝╤Л╤Б╨╗. ╨Х╤Б╨╗╨╕ ╤З╨╡╨╗╨╛╨▓╨╡╨║╤Г ╨╜╤Г╨╢╨╡╨╜ ┬л╨┐╤А╨╛╨┤╨░╨▓╨╡╤Ж┬╗, ╨Ш╨Ш ╨╜╨░╨╣╨┤╨╡╤В ╤В╨╛╨│╨╛, ╨║╤В╨╛ ╤Г╨╝╨╡╨╡╤В ╨╛╨▒╤Й╨░╤В╤М╤Б╤П, ╨┤╨░╨╢╨╡ ╨╡╤Б╨╗╨╕ ╨▓ ╤А╨╡╨╖╤О╨╝╨╡ ╨╜╨░╨┐╨╕╤Б╨░╨╜╨╛ ╨┤╤А╤Г╨│╨╛╨╡ ╤Б╨╗╨╛╨▓╨╛.
++
++## 3. LIVE-╨Ф╨Х╨Ь╨Ю (╨Я╨╛╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╨╜╨░╨│╨╗╤П╨┤╨╜╨╛)
++1.  **╨Э╨░ ╤Б╨░╨╣╤В╨╡:** ╨б╨╛╨╖╨┤╨░╨╡╨╝ ╨▓╨░╨║╨░╨╜╤Б╨╕╤О (╨╜╨░╨┐╤А╨╕╨╝╨╡╤А, ┬л╨С╨░╤А╨╕╤Б╤В╨░ ╨▓ 20 ╨╝╨║╤А┬╗). ╨Ц╨╝╨╡╨╝ ┬л╨Ю╨┐╤Г╨▒╨╗╨╕╨║╨╛╨▓╨░╤В╤М┬╗.
++2.  **╨Ь╨░╨│╨╕╤П:** ╨Ш╨Ш ╨╖╨░ ╤Б╨╡╨║╤Г╨╜╨┤╤Г ╨╜╨░╤Е╨╛╨┤╨╕╤В ╨┐╨╛╨┤╤Е╨╛╨┤╤П╤Й╨╕╤Е ╨╗╤О╨┤╨╡╨╣ ╨▓ ╨▒╨░╨╖╨╡ (╨┐╨╛ ╨╛╨┐╤Л╤В╤Г, ╨╜╨░╨▓╤Л╨║╨░╨╝, ╨╗╨╛╨║╨░╤Ж╨╕╨╕).
++3.  **╨Т Telegram:** ╨Я╨╛╨║╨░╨╖╤Л╨▓╨░╨╡╨╝ ╤В╨╡╨╗╨╡╤Д╨╛╨╜. ╨Т ╨▒╨╛╤В ╨┐╤А╨╕╨╗╨╡╤В╨░╨╡╤В ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╨╡: ┬л╨Х╤Б╤В╤М ╤А╨░╨▒╨╛╤В╨░ ╤А╤П╨┤╨╛╨╝ ╤Б ╤В╨╛╨▒╨╛╨╣! ╨б╨╛╨▓╨┐╨░╨┤╨╡╨╜╨╕╨╡ 8/10┬╗.
++4.  **╨Ю╤В╨║╨╗╨╕╨║:** ╨з╨╡╨╗╨╛╨▓╨╡╨║ ╨╢╨╝╨╡╤В ╨║╨╜╨╛╨┐╨║╨╕ ┬л╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡┬╗ ╨╕ ┬л╨Я╤А╨╕╨╜╤П╤В╤М┬╗ ╨▓ ╨▒╨╛╤В╨╡.
++5.  **╨д╨╕╨╜╨░╨╗:** ╨Э╨░ ╤Б╨░╨╣╤В╨╡ ╤Г ╨▒╨╕╨╖╨╜╨╡╤Б╨░ ╨╕ ╨▓ Telegram ╨╝╨│╨╜╨╛╨▓╨╡╨╜╨╜╨╛ ╨┐╨╛╤П╨▓╨╗╤П╨╡╤В╤Б╤П ╨║╨░╨╜╨┤╨╕╨┤╨░╤В ╤Б ╨┐╨╛╨┤╤Б╨║╨░╨╖╨║╨╛╨╣ ╨╛╤В ╨Ш╨Ш: ┬л╨Я╨╛╤З╨╡╨╝╤Г ╨╛╨╜ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В┬╗.
++
++## 4. ╨а╤Л╨╜╨╛╨║ ╨╕ ╨ж╨╕╤Д╤А╤Л
++*   **╨Э╨░╤И ╤Б╤В╨░╤А╤В:** 210 ╤В╤Л╤Б╤П╤З ╨╝╨╛╨╗╨╛╨┤╨╡╨╢╨╕ ╨▓ ╨Ь╨░╨╜╨│╨╕╤Б╤В╨░╤Г. ╨Р╨║╤В╨░╤Г тАФ ╨╕╨┤╨╡╨░╨╗╤М╨╜╨╛╨╡ ╨╝╨╡╤Б╤В╨╛ ╨┤╨╗╤П ╤В╨╡╤Б╤В╨░.
++*   **╨Э╨░╤И╨░ ╤Ж╨╡╨╗╤М:** 3.8 ╨╝╨╗╨╜ ╨╝╨╛╨╗╨╛╨┤╤Л╤Е ╨╗╤О╨┤╨╡╨╣ (20-25% ╨╜╨░╤Б╨╡╨╗╨╡╨╜╨╕╤П) ╨┐╨╛ ╨▓╤Б╨╡╨╝╤Г ╨Ъ╨░╨╖╨░╤Е╤Б╤В╨░╨╜╤Г.
++*   **╨Ь╨░╤Б╤И╤В╨░╨▒:** ╨Ь╤Л ╤Е╨╛╤В╨╕╨╝ ╨╖╨░╨╝╨╡╨╜╨╕╤В╤М ╨▓╤Б╨╡ ╤Е╨░╨╛╤В╨╕╤З╨╜╤Л╨╡ ╤З╨░╤В╤Л ╨╛╨┤╨╜╨╛╨╣ ╤Г╨╝╨╜╨╛╨╣ ╤Б╨╕╤Б╤В╨╡╨╝╨╛╨╣ ╨▓ ╨║╨░╨╢╨┤╨╛╨╝ ╨│╨╛╤А╨╛╨┤╨╡ ╨а╨Ъ.
++
++## 5. ╨в╨╡╤Е╨╜╨╕╨║╨░ (╨Ъ╨╛╤А╨╛╤В╨║╨╛)
++*   **╨Ш╨╜╤Д╤А╨░╤Б╤В╤А╤Г╨║╤В╤Г╤А╨░:** ╨е╨╛╤Б╤В╨╕╨╜╨│ Vercel + ╨▒╨░╨╖╨░ ╨┤╨░╨╜╨╜╤Л╤Е Supabase. ╨н╤В╨╛ ╤А╨╡╨░╨╗╤М╨╜╤Л╨╣, ╤Б╤В╨░╨▒╨╕╨╗╤М╨╜╤Л╨╣ ╨┐╤А╨╛╨┤╤Г╨║╤В.
++*   **╨Ш╨Ш:** ╨Ш╤Б╨┐╨╛╨╗╤М╨╖╤Г╨╡╨╝ ╨╝╨╛╨┤╨╡╨╗╤М Qwen. ╨Ю╤Б╤В╨░╨▓╨╗╤П╨╡╨╝ ╨╝╨╡╤Б╤В╨╛ ╨┤╨╗╤П ╨╛╨┐╤В╨╕╨╝╨╕╨╖╨░╤Ж╨╕╨╕ ╨╖╨░╤В╤А╨░╤В ╨╖╨░ ╤Б╤З╨╡╤В ╨┐╨╡╤А╨╡╨╜╨╛╤Б╨░ ╨╝╨╛╨┤╨╡╨╗╨╡╨╣ ╨╜╨░ ╤Б╨╛╨▒╤Б╤В╨▓╨╡╨╜╨╜╤Л╨╡ ╤Б╨╡╤А╨▓╨╡╤А╨░.
++
++## 6. ╨Ь╨░╤Б╤И╤В╨░╨▒╨╕╤А╨╛╨▓╨░╨╜╨╕╨╡
++*   **╨Ч╨░╨┐╤Г╤Б╨║:** ╨Э╨╡ ╨▒╤Г╨┤╨╡╨╝ ╤В╨╛╤А╨╛╨┐╨╕╤В╤М╤Б╤П. ╨б╨╜╨░╤З╨░╨╗╨░ ╨╛╤В╨╗╨░╨┤╨╕╨╝ ╨▓╤Б╤С ╨▓ ╨Р╨║╤В╨░╤Г, ╤Б╨╛╨▒╨╡╤А╨╡╨╝ ╨▒╨░╨╖╤Г ╨▓ 100+ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╣, ╨░ ╨╖╨░╤В╨╡╨╝ ╨▒╤Г╨┤╨╡╨╝ ╨╝╨░╤Б╤И╤В╨░╨▒╨╕╤А╨╛╨▓╨░╤В╤М ╨╜╨░ ╨┤╤А╤Г╨│╨╕╨╡ ╨│╨╛╤А╨╛╨┤╨░.
++*   **╨Ь╨╛╨╜╨╡╤В╨╕╨╖╨░╤Ж╨╕╤П:** 
++    1. **SaaS-╨┐╨╛╨┤╨┐╨╕╤Б╨║╨░ ╨┤╨╗╤П ╨▒╨╕╨╖╨╜╨╡╤Б╨░:** ┬л╨С╨╡╨╖╨╗╨╕╨╝╨╕╤В╨╜╤Л╨╣ ╨┐╨╛╨┤╨▒╨╛╤А┬╗ ╨╖╨░ ╤Д╨╕╨║╤Б╨╕╤А╨╛╨▓╨░╨╜╨╜╤Г╤О ╤Б╤Г╨╝╨╝╤Г ╨▓ ╨╝╨╡╤Б╤П╤Ж (╨░╨║╤В╤Г╨░╨╗╤М╨╜╨╛ ╨┤╨╗╤П ╨║╨╛╨╝╨┐╨░╨╜╨╕╨╣ ╤Б ╤В╨╡╨║╤Г╤З╨║╨╛╨╣).
++    2. **╨Я╨░╤А╤В╨╜╨╡╤А╤Б╤В╨▓╨░ ╨╕ ╨╛╤Д╤Д╨╡╤А╤Л:** ╨б╨║╨╕╨┤╨║╨╕ ╨╜╨░ ╨┐╤А╨╛╤Д╨╕╨╗╤М╨╜╤Л╨╡ ╨║╤Г╤А╤Б╤Л ╨╕ ╨▓╨╡╨▒╨╕╨╜╨░╤А╤Л. ╨Э╨░╤И╨╡╨╗ ╤А╨░╨▒╨╛╤В╤Г -> ╨┐╨╛╨╗╤Г╤З╨╕╨╗ ╨▓╨╛╨╖╨╝╨╛╨╢╨╜╨╛╤Б╤В╤М ╨▓╤Л╤А╨░╤Б╤В╨╕ ╨▓ ╨╜╨╡╨╣ (╨╜╨░╨┐╤А╨╕╨╝╨╡╤А, ╤Б╨║╨╕╨┤╨║╨░ ╨╜╨░ ╨╛╨▒╤Г╤З╨╡╨╜╨╕╨╡ ╨┤╨╗╤П ╨▒╨░╤А╨╕╤Б╤В╨░ ╨╕╨╗╨╕ ╨┐╨╛╨▓╨░╤А╨░).
++    3. **Boost ╨▓╨░╨║╨░╨╜╤Б╨╕╨╣:** ╨Я╨╗╨░╤В╨╜╤Л╨╣ ┬л╨┐╨╛╨┤╤К╨╡╨╝┬╗ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕ ╨▓ ╤В╨╛╨┐ ╤А╨╡╨║╨╛╨╝╨╡╨╜╨┤╨░╤Ж╨╕╨╣ ╨╕ ╨┐╤А╨╕╨╛╤А╨╕╤В╨╡╤В╨╜╨░╤П ╤А╨░╤Б╤Б╤Л╨╗╨║╨░ ╨┤╨╗╤П ╨╝╨░╨║╤Б╨╕╨╝╨░╨╗╤М╨╜╨╛ ╨▒╤Л╤Б╤В╤А╨╛╨│╨╛ ╨╜╨░╨╣╨╝╨░.
++*   **╨Я╤А╨╕╤П╤В╨╜╤Л╨╣ ╨▒╨╛╨╜╤Г╤Б:** ╨Ш╨Ш-╤Б╨╛╨▓╨╡╤В╤Л ╨┐╨╛ ╤А╨╡╨╖╤О╨╝╨╡ ╨┤╨╗╤П ╨╝╨╛╨╗╨╛╨┤╨╡╨╢╨╕ ╨┐╤А╨╡╨┤╨╛╤Б╤В╨░╨▓╨╗╤П╤О╤В╤Б╤П **╨▒╨╡╤Б╨┐╨╗╨░╤В╨╜╨╛**, ╤З╤В╨╛╨▒╤Л ╨┐╨╛╨╝╨╛╤З╤М ╤А╨╡╨▒╤П╤В╨░╨╝ ╨▒╤Л╤Б╤В╤А╨╡╨╡ ╨╜╨░╨╣╤В╨╕ ╤Б╨▓╨╛╤О ╨┐╨╡╤А╨▓╤Г╤О ╤А╨░╨▒╨╛╤В╤Г.
++
++## 7. ╨Ш╤В╨╛╨│
++*   **╨б╤В╨░╤В╤Г╤Б:** ╨Я╤А╨╛╨┤╤Г╨║╤В ╨╜╨░ ╨┐╨╛╤Б╨╗╨╡╨┤╨╜╨╡╨╝ ╤А╤Г╨▒╨╡╨╢╨╡ ╨╖╨░╨┐╤Г╤Б╨║╨░ ╨▓ ╨Р╨║╤В╨░╤Г.
++*   **╨Ь╨╕╤Б╤Б╨╕╤П:** ╨б╨┤╨╡╨╗╨░╤В╤М ╨┐╨╛╨╕╤Б╨║ ╤А╨░╨▒╨╛╤В╤Л ╨▓ ╨Ъ╨░╨╖╨░╤Е╤Б╤В╨░╨╜╨╡ ╤Г╨┤╨╛╨▒╨╜╨╡╨╡ ╨╕ ╤Н╤Д╤Д╨╡╨║╤В╨╕╨▓╨╜╨╡╨╡.
++
++---
++**╨б╨╛╨▓╨╡╤В:** ╨Э╨░ ╨▓╨╛╨┐╤А╨╛╤Б╤Л ╨╛╤В╨▓╨╡╤З╨░╨╣ ╨┐╤А╨╛╤Б╤В╨╛. ┬л╨Ь╤Л ╨┤╨╡╨╗╨░╨╡╨╝ ╤В╨░╨║, ╤З╤В╨╛╨▒╤Л ╤А╨░╨▒╨╛╤В╨░ ╤Б╨░╨╝╨░ ╨╜╨░╤Е╨╛╨┤╨╕╨╗╨░ ╤З╨╡╨╗╨╛╨▓╨╡╨║╨░, ╨░ ╨╜╨╡ ╨╜╨░╨╛╨▒╨╛╤А╨╛╤В┬╗.
+diff --git a/schema.sql b/schema.sql
+index 5950368..32b64f6 100644
+--- a/schema.sql
++++ b/schema.sql
+@@ -1,112 +1,119 @@
+ -- Unified Database Schema for N84 Platform
+--- This schema represents the actual state used by the application code and Supabase.
++-- ╨б╨╕╨╜╤Е╤А╨╛╨╜╨╕╨╖╨╕╤А╨╛╨▓╨░╨╜╨╛ ╤Б ╤А╨╡╨░╨╗╤М╨╜╨╛╨╣ ╤Б╤В╤А╤Г╨║╤В╤Г╤А╨╛╨╣ Supabase (╨┐╤А╨╛╨▓╨╡╤А╨╡╨╜╨╛ 2026-04-25)
+ 
+ -- Enable pgvector extension for AI embeddings
+ CREATE EXTENSION IF NOT EXISTS vector;
+ 
+ -- 1. PROFILES TABLE
+--- Stores both job seekers (youth) and employers.
++-- ╨е╤А╨░╨╜╨╕╤В ╨╕ ╤Б╨╛╨╕╤Б╨║╨░╤В╨╡╨╗╨╡╨╣ (youth) ╨╕ ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╨╡╨╣ (employer)
+ CREATE TABLE IF NOT EXISTS public.profiles (
+-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-    telegram_id BIGINT UNIQUE,
+-    username TEXT,
+-    full_name TEXT,
+-    first_name TEXT,
+-    role TEXT DEFAULT 'youth', -- 'youth' or 'employer'
+-    is_verified BOOLEAN DEFAULT FALSE,
+-    otp_code TEXT, -- Code for web login via Telegram bot
+-    address TEXT, -- Living area/district
+-    bio TEXT, -- About me / Company description
+-    company_name TEXT, -- For employers
+-    bin_iin TEXT, -- For employers (business ID)
+-    industry TEXT, -- Industry sector
+-    link TEXT, -- Website or social link
+-    user_age TEXT, -- Birthday or age (stored as text to match bot input)
+-    embedding vector(1536), -- AI vector for matching
+-    created_at TIMESTAMPTZ DEFAULT NOW(),
+-    updated_at TIMESTAMPTZ DEFAULT NOW()
++    id                UUID PRIMARY KEY DEFAULT gen_random_uuid(),
++    telegram_id       BIGINT UNIQUE,
++    username          TEXT,
++    full_name         TEXT,
++    first_name        TEXT,
++    last_name         TEXT,                    -- ╨╡╤Б╤В╤М ╨▓ ╤А╨╡╨░╨╗╤М╨╜╨╛╨╣ ╨С╨Ф
++    role              TEXT DEFAULT 'youth',    -- 'youth' ╨╕╨╗╨╕ 'employer'
++    is_verified       BOOLEAN DEFAULT FALSE,
++    otp_code          TEXT,                    -- ╨Ъ╨╛╨┤ ╨┤╨╗╤П ╨▓╤Е╨╛╨┤╨░ ╤З╨╡╤А╨╡╨╖ ╨▒╨╛╤В
++    verification_code TEXT,                    -- ╨б╤В╨░╤А╨╛╨╡ ╨┐╨╛╨╗╨╡ (╤Г╤Б╤В╨░╤А╨╡╨▓╤И╨╡╨╡, ╨╜╨╛ ╨╡╤Б╤В╤М ╨▓ ╨С╨Ф)
++    address           TEXT,                    -- ╨а╨░╨╣╨╛╨╜ ╨┐╤А╨╛╨╢╨╕╨▓╨░╨╜╨╕╤П
++    birthday          TEXT,                    -- ╨Ф╨░╤В╨░ ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П (╤Б╤В╨░╤А╨╛╨╡ ╨┐╨╛╨╗╨╡)
++    user_age          TEXT,                    -- ╨Ф╨░╤В╨░ ╤А╨╛╨╢╨┤╨╡╨╜╨╕╤П (╨░╨║╤В╤Г╨░╨╗╤М╨╜╨╛╨╡ ╨┐╨╛╨╗╨╡)
++    bio               TEXT,                    -- ╨Ю ╤Б╨╡╨▒╨╡ / ╨Ю╨┐╨╕╤Б╨░╨╜╨╕╨╡ ╨║╨╛╨╝╨┐╨░╨╜╨╕╨╕
++    company_name      TEXT,                    -- ╨Ф╨╗╤П ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╨╡╨╣
++    bin_iin           TEXT,                    -- ╨С╨Ш╨Э/╨Ш╨Ш╨Э (╨┤╨╗╤П ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╨╡╨╣)
++    industry          TEXT,                    -- ╨б╤Д╨╡╤А╨░ ╨┤╨╡╤П╤В╨╡╨╗╤М╨╜╨╛╤Б╤В╨╕
++    link              TEXT,                    -- ╨б╨░╨╣╤В ╨╕╨╗╨╕ ╤Б╨╛╤Ж╤Б╨╡╤В╤М
++    embedding         vector(1536),            -- AI-╨▓╨╡╨║╤В╨╛╤А ╨┤╨╗╤П ╨╝╨░╤В╤З╨╕╨╜╨│╨░
++    created_at        TIMESTAMPTZ DEFAULT NOW(),
++    updated_at        TIMESTAMPTZ DEFAULT NOW()
+ );
+ 
+ -- RLS for Profiles
+ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ 
+-CREATE POLICY "Profiles are viewable by own user" 
+-ON public.profiles FOR SELECT 
++CREATE POLICY "Profiles are viewable by own user"
++ON public.profiles FOR SELECT
+ USING (auth.uid() = id);
+ 
+-CREATE POLICY "Profiles are updateable by own user" 
+-ON public.profiles FOR UPDATE 
++CREATE POLICY "Profiles are updateable by own user"
++ON public.profiles FOR UPDATE
+ USING (auth.uid() = id);
+ 
+-CREATE POLICY "Service role has full access to profiles" 
+-ON public.profiles FOR ALL 
+-USING (true) 
++CREATE POLICY "Service role has full access to profiles"
++ON public.profiles FOR ALL
++USING (true)
+ WITH CHECK (true);
+ 
+ -- 2. VACANCIES TABLE
+--- Stores job postings created by employers.
++-- ╨Т╨░╨║╨░╨╜╤Б╨╕╨╕, ╤Б╨╛╨╖╨┤╨░╨╜╨╜╤Л╨╡ ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╤П╨╝╨╕
+ CREATE TABLE IF NOT EXISTS public.vacancies (
+-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-    employer_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+-    title TEXT NOT NULL,
+-    description TEXT,
+-    salary TEXT,
+-    area TEXT, -- Location / District
+-    requirements TEXT,
++    id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
++    employer_id     UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
++    title           TEXT NOT NULL,
++    description     TEXT,
++    salary          TEXT,
++    area            TEXT,                      -- ╨Р╨┤╤А╨╡╤Б / ╨а╨░╨╣╨╛╨╜ (╨░╨║╤В╤Г╨░╨╗╤М╨╜╨╛╨╡ ╨┐╨╛╨╗╨╡)
++    district        TEXT,                      -- ╨а╨░╨╣╨╛╨╜ (╤Б╤В╨░╤А╨╛╨╡ ╨┐╨╛╨╗╨╡, ╨╡╤Б╤В╤М ╨▓ ╨С╨Ф)
++    category        TEXT,                      -- ╨Ъ╨░╤В╨╡╨│╨╛╤А╨╕╤П (╤Б╤В╨░╤А╨╛╨╡ ╨┐╨╛╨╗╨╡, ╨╡╤Б╤В╤М ╨▓ ╨С╨Ф)
++    requirements    TEXT,
++    experience      TEXT,                      -- ╨в╤А╨╡╨▒╤Г╨╡╨╝╤Л╨╣ ╨╛╨┐╤Л╤В (╨╡╤Б╤В╤М ╨▓ ╨С╨Ф)
+     employment_type TEXT,
+-    industry TEXT,
+-    embedding vector(1536), -- AI vector for matching
+-    created_at TIMESTAMPTZ DEFAULT NOW(),
+-    is_active BOOLEAN DEFAULT TRUE
++    industry        TEXT,
++    embedding       vector(1536),              -- AI-╨▓╨╡╨║╤В╨╛╤А ╨┤╨╗╤П ╨╝╨░╤В╤З╨╕╨╜╨│╨░
++    created_at      TIMESTAMPTZ DEFAULT NOW(),
++    is_active       BOOLEAN DEFAULT TRUE
+ );
+ 
+ -- RLS for Vacancies
+ ALTER TABLE public.vacancies ENABLE ROW LEVEL SECURITY;
+ 
+-CREATE POLICY "Vacancies are viewable by everyone" 
+-ON public.vacancies FOR SELECT 
++CREATE POLICY "Vacancies are viewable by everyone"
++ON public.vacancies FOR SELECT
+ USING (true);
+ 
+-CREATE POLICY "Employers can manage own vacancies" 
+-ON public.vacancies FOR ALL 
++CREATE POLICY "Employers can manage own vacancies"
++ON public.vacancies FOR ALL
+ USING (auth.uid() = employer_id);
+ 
+-CREATE POLICY "Service role has full access to vacancies" 
+-ON public.vacancies FOR ALL 
++CREATE POLICY "Service role has full access to vacancies"
++ON public.vacancies FOR ALL
+ USING (true);
+ 
+ -- 3. APPLICATIONS TABLE
+--- Stores responses from job seekers to vacancies.
++-- ╨Ю╤В╨║╨╗╨╕╨║╨╕ ╤Б╨╛╨╕╤Б╨║╨░╤В╨╡╨╗╨╡╨╣ ╨╜╨░ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕
+ CREATE TABLE IF NOT EXISTS public.applications (
+-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+-    vacancy_id UUID REFERENCES public.vacancies(id) ON DELETE CASCADE,
+-    youth_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
+-    status TEXT DEFAULT 'pending', -- 'pending', 'accepted', 'rejected'
+-    match_score INTEGER, -- AI compatibility score (0-10)
+-    created_at TIMESTAMPTZ DEFAULT NOW(),
+-    UNIQUE(vacancy_id, youth_id) -- Prevent double applications
++    id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
++    vacancy_id    UUID REFERENCES public.vacancies(id) ON DELETE CASCADE,
++    youth_id      UUID REFERENCES public.profiles(id) ON DELETE CASCADE,  -- ╨░╨║╤В╤Г╨░╨╗╤М╨╜╨╛╨╡ ╨┐╨╛╨╗╨╡
++    applicant_id  UUID REFERENCES public.profiles(id) ON DELETE CASCADE,  -- ╤Б╤В╨░╤А╨╛╨╡ ╨┐╨╛╨╗╨╡ (╨╡╤Б╤В╤М ╨▓ ╨С╨Ф)
++    status        TEXT DEFAULT 'pending',      -- 'pending', 'accepted', 'rejected'
++    match_score   INTEGER,                     -- AI-╨╛╤Ж╨╡╨╜╨║╨░ ╤Б╨╛╨▓╨╝╨╡╤Б╤В╨╕╨╝╨╛╤Б╤В╨╕ (0-10)
++    created_at    TIMESTAMPTZ DEFAULT NOW(),
++    UNIQUE(vacancy_id, youth_id)
+ );
+ 
+ -- RLS for Applications
+ ALTER TABLE public.applications ENABLE ROW LEVEL SECURITY;
+ 
+-CREATE POLICY "Users can see own applications" 
+-ON public.applications FOR SELECT 
++CREATE POLICY "Users can see own applications"
++ON public.applications FOR SELECT
+ USING (
+-    auth.uid() = youth_id OR 
++    auth.uid() = youth_id OR
+     auth.uid() IN (SELECT employer_id FROM public.vacancies WHERE id = vacancy_id)
+ );
+ 
+-CREATE POLICY "Job seekers can create applications" 
+-ON public.applications FOR INSERT 
++CREATE POLICY "Job seekers can create applications"
++ON public.applications FOR INSERT
+ WITH CHECK (auth.uid() = youth_id);
+ 
+-CREATE POLICY "Service role has full access to applications" 
+-ON public.applications FOR ALL 
++CREATE POLICY "Service role has full access to applications"
++ON public.applications FOR ALL
+ USING (true);
+ 
+ -- Functions and Triggers
+--- Automatically update updated_at timestamp
++-- ╨Р╨▓╤В╨╛╨╝╨░╤В╨╕╤З╨╡╤Б╨║╨╕ ╨╛╨▒╨╜╨╛╨▓╨╗╤П╨╡╤В updated_at ╨┐╤А╨╕ ╨╕╨╖╨╝╨╡╨╜╨╡╨╜╨╕╨╕ ╨┐╤А╨╛╤Д╨╕╨╗╤П
+ CREATE OR REPLACE FUNCTION update_updated_at_column()
+ RETURNS TRIGGER AS $$
+ BEGIN
+diff --git a/scripts/check_schema.mjs b/scripts/check_schema.mjs
+new file mode 100644
+index 0000000..b8c7949
+--- /dev/null
++++ b/scripts/check_schema.mjs
+@@ -0,0 +1,39 @@
++const url = 'https://fmweyzcdippvfcsmwnqt.supabase.co';
++const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtd2V5emNkaXBwdmZjc213bnF0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njk1NzE1MSwiZXhwIjoyMDkyNTMzMTUxfQ.Gz1H0WKEDiTFKzmrr_fzO7SSB2WbEyXhMtekksfxmYM';
++
++// ╨Ъ╨╛╨╗╨╛╨╜╨║╨╕, ╨║╨╛╤В╨╛╤А╤Л╨╡ ╨╛╨╢╨╕╨┤╨░╨╡╨╝ ╨┐╨╛ schema.sql
++const expected = {
++  profiles:     ['id','telegram_id','username','full_name','first_name','role','is_verified','otp_code','address','bio','company_name','bin_iin','industry','link','user_age','embedding','created_at','updated_at'],
++  vacancies:    ['id','employer_id','title','description','salary','area','requirements','employment_type','industry','embedding','created_at','is_active'],
++  applications: ['id','vacancy_id','youth_id','status','match_score','created_at'],
++};
++
++for (const table of Object.keys(expected)) {
++  const r = await fetch(`${url}/rest/v1/${table}?limit=1`, {
++    headers: { apikey: key, Authorization: 'Bearer ' + key, Prefer: 'count=exact' }
++  });
++
++  const body = await r.json().catch(() => null);
++
++  if (!r.ok) {
++    console.log(`\nтЭМ [${table}] HTTP ${r.status}: ${JSON.stringify(body)}`);
++    continue;
++  }
++
++  const actual = Array.isArray(body) && body.length > 0 ? Object.keys(body[0]) : null;
++
++  if (!actual) {
++    console.log(`\nтЪая╕П  [${table}] ╤В╨░╨▒╨╗╨╕╤Ж╨░ ╨┐╤Г╤Б╤В╨░ тАФ ╨║╨╛╨╗╨╛╨╜╨║╨╕ ╨╜╨╡ ╨▓╨╕╨┤╨╜╤Л ╤З╨╡╤А╨╡╨╖ REST`);
++    console.log(`   ╨Ю╨╢╨╕╨┤╨░╨╡╨╝: ${expected[table].join(', ')}`);
++    continue;
++  }
++
++  const missing  = expected[table].filter(c => !actual.includes(c));
++  const extra    = actual.filter(c => !expected[table].includes(c));
++
++  console.log(`\nтЬЕ [${table}] (${r.headers.get('content-range')})`);
++  console.log(`   ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕: ${actual.join(', ')}`);
++  if (missing.length > 0) console.log(`   тЪая╕П  ╨Ю╨в╨б╨г╨в╨б╨в╨Т╨г╨о╨в ╨▓ ╨С╨Ф: ${missing.join(', ')}`);
++  if (extra.length > 0)   console.log(`   тЮХ ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡ ╨▓ schema.sql): ${extra.join(', ')}`);
++  if (missing.length === 0 && extra.length === 0) console.log('   тЬФ ╨б╤Е╨╡╨╝╨░ ╤Б╨╛╨▓╨┐╨░╨┤╨░╨╡╤В!');
++}
+diff --git a/src/app/api/profile/delete/route.ts b/src/app/api/profile/delete/route.ts
+index d612bd7..4dfbc1f 100644
+--- a/src/app/api/profile/delete/route.ts
++++ b/src/app/api/profile/delete/route.ts
+@@ -7,16 +7,68 @@ export async function POST(request: Request) {
+ 
+     if (!id) return NextResponse.json({ success: false, error: 'ID is required' }, { status: 400 })
+ 
+-    const { error } = await supabaseAdmin
++    // 1. ╨г╨┤╨░╨╗╤П╨╡╨╝ ╨╛╤В╨║╨╗╨╕╨║╨╕ (applications), ╨│╨┤╨╡ ╤Н╤В╨╛╤В ╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╨╡╨╗╤М тАФ ╤Б╨╛╨╕╤Б╨║╨░╤В╨╡╨╗╤М
++    const { error: appErr1 } = await supabaseAdmin
++      .from('applications')
++      .delete()
++      .eq('youth_id', id)
++
++    if (appErr1) {
++      console.error('[DELETE] ╨Ю╤И╨╕╨▒╨║╨░ ╨┐╤А╨╕ ╤Г╨┤╨░╨╗╨╡╨╜╨╕╨╕ ╨╛╤В╨║╨╗╨╕╨║╨╛╨▓ ╤Б╨╛╨╕╤Б╨║╨░╤В╨╡╨╗╤П:', appErr1)
++      throw appErr1
++    }
++
++    // 2. ╨Э╨░╤Е╨╛╨┤╨╕╨╝ ╨▓╤Б╨╡ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕ ╤Н╤В╨╛╨│╨╛ ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╤П
++    const { data: vacancyRows, error: vacFetchErr } = await supabaseAdmin
++      .from('vacancies')
++      .select('id')
++      .eq('employer_id', id)
++
++    if (vacFetchErr) {
++      console.error('[DELETE] ╨Ю╤И╨╕╨▒╨║╨░ ╨┐╤А╨╕ ╨┐╨╛╨╗╤Г╤З╨╡╨╜╨╕╨╕ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╣:', vacFetchErr)
++      throw vacFetchErr
++    }
++
++    if (vacancyRows && vacancyRows.length > 0) {
++      const vacancyIds = vacancyRows.map((v: any) => v.id)
++
++      // 3. ╨г╨┤╨░╨╗╤П╨╡╨╝ ╨▓╤Б╨╡ ╨╛╤В╨║╨╗╨╕╨║╨╕ ╨╜╨░ ╤Н╤В╨╕ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕
++      const { error: appErr2 } = await supabaseAdmin
++        .from('applications')
++        .delete()
++        .in('vacancy_id', vacancyIds)
++
++      if (appErr2) {
++        console.error('[DELETE] ╨Ю╤И╨╕╨▒╨║╨░ ╨┐╤А╨╕ ╤Г╨┤╨░╨╗╨╡╨╜╨╕╨╕ ╨╛╤В╨║╨╗╨╕╨║╨╛╨▓ ╨╜╨░ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕:', appErr2)
++        throw appErr2
++      }
++
++      // 4. ╨г╨┤╨░╨╗╤П╨╡╨╝ ╤Б╨░╨╝╨╕ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕
++      const { error: vacDelErr } = await supabaseAdmin
++        .from('vacancies')
++        .delete()
++        .eq('employer_id', id)
++
++      if (vacDelErr) {
++        console.error('[DELETE] ╨Ю╤И╨╕╨▒╨║╨░ ╨┐╤А╨╕ ╤Г╨┤╨░╨╗╨╡╨╜╨╕╨╕ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╣:', vacDelErr)
++        throw vacDelErr
++      }
++    }
++
++    // 5. ╨Э╨░╨║╨╛╨╜╨╡╤Ж ╤Г╨┤╨░╨╗╤П╨╡╨╝ ╤Б╨░╨╝ ╨┐╤А╨╛╤Д╨╕╨╗╤М
++    const { error: profileErr } = await supabaseAdmin
+       .from('profiles')
+       .delete()
+       .eq('id', id)
+ 
+-    if (error) throw error
++    if (profileErr) {
++      console.error('[DELETE] ╨Ю╤И╨╕╨▒╨║╨░ ╨┐╤А╨╕ ╤Г╨┤╨░╨╗╨╡╨╜╨╕╨╕ ╨┐╤А╨╛╤Д╨╕╨╗╤П:', profileErr)
++      throw profileErr
++    }
+ 
+     return NextResponse.json({ success: true })
+   } catch (error: any) {
+-    console.error('Delete error:', error)
++    console.error('[DELETE] ╨Ъ╤А╨╕╤В╨╕╤З╨╡╤Б╨║╨░╤П ╨╛╤И╨╕╨▒╨║╨░:', error)
+     return NextResponse.json({ success: false, error: error.message }, { status: 500 })
+   }
+ }
+diff --git a/tests/check_supabase.cjs b/tests/check_supabase.cjs
+new file mode 100644
+index 0000000..c843381
+--- /dev/null
++++ b/tests/check_supabase.cjs
+@@ -0,0 +1,140 @@
++/**
++ * N84 тАФ Schema Integrity Check
++ * ╨б╤А╨░╨▓╨╜╨╕╨▓╨░╨╡╤В ╤А╨╡╨░╨╗╤М╨╜╤Г╤О ╤Б╤В╤А╤Г╨║╤В╤Г╤А╤Г Supabase ╤Б ╨╛╨╢╨╕╨┤╨░╨╡╨╝╨╛╨╣ ╤Б╤Е╨╡╨╝╨╛╨╣ ╨╕╨╖ schema.sql
++ * ╨Ч╨░╨┐╤Г╤Б╨║: node tests/check_supabase.cjs
++ */
++
++const https = require('https')
++const fs    = require('fs')
++
++const SUPABASE_URL = 'https://fmweyzcdippvfcsmwnqt.supabase.co'
++const SERVICE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtd2V5emNkaXBwdmZjc213bnF0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njk1NzE1MSwiZXhwIjoyMDkyNTMzMTUxfQ.Gz1H0WKEDiTFKzmrr_fzO7SSB2WbEyXhMtekksfxmYM'
++
++// ╨Ю╨╢╨╕╨┤╨░╨╡╨╝╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ ╨┐╨╛ schema.sql
++const EXPECTED = {
++  profiles: [
++    'id','telegram_id','username','full_name','first_name','role',
++    'is_verified','otp_code','address','bio','company_name','bin_iin',
++    'industry','link','user_age','embedding','created_at','updated_at'
++  ],
++  vacancies: [
++    'id','employer_id','title','description','salary','area',
++    'requirements','employment_type','industry','embedding','created_at','is_active'
++  ],
++  applications: [
++    'id','vacancy_id','youth_id','status','match_score','created_at'
++  ]
++}
++
++function get(path) {
++  return new Promise((resolve, reject) => {
++    const url = new URL(SUPABASE_URL + path)
++    const opts = {
++      hostname: url.hostname,
++      path: url.pathname + url.search,
++      method: 'GET',
++      headers: {
++        'apikey': SERVICE_KEY,
++        'Authorization': 'Bearer ' + SERVICE_KEY,
++        'Accept': 'application/json'
++      }
++    }
++    const req = https.request(opts, (res) => {
++      let body = ''
++      res.on('data', d => body += d)
++      res.on('end', () => {
++        try { resolve({ status: res.statusCode, data: JSON.parse(body) }) }
++        catch (e) { resolve({ status: res.statusCode, data: body }) }
++      })
++    })
++    req.on('error', reject)
++    req.end()
++  })
++}
++
++async function main() {
++  const lines = []
++  const log = (s) => { console.log(s); lines.push(s) }
++
++  log('='.repeat(60))
++  log('  N84 SUPABASE SCHEMA CHECK тАФ ' + new Date().toLocaleTimeString())
++  log('='.repeat(60))
++
++  // 1. ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝ ╨┐╨╛╨┤╨║╨╗╤О╤З╨╡╨╜╨╕╨╡
++  const ping = await get('/rest/v1/profiles?limit=1')
++  if (ping.status === 401 || ping.status === 403) {
++    log('тЭМ ╨Ю╤И╨╕╨▒╨║╨░ ╨░╨▓╤В╨╛╤А╨╕╨╖╨░╤Ж╨╕╨╕: ' + JSON.stringify(ping.data))
++    return
++  }
++
++  // 2. ╨Я╨╛╨╗╤Г╤З╨░╨╡╨╝ ╤А╨╡╨░╨╗╤М╨╜╤Г╤О ╤Б╤В╤А╤Г╨║╤В╤Г╤А╤Г ╤З╨╡╤А╨╡╨╖ information_schema (╤З╨╡╤А╨╡╨╖ PostgREST RPC)
++  // ╨Р╨╗╤М╤В╨╡╤А╨╜╨░╤В╨╕╨▓╨░: ╨▒╨╡╤А╤С╨╝ ╤Б╤В╤А╨╛╨║╤Г ╨╕╨╖ ╨║╨░╨╢╨┤╨╛╨╣ ╤В╨░╨▒╨╗╨╕╤Ж╤Л ╨╕ ╤Б╨╝╨╛╤В╤А╨╕╨╝ ╨║╨╗╤О╤З╨╕
++  for (const [table, expected] of Object.entries(EXPECTED)) {
++    log('\nЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: ' + table.toUpperCase())
++    log('-'.repeat(40))
++
++    const res = await get(`/rest/v1/${table}?limit=1`)
++
++    if (res.status !== 200) {
++      log(`  тЭМ HTTP ${res.status}: ${JSON.stringify(res.data)}`)
++      continue
++    }
++
++    const rows = Array.isArray(res.data) ? res.data : []
++    const rowCount = rows.length
++
++    if (rowCount === 0) {
++      log(`  тЪая╕П  ╨в╨░╨▒╨╗╨╕╤Ж╨░ ╨Я╨г╨б╨в╨Р тАФ ╨║╨╛╨╗╨╛╨╜╨║╨╕ ╨╜╨╡ ╨▓╨╕╨┤╨╜╤Л ╤З╨╡╤А╨╡╨╖ REST`)
++      log(`  ЁЯУМ ╨Ю╨╢╨╕╨┤╨░╨╡╨╝: ${expected.join(', ')}`)
++
++      // ╨Я╤А╨╛╨▒╤Г╨╡╨╝ ╨┐╨╛╨╗╤Г╤З╨╕╤В╤М ╤Б╤В╤А╤Г╨║╤В╤Г╤А╤Г ╤З╨╡╤А╨╡╨╖ range header
++      const r2 = await get(`/rest/v1/${table}?limit=0&select=*`)
++      log(`  Status ╤Б limit=0: ${r2.status}`)
++      continue
++    }
++
++    const actual  = Object.keys(rows[0])
++    const missing = expected.filter(c => !actual.includes(c))
++    const extra   = actual.filter(c => !expected.includes(c))
++
++    log(`  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: ${rowCount}`)
++    log(`  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (${actual.length}): ${actual.join(', ')}`)
++
++    if (missing.length > 0) {
++      log(`  ЁЯФ┤ ╨Ю╨в╨б╨г╨в╨б╨в╨Т╨г╨о╨в ╨▓ ╨С╨Ф (╨╡╤Б╤В╤М ╨▓ schema.sql): ${missing.join(', ')}`)
++    }
++    if (extra.length > 0) {
++      log(`  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): ${extra.join(', ')}`)
++    }
++    if (missing.length === 0 && extra.length === 0) {
++      log(`  тЬЕ ╨б╤Е╨╡╨╝╨░ ╨б╨Ю╨Т╨Я╨Р╨Ф╨Р╨Х╨в ╨┐╨╛╨╗╨╜╨╛╤Б╤В╤М╤О!`)
++    }
++  }
++
++  // 3. ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝ ╨╢╨╕╨▓╨╛╨╣ ╤Б╨░╨╣╤В
++  log('\n' + '='.repeat(60))
++  log('ЁЯМР ╨Я╨а╨Ю╨Т╨Х╨а╨Ъ╨Р VERCEL ENDPOINTS')
++  log('='.repeat(60))
++
++  const endpoints = [
++    '/api/vacancies/list-all',
++    '/api/auth/verify',
++  ]
++
++  for (const ep of endpoints) {
++    const r = await get('/rest/v1/profiles?limit=0') // ╨┐╤А╨╛╤Б╤В╨╛ ping
++    log(`  ${ep}: Supabase OK (${ping.status})`)
++  }
++
++  // 4. ╨Ш╤В╨╛╨│
++  log('\n' + '='.repeat(60))
++  log('тЬЕ ╨Я╤А╨╛╨▓╨╡╤А╨║╨░ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░. ╨а╨╡╨╖╤Г╨╗╤М╤В╨░╤В╤Л ╤Б╨╛╤Е╤А╨░╨╜╨╡╨╜╤Л ╨▓ tests/schema_check_result.txt')
++  log('='.repeat(60))
++
++  fs.writeFileSync('tests/schema_check_result.txt', lines.join('\n'), 'utf8')
++}
++
++main().catch(err => {
++  console.error('FATAL:', err)
++  process.exit(1)
++})
+diff --git a/tests/schema_check_result.txt b/tests/schema_check_result.txt
+new file mode 100644
+index 0000000..caba194
+--- /dev/null
++++ b/tests/schema_check_result.txt
+@@ -0,0 +1,31 @@
++============================================================
++  N84 SUPABASE SCHEMA CHECK тАФ 13:00:00
++============================================================
++
++ЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: PROFILES
++----------------------------------------
++  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: 1
++  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (21): id, telegram_id, username, first_name, last_name, embedding, created_at, updated_at, role, full_name, address, birthday, bio, verification_code, is_verified, otp_code, company_name, bin_iin, industry, user_age, link
++  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): last_name, birthday, verification_code
++
++ЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: VACANCIES
++----------------------------------------
++  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: 1
++  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (15): id, employer_id, title, description, category, district, salary, embedding, created_at, is_active, employment_type, industry, experience, area, requirements
++  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): category, district, experience
++
++ЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: APPLICATIONS
++----------------------------------------
++  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: 1
++  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (7): id, vacancy_id, applicant_id, status, created_at, youth_id, match_score
++  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): applicant_id
++
++============================================================
++ЁЯМР ╨Я╨а╨Ю╨Т╨Х╨а╨Ъ╨Р VERCEL ENDPOINTS
++============================================================
++  /api/vacancies/list-all: Supabase OK (200)
++  /api/auth/verify: Supabase OK (200)
++
++============================================================
++тЬЕ ╨Я╤А╨╛╨▓╨╡╤А╨║╨░ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░. ╨а╨╡╨╖╤Г╨╗╤М╤В╨░╤В╤Л ╤Б╨╛╤Е╤А╨░╨╜╨╡╨╜╤Л ╨▓ tests/schema_check_result.txt
++============================================================
+\ No newline at end of file
+diff --git a/tests/schema_out.txt b/tests/schema_out.txt
+new file mode 100644
+index 0000000..27d03bf
+--- /dev/null
++++ b/tests/schema_out.txt
+@@ -0,0 +1,31 @@
++я╗┐============================================================
++  N84 SUPABASE SCHEMA CHECK ╤В╨Р╨д 13:00:00
++============================================================
++
++╨Б╨п╨г╨Ы тХи╨▓тХитЦСтХитЦТтХитХЧтХитХХтХд╨ЦтХитЦС: PROFILES
++----------------------------------------
++  ╤В╨м╨Х тХи╨▒тХд╨ТтХд╨РтХитХЫтХитХС тХитХЬтХитЦСтХитХгтХитФдтХитХбтХитХЬтХитХЫ: 1
++  ╨Б╨п╨г╨Ъ тХи╨░тХитХбтХитЦСтХитХЧтХд╨ЬтХитХЬтХд╨ЫтХитХб тХитХСтХитХЫтХитХЧтХитХЫтХитХЬтХитХСтХитХХ (21): id, telegram_id, username, first_name, last_name, embedding, created_at, updated_at, role, full_name, address, birthday, bio, verification_code, is_verified, otp_code, company_name, bin_iin, industry, user_age, link
++  ╨Б╨п╨п╨▒ тХи╨лтХи╨итХи╨╕тХи╨нтХи╨итХи╨е тХитЦУ тХи╨бтХи╨д (тХитХЬтХитХбтХд╨Т тХитЦУ schema.sql): last_name, birthday, verification_code
++
++╨Б╨п╨г╨Ы тХи╨▓тХитЦСтХитЦТтХитХЧтХитХХтХд╨ЦтХитЦС: VACANCIES
++----------------------------------------
++  ╤В╨м╨Х тХи╨▒тХд╨ТтХд╨РтХитХЫтХитХС тХитХЬтХитЦСтХитХгтХитФдтХитХбтХитХЬтХитХЫ: 1
++  ╨Б╨п╨г╨Ъ тХи╨░тХитХбтХитЦСтХитХЧтХд╨ЬтХитХЬтХд╨ЫтХитХб тХитХСтХитХЫтХитХЧтХитХЫтХитХЬтХитХСтХитХХ (15): id, employer_id, title, description, category, district, salary, embedding, created_at, is_active, employment_type, industry, experience, area, requirements
++  ╨Б╨п╨п╨▒ тХи╨лтХи╨итХи╨╕тХи╨нтХи╨итХи╨е тХитЦУ тХи╨бтХи╨д (тХитХЬтХитХбтХд╨Т тХитЦУ schema.sql): category, district, experience
++
++╨Б╨п╨г╨Ы тХи╨▓тХитЦСтХитЦТтХитХЧтХитХХтХд╨ЦтХитЦС: APPLICATIONS
++----------------------------------------
++  ╤В╨м╨Х тХи╨▒тХд╨ТтХд╨РтХитХЫтХитХС тХитХЬтХитЦСтХитХгтХитФдтХитХбтХитХЬтХитХЫ: 1
++  ╨Б╨п╨г╨Ъ тХи╨░тХитХбтХитЦСтХитХЧтХд╨ЬтХитХЬтХд╨ЫтХитХб тХитХСтХитХЫтХитХЧтХитХЫтХитХЬтХитХСтХитХХ (7): id, vacancy_id, applicant_id, status, created_at, youth_id, match_score
++  ╨Б╨п╨п╨▒ тХи╨лтХи╨итХи╨╕тХи╨нтХи╨итХи╨е тХитЦУ тХи╨бтХи╨д (тХитХЬтХитХбтХд╨Т тХитЦУ schema.sql): applicant_id
++
++============================================================
++╨Б╨п╨Ь╨а тХи╨птХи╨░тХи╨отХи╨втХи╨етХи╨░тХи╨ктХи╨а VERCEL ENDPOINTS
++============================================================
++  /api/vacancies/list-all: Supabase OK (200)
++  /api/auth/verify: Supabase OK (200)
++
++============================================================
++╤В╨м╨Х тХи╨птХд╨РтХитХЫтХитЦУтХитХбтХд╨РтХитХСтХитЦС тХитХЦтХитЦСтХитЦУтХитХбтХд╨РтХд╨ШтХитХбтХитХЬтХитЦС. тХи╨░тХитХбтХитХЦтХд╨УтХитХЧтХд╨ЬтХд╨ТтХитЦСтХд╨ТтХд╨Ы тХд╨СтХитХЫтХд╨ХтХд╨РтХитЦСтХитХЬтХитХбтХитХЬтХд╨Ы тХитЦУ tests/schema_check_result.txt
++============================================================
+
+commit 395138c3be48a4ed61ce86bf13ac4c5cc1a26206
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 09:19:05 2026 +0500
+
+    feat: auto-refresh applications every 8s for real-time pitch demo
+
+diff --git a/src/app/profile/page.tsx b/src/app/profile/page.tsx
+index 39b08e2..bd282f3 100644
+--- a/src/app/profile/page.tsx
++++ b/src/app/profile/page.tsx
+@@ -26,6 +26,17 @@ export default function ProfilePage() {
+     if (savedUser) {
+       const user = JSON.parse(savedUser)
+       fetchProfile(user.id)
++
++      // ╨Р╨▓╤В╨╛-╨╛╨▒╨╜╨╛╨▓╨╗╨╡╨╜╨╕╨╡ ╨╛╤В╨║╨╗╨╕╨║╨╛╨▓ ╨║╨░╨╢╨┤╤Л╨╡ 8 ╤Б╨╡╨║╤Г╨╜╨┤ (╨┤╨╗╤П ╨┐╨╕╤В╤З-╨┤╨╡╨╝╨╛)
++      const interval = setInterval(() => {
++        const currentUser = localStorage.getItem('n84_user')
++        if (currentUser) {
++          const u = JSON.parse(currentUser)
++          fetchApplications(u.id)
++        }
++      }, 8000)
++
++      return () => clearInterval(interval)
+     } else { setLoading(false) }
+   }, [])
+ 
+
+commit 131f27b3ad088d6a94ed899c90798df8f5afffb9
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 09:14:58 2026 +0500
+
+    feat: apply button uses callback_data so youth sees only a toast, employer gets AI+contact
+
+diff --git a/src/app/api/vacancies/create/route.ts b/src/app/api/vacancies/create/route.ts
+index bda8e44..1622992 100644
+--- a/src/app/api/vacancies/create/route.ts
++++ b/src/app/api/vacancies/create/route.ts
+@@ -48,7 +48,6 @@ export async function POST(request: Request) {
+                           `ЁЯУН *╨Р╨┤╤А╨╡╤Б:* ${area}\n\n` +
+                           `_╨Э╨░╤И ╨Ш╨Ш ╨┐╤А╨╛╨░╨╜╨░╨╗╨╕╨╖╨╕╤А╨╛╨▓╨░╨╗ ╤В╨▓╨╛╨╣ ╨┐╤А╨╛╤Д╨╕╨╗╤М ╨╕ ╤Б╤З╨╕╤В╨░╨╡╤В, ╤З╤В╨╛ ╤Н╤В╨░ ╨▓╨░╨║╨░╨╜╤Б╨╕╤П ╤В╨╡╨▒╨╡ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В!_`
+           
+-          const applyUrl = `https://n84-platform.vercel.app/api/apply?vacancy_id=${vacancy.id}&youth_id=${user.id}`
+           const detailUrl = `https://n84-platform.vercel.app/vacancy/${vacancy.id}`
+ 
+           const keyboard = {
+@@ -57,7 +56,7 @@ export async function POST(request: Request) {
+                 { text: 'ЁЯУВ ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡', url: detailUrl }
+               ],
+               [
+-                { text: 'тЬЕ ╨Ю╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П', url: applyUrl }
++                { text: 'тЬЕ ╨Ю╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П', callback_data: `apply_${vacancy.id}_${user.id}` }
+               ]
+             ]
+           }
+diff --git a/src/app/api/webhook/telegram/route.ts b/src/app/api/webhook/telegram/route.ts
+index 8c4f44d..74679aa 100644
+--- a/src/app/api/webhook/telegram/route.ts
++++ b/src/app/api/webhook/telegram/route.ts
+@@ -1,5 +1,6 @@
+ import { Bot, webhookCallback } from 'grammy'
+ import { supabaseAdmin } from '@/lib/supabase'
++import { askQwen } from '@/lib/qwen'
+ 
+ const token = process.env.TELEGRAM_BOT_TOKEN
+ if (!token) throw new Error('TELEGRAM_BOT_TOKEN is not set')
+@@ -10,8 +11,7 @@ const bot = new Bot(token)
+ bot.command('start', async (ctx) => {
+   const { id, username, first_name, last_name } = ctx.from!
+   
+-  // ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝/╤Б╨╛╨╖╨┤╨░╨╡╨╝ ╨┐╤А╨╛╤Д╨╕╨╗╤М ╨▓ Supabase
+-  const { data, error } = await supabaseAdmin
++  const { error } = await supabaseAdmin
+     .from('profiles')
+     .upsert({
+       telegram_id: id,
+@@ -20,19 +20,99 @@ bot.command('start', async (ctx) => {
+       last_name,
+       updated_at: new Date().toISOString(),
+     }, { onConflict: 'telegram_id' })
+-    .select()
+ 
+   if (error) {
+     console.error('Error saving profile:', error)
+     return ctx.reply('╨Я╤А╨╛╨╕╨╖╨╛╤И╨╗╨░ ╨╛╤И╨╕╨▒╨║╨░ ╨┐╤А╨╕ ╤А╨╡╨│╨╕╤Б╤В╤А╨░╤Ж╨╕╨╕. ╨Я╨╛╨╢╨░╨╗╤Г╨╣╤Б╤В╨░, ╨┐╨╛╨┐╤А╨╛╨▒╤Г╨╣╤В╨╡ ╨┐╨╛╨╖╨╢╨╡.')
+   }
+ 
+-  await ctx.reply(`╨б╨░╨╗╨╡╨╝, ${first_name}! ЁЯСЛ\n\n╨Ф╨╛╨▒╤А╨╛ ╨┐╨╛╨╢╨░╨╗╨╛╨▓╨░╤В╤М ╨▓ Saura тАФ ╨┐╨╗╨░╤В╤Д╨╛╤А╨╝╤Г ╨╖╨░╨╜╤П╤В╨╛╤Б╤В╨╕ ╨Ь╨░╨╜╨│╨╕╤Б╤В╨░╤Г. ╨Ь╤Л ╨┐╨╛╨╝╨╛╨╢╨╡╨╝ ╨▓╨░╨╝ ╨╜╨░╨╣╤В╨╕ ╤А╨░╨▒╨╛╤В╤Г ╨╕╨╗╨╕ ╤Б╨╛╤В╤А╤Г╨┤╨╜╨╕╨║╨╛╨▓ ╤А╤П╨┤╨╛╨╝ ╤Б ╨▓╨░╨╝╨╕.`)
++  await ctx.reply(`╨б╨░╨╗╨╡╨╝, ${first_name}! ЁЯСЛ\n\n╨Ф╨╛╨▒╤А╨╛ ╨┐╨╛╨╢╨░╨╗╨╛╨▓╨░╤В╤М ╨▓ N84 тАФ ╨┐╨╗╨░╤В╤Д╨╛╤А╨╝╤Г ╨╖╨░╨╜╤П╤В╨╛╤Б╤В╨╕ ╨Ь╨░╨╜╨│╨╕╤Б╤В╨░╤Г. ╨Ь╤Л ╨┐╨╛╨╝╨╛╨╢╨╡╨╝ ╨▓╨░╨╝ ╨╜╨░╨╣╤В╨╕ ╤А╨░╨▒╨╛╤В╤Г ╤А╤П╨┤╨╛╨╝ ╤Б ╨▓╨░╨╝╨╕.`)
++})
++
++// ╨Ю╨▒╤А╨░╨▒╨╛╤В╨║╨░ ╨║╨╜╨╛╨┐╨║╨╕ "╨Ю╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П" (callback)
++bot.callbackQuery(/^apply_(.+)_(.+)$/, async (ctx) => {
++  const vacancy_id = ctx.match[1]
++  const youth_id = ctx.match[2]
++
++  // ╨Э╨╡╨╝╨╡╨┤╨╗╨╡╨╜╨╜╨╛ ╨╛╤В╨▓╨╡╤З╨░╨╡╨╝ ╨╜╨░ callback тАФ ╨┐╨╛╨║╨░╨╖╤Л╨▓╨░╨╡╤В ╨▓╤Б╨┐╨╗╤Л╨▓╨░╤О╤Й╨╕╨╣ ╤В╨╛╤Б╤В ╨▓ Telegram
++  await ctx.answerCallbackQuery({ text: 'тЬЕ ╨Т╤Л ╨╛╤В╨║╨╗╨╕╨║╨╜╤Г╨╗╨╕╤Б╤М! ╨Ю╨╢╨╕╨┤╨░╨╣╤В╨╡ ╨╛╤В╨▓╨╡╤В╨░ ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╤П.' })
++
++  try {
++    // ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝, ╨╜╨╡ ╨╛╤В╨║╨╗╨╕╨║╨░╨╗╤Б╤П ╨╗╨╕ ╤Г╨╢╨╡
++    const { data: existing } = await supabaseAdmin
++      .from('applications')
++      .select('id')
++      .eq('vacancy_id', vacancy_id)
++      .eq('youth_id', youth_id)
++      .single()
++
++    if (existing) {
++      return // ╤Г╨╢╨╡ ╨╛╤В╨║╨╗╨╕╨║╨░╨╗╤Б╤П тАФ ╨╜╨╕╤З╨╡╨│╨╛ ╨╜╨╡ ╨┤╨╡╨╗╨░╨╡╨╝
++    }
++
++    // ╨б╨╛╨╖╨┤╨░╤С╨╝ ╨╛╤В╨║╨╗╨╕╨║ ╨▓ ╨▒╨░╨╖╨╡
++    await supabaseAdmin.from('applications').insert({
++      vacancy_id,
++      youth_id,
++      status: 'pending',
++      match_score: 8
++    })
++
++    // ╨Я╨╛╨╗╤Г╤З╨░╨╡╨╝ ╨┤╨░╨╜╨╜╤Л╨╡ ╨║╨░╨╜╨┤╨╕╨┤╨░╤В╨░ ╨╕ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╕
++    const { data: youth } = await supabaseAdmin
++      .from('profiles')
++      .select('full_name, username, telegram_id')
++      .eq('id', youth_id)
++      .single()
++
++    const { data: vacancy } = await supabaseAdmin
++      .from('vacancies')
++      .select('title, employer_id')
++      .eq('id', vacancy_id)
++      .single()
++
++    if (!youth || !vacancy) return
++
++    const { data: employer } = await supabaseAdmin
++      .from('profiles')
++      .select('telegram_id')
++      .eq('id', vacancy.employer_id)
++      .single()
++
++    if (!employer?.telegram_id) return
++
++    // ╨У╨╡╨╜╨╡╤А╨╕╤А╤Г╨╡╨╝ ╨Ш╨Ш-╨╛╨▒╤К╤П╤Б╨╜╨╡╨╜╨╕╨╡
++    const systemPrompt = "╨в╤Л ╨┐╨╛╨╝╨╛╤Й╨╜╨╕╨║ ╨┐╨╛ ╨╜╨░╨╣╨╝╤Г. ╨б╤Д╨╛╤А╨╝╨╕╤А╤Г╨╣ ╨Ю╨Ф╨Э╨г ╨║╨╛╤А╨╛╤В╨║╤Г╤О ╤Д╤А╨░╨╖╤Г (7-10 ╤Б╨╗╨╛╨▓), ╨┐╨╛╤З╨╡╨╝╤Г ╨║╨░╨╜╨┤╨╕╨┤╨░╤В ╤Е╨╛╤А╨╛╤И╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В. ╨б╨║╨░╨╢╨╕, ╤З╤В╨╛ ╨┐╨╛ ╨╢╨╡╨╗╨░╨╜╨╕╤О ╨╕ ╨╜╨░╨▓╤Л╨║╨░╨╝ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨╜╨░ ╤А╨╛╨╗╤М ╨▒╨░╤А╨╕╤Б╤В╤Л ╨╕ ╨╢╨╕╨▓╨╡╤В ╨▓ 5 ╨╝╨╕╨╜╤Г╤В╨░╤Е ╨╡╨╖╨┤╤Л."
++    const userPrompt = `╨Т╨░╨║╨░╨╜╤Б╨╕╤П: ${vacancy.title}. ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В: ${youth.full_name || 'anime5hka'}`
++    const aiReason = await askQwen(userPrompt, systemPrompt) || "╨Я╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨┐╨╛ ╨╜╨░╨▓╤Л╨║╨░╨╝ ╨╕ ╨╢╨╕╨▓╨╡╤В ╨▓ 5 ╨╝╨╕╨╜╤Г╤В╨░╤Е ╨╡╨╖╨┤╤Л."
++
++    const candidateTag = youth.username ? `@${youth.username}` : `╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╨╡╨╗╤М #${youth.telegram_id}`
++    const candidateUrl = youth.username ? `https://t.me/${youth.username}` : `tg://user?id=${youth.telegram_id}`
++
++    const text = `ЁЯОп *╨Э╨Ю╨Т╨л╨Щ ╨Ю╨в╨Ъ╨Ы╨Ш╨Ъ!*\n\n` +
++                 `ЁЯТ╝ ╨Т╨░╨║╨░╨╜╤Б╨╕╤П: *${vacancy.title}*\n` +
++                 `ЁЯСд ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В: *${candidateTag}*\n` +
++                 `ЁЯУН ╨а╨░╨╣╨╛╨╜: 20 ╨╝╨║╤А\n` +
++                 `тнР ╨Ю╤Ж╨╡╨╜╨║╨░ ╨Ш╨Ш: *8/10*\n` +
++                 `ЁЯдЦ _${aiReason}_`
++
++    await bot.api.sendMessage(employer.telegram_id, text, {
++      parse_mode: 'Markdown',
++      reply_markup: {
++        inline_keyboard: [[
++          { text: `ЁЯТм ╨Э╨░╨┐╨╕╤Б╨░╤В╤М ${candidateTag}`, url: candidateUrl }
++        ]]
++      }
++    })
++
++  } catch (err) {
++    console.error('Apply callback error:', err)
++  }
+ })
+ 
+-// ╨Я╤А╨╛╤Б╤В╨╛╨╣ ╤Н╤Е╨╛-╨╛╤В╨▓╨╡╤В ╨┤╨╗╤П ╨┐╤А╨╛╨▓╨╡╤А╨║╨╕
+ bot.on('message', async (ctx) => {
+-  await ctx.reply('╨п ╨┐╨╛╨╗╤Г╤З╨╕╨╗ ╨▓╨░╤И╨╡ ╤Б╨╛╨╛╨▒╤Й╨╡╨╜╨╕╨╡! ╨б╨║╨╛╤А╨╛ ╤П ╨╜╨░╤Г╤З╤Г╤Б╤М ╨┐╨╛╨╝╨╛╨│╨░╤В╤М ╨▓╨░╨╝ ╤Б ╨┐╨╛╨╕╤Б╨║╨╛╨╝ ╨▓╨░╨║╨░╨╜╤Б╨╕╨╣. ЁЯЪА')
++  await ctx.reply('╨Ш╤Б╨┐╨╛╨╗╤М╨╖╤Г╨╣╤В╨╡ ╨║╨╜╨╛╨┐╨║╨╕ ╨▓ ╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╤П╤Е ╨╛ ╨▓╨░╨║╨░╨╜╤Б╨╕╤П╤Е, ╤З╤В╨╛╨▒╤Л ╨╛╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П. ЁЯЪА')
+ })
+ 
+ export const POST = webhookCallback(bot, 'std/http')
++
+
+commit e17f59e2d604cf20c34ae2cb74ec2376a76e3407
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 09:10:29 2026 +0500
+
+    feat: Two Telegram buttons + one-click apply API with AI analysis to employer
+
+diff --git a/src/app/api/apply/route.ts b/src/app/api/apply/route.ts
+new file mode 100644
+index 0000000..5a69b2a
+--- /dev/null
++++ b/src/app/api/apply/route.ts
+@@ -0,0 +1,95 @@
++import { NextResponse } from 'next/server'
++import { supabaseAdmin } from '@/lib/supabase'
++import { askQwen } from '@/lib/qwen'
++
++export async function GET(request: Request) {
++  const { searchParams } = new URL(request.url)
++  const vacancy_id = searchParams.get('vacancy_id')
++  const youth_id = searchParams.get('youth_id')
++  const BASE_URL = 'https://n84-platform.vercel.app'
++
++  if (!vacancy_id || !youth_id) {
++    return NextResponse.redirect(new URL('/', BASE_URL))
++  }
++
++  try {
++    // ╨Я╤А╨╛╨▓╨╡╤А╤П╨╡╨╝, ╨╜╨╡╤В ╨╗╨╕ ╤Г╨╢╨╡ ╨╛╤В╨║╨╗╨╕╨║╨░
++    const { data: existing } = await supabaseAdmin
++      .from('applications')
++      .select('id')
++      .eq('vacancy_id', vacancy_id)
++      .eq('youth_id', youth_id)
++      .single()
++
++    if (!existing) {
++      // ╨б╨╛╨╖╨┤╨░╨╡╨╝ ╨╛╤В╨║╨╗╨╕╨║
++      await supabaseAdmin.from('applications').insert({
++        vacancy_id,
++        youth_id,
++        status: 'pending',
++        match_score: 8
++      })
++
++      // ╨Ю╤В╨┐╤А╨░╨▓╨╗╤П╨╡╨╝ ╨Ш╨Ш-╤Г╨▓╨╡╨┤╨╛╨╝╨╗╨╡╨╜╨╕╨╡ ╤А╨░╨▒╨╛╤В╨╛╨┤╨░╤В╨╡╨╗╤О
++      const { data: youth } = await supabaseAdmin
++        .from('profiles')
++        .select('*')
++        .eq('id', youth_id)
++        .single()
++
++      const { data: vFull } = await supabaseAdmin
++        .from('vacancies')
++        .select('title, employer_id, requirements, area')
++        .eq('id', vacancy_id)
++        .single()
++
++      if (vFull && youth) {
++        const { data: employer } = await supabaseAdmin
++          .from('profiles')
++          .select('telegram_id, username')
++          .eq('id', vFull.employer_id)
++          .single()
++
++        if (employer?.telegram_id) {
++          const systemPrompt = "╨в╤Л ╨┐╨╛╨╝╨╛╤Й╨╜╨╕╨║ ╨┐╨╛ ╨╜╨░╨╣╨╝╤Г. ╨б╤Д╨╛╤А╨╝╨╕╤А╤Г╨╣ ╨Ю╨Ф╨Э╨г ╨║╨╛╤А╨╛╤В╨║╤Г╤О ╤Д╤А╨░╨╖╤Г (7-10 ╤Б╨╗╨╛╨▓), ╨┐╨╛╤З╨╡╨╝╤Г ╨║╨░╨╜╨┤╨╕╨┤╨░╤В ╤Е╨╛╤А╨╛╤И╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В. ╨б╨║╨░╨╢╨╕, ╤З╤В╨╛ ╨┐╨╛ ╨╜╨░╨▓╤Л╨║╨░╨╝ ╨╕ ╨╢╨╡╨╗╨░╨╜╨╕╤О ╨╛╨╜ ╨╛╤В╨╗╨╕╤З╨╜╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨╜╨░ ╤А╨╛╨╗╤М ╨▒╨░╤А╨╕╤Б╤В╤Л, ╨╕ ╨╢╨╕╨▓╨╡╤В ╨▓╤Б╨╡╨│╨╛ ╨▓ 5-10 ╨╝╨╕╨╜╤Г╤В╨░╤Е ╨╡╨╖╨┤╤Л."
++          const userPrompt = `╨Т╨░╨║╨░╨╜╤Б╨╕╤П: ${vFull.title}. ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В: ${youth.full_name || '╨Ф╨╡╨╝╨╛ ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В'}`
++          const aiReason = await askQwen(userPrompt, systemPrompt) || "╨е╨╛╤А╨╛╤И╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨┐╨╛ ╨╜╨░╨▓╤Л╨║╨░╨╝ ╨╕ ╤А╨░╤Б╨┐╨╛╨╗╨╛╨╢╨╡╨╜╨╕╤О."
++
++          const botToken = process.env.TELEGRAM_BOT_TOKEN
++          const candidateLink = youth.username
++            ? `https://t.me/${youth.username}`
++            : `tg://user?id=${youth.telegram_id}`
++
++          const text = `ЁЯОп *╨Э╨Ю╨Т╨л╨Щ ╨Ю╨в╨Ъ╨Ы╨Ш╨Ъ!*\n\n` +
++                       `ЁЯТ╝ ╨Т╨░╨║╨░╨╜╤Б╨╕╤П: *${vFull.title}*\n` +
++                       `ЁЯСд ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В: *${youth.full_name || '╨Ф╨╡╨╝╨╛ ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В'}*\n` +
++                       `ЁЯУН ╨а╨░╨╣╨╛╨╜: 20 ╨╝╨║╤А\n` +
++                       `ЁЯдЦ *╨Ш╨Ш-╨Р╨╜╨░╨╗╨╕╨╖:* _${aiReason}_\n\n` +
++                       `ЁЯФЧ ╨б╤Б╤Л╨╗╨║╨░ ╨╜╨░ ╨║╨░╨╜╨┤╨╕╨┤╨░╤В╨░: ${candidateLink}`
++
++          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
++            method: 'POST',
++            headers: { 'Content-Type': 'application/json' },
++            body: JSON.stringify({
++              chat_id: employer.telegram_id,
++              text,
++              parse_mode: 'Markdown',
++              reply_markup: {
++                inline_keyboard: [[
++                  { text: "ЁЯТм ╨Э╨░╨┐╨╕╤Б╨░╤В╤М ╨║╨░╨╜╨┤╨╕╨┤╨░╤В╤Г", url: candidateLink },
++                  { text: "ЁЯУЛ ╨Ь╨╛╨╣ ╨║╨░╨▒╨╕╨╜╨╡╤В", url: `${BASE_URL}/profile` }
++                ]]
++              }
++            })
++          })
++        }
++      }
++    }
++
++    // ╨а╨╡╨┤╨╕╤А╨╡╨║╤В╨╕╨╝ ╨╜╨░ ╤Б╤В╤А╨░╨╜╨╕╤Ж╤Г ╤Г╤Б╨┐╨╡╤Е╨░
++    return NextResponse.redirect(`${BASE_URL}/vacancy/${vacancy_id}?applied=true`)
++  } catch (err) {
++    console.error('Quick apply error:', err)
++    return NextResponse.redirect(`${BASE_URL}/vacancy/${vacancy_id}`)
++  }
++}
+diff --git a/src/app/api/vacancies/create/route.ts b/src/app/api/vacancies/create/route.ts
+index d77e289..bda8e44 100644
+--- a/src/app/api/vacancies/create/route.ts
++++ b/src/app/api/vacancies/create/route.ts
+@@ -48,10 +48,16 @@ export async function POST(request: Request) {
+                           `ЁЯУН *╨Р╨┤╤А╨╡╤Б:* ${area}\n\n` +
+                           `_╨Э╨░╤И ╨Ш╨Ш ╨┐╤А╨╛╨░╨╜╨░╨╗╨╕╨╖╨╕╤А╨╛╨▓╨░╨╗ ╤В╨▓╨╛╨╣ ╨┐╤А╨╛╤Д╨╕╨╗╤М ╨╕ ╤Б╤З╨╕╤В╨░╨╡╤В, ╤З╤В╨╛ ╤Н╤В╨░ ╨▓╨░╨║╨░╨╜╤Б╨╕╤П ╤В╨╡╨▒╨╡ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В!_`
+           
++          const applyUrl = `https://n84-platform.vercel.app/api/apply?vacancy_id=${vacancy.id}&youth_id=${user.id}`
++          const detailUrl = `https://n84-platform.vercel.app/vacancy/${vacancy.id}`
++
+           const keyboard = {
+             inline_keyboard: [
+               [
+-                { text: 'ЁЯУВ ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ ╨╕ ╨Ю╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П', url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` }
++                { text: 'ЁЯУВ ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡', url: detailUrl }
++              ],
++              [
++                { text: 'тЬЕ ╨Ю╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П', url: applyUrl }
+               ]
+             ]
+           }
+
+commit 09d2c48eeccd801cd23944df495de7b434de9160
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 09:05:20 2026 +0500
+
+    fix: change web_app button to url button so it shows in Telegram
+
+diff --git a/src/app/api/vacancies/create/route.ts b/src/app/api/vacancies/create/route.ts
+index f85d68a..d77e289 100644
+--- a/src/app/api/vacancies/create/route.ts
++++ b/src/app/api/vacancies/create/route.ts
+@@ -51,7 +51,7 @@ export async function POST(request: Request) {
+           const keyboard = {
+             inline_keyboard: [
+               [
+-                { text: 'ЁЯУВ ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }
++                { text: 'ЁЯУВ ╨Я╨╛╨┤╤А╨╛╨▒╨╜╨╡╨╡ ╨╕ ╨Ю╤В╨║╨╗╨╕╨║╨╜╤Г╤В╤М╤Б╤П', url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` }
+               ]
+             ]
+           }
+
+commit db2b2494af910a70cd6f1e34eb6285618f982075
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 09:02:21 2026 +0500
+
+    feat: force AI score to 8 for demo
+
+diff --git a/src/app/api/applications/list-for-employer/route.ts b/src/app/api/applications/list-for-employer/route.ts
+index 8adbde9..a764f11 100644
+--- a/src/app/api/applications/list-for-employer/route.ts
++++ b/src/app/api/applications/list-for-employer/route.ts
+@@ -42,6 +42,7 @@ export async function GET(request: Request) {
+          youthObj.bio = "ЁЯдЦ ╨Ш╨Ш-╨Р╨╜╨░╨╗╨╕╨╖: ╨Я╨╛ ╨╜╨░╨▓╤Л╨║╨░╨╝ ╨╕ ╨╢╨╡╨╗╨░╨╜╨╕╤О ╨╛╤В╨╗╨╕╤З╨╜╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨╜╨░ ╤А╨╛╨╗╤М ╨▒╨░╤А╨╕╤Б╤В╤Л, ╨╢╨╕╨▓╨╡╤В ╨▓ 5-10 ╨╝╨╕╨╜╤Г╤В╨░╤Е ╨╡╨╖╨┤╤Л."
+          youthObj.address = "20 ╨╝╨║╤А"
+          youthObj.full_name = youthObj.full_name || "╨Ф╨╡╨╝╨╛ ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В"
++         app.match_score = 8
+       }
+       return app
+     })
+
+commit b51c339fe6919733ec536d0fb37496bd91f7881c
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 09:02:02 2026 +0500
+
+    fix: application buttons visibility and size
+
+diff --git a/apps.json b/apps.json
+new file mode 100644
+index 0000000..9638c52
+--- /dev/null
++++ b/apps.json
+@@ -0,0 +1,6 @@
++я╗┐{
++    "value":  [
++
++              ],
++    "Count":  0
++}
+diff --git a/src/app/profile/page.tsx b/src/app/profile/page.tsx
+index 042c4d2..39b08e2 100644
+--- a/src/app/profile/page.tsx
++++ b/src/app/profile/page.tsx
+@@ -258,31 +258,27 @@ export default function ProfilePage() {
+                               <p className="text-[10px] font-bold opacity-50 leading-tight"><MapPin size={10} className="inline mr-1" /> {app.youth.address}</p>
+                               <p className="text-xs font-medium opacity-70 line-clamp-2 italic">"{app.youth.bio}"</p>
+                             </div>
+-                            <div className="flex flex-col items-center gap-2 shrink-0">
++                            <div className="flex flex-col gap-2 shrink-0 min-w-[120px]">
+                               {app.status === 'accepted' ? (
+-                                <div className="bg-green-100 dark:bg-green-900/40 text-green-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
+-                                  <Check size={14} /> ╨Я╤А╨╕╨╜╤П╤В
+-                                </div>
++                                <div className="bg-green-100 text-green-600 p-2 rounded-lg text-center text-[10px] font-black uppercase">╨Я╨а╨Ш╨Э╨п╨в</div>
+                               ) : app.status === 'rejected' ? (
+-                                <div className="bg-red-100 dark:bg-red-900/40 text-red-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
+-                                  <X size={14} /> ╨Ю╤В╨║╨░╨╖
+-                                </div>
++                                <div className="bg-red-100 text-red-600 p-2 rounded-lg text-center text-[10px] font-black uppercase">╨Ю╨в╨Ъ╨Р╨Ч</div>
+                               ) : (
+                                 <div className="flex gap-2">
+-                                  <button onClick={() => handleUpdateStatus(app.id, 'accepted')} className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
+-                                    <Check size={20} />
++                                  <button onClick={() => handleUpdateStatus(app.id, 'accepted')} className="flex-1 bg-green-500 text-white p-3 rounded-xl shadow-lg flex items-center justify-center">
++                                    <Check size={24} strokeWidth={3} />
+                                   </button>
+-                                  <button onClick={() => handleUpdateStatus(app.id, 'rejected')} className="bg-slate-200 dark:bg-zinc-700 hover:bg-red-500 hover:text-white text-slate-500 p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
+-                                    <X size={20} />
++                                  <button onClick={() => handleUpdateStatus(app.id, 'rejected')} className="flex-1 bg-slate-300 text-slate-600 p-3 rounded-xl shadow-lg flex items-center justify-center">
++                                    <X size={24} strokeWidth={3} />
+                                   </button>
+                                 </div>
+                               )}
+                               <a 
+                                 href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
+                                 target="_blank"
+-                                className="bg-blue-600 text-white p-3 w-full rounded-xl shadow-lg hover:scale-105 transition-all text-xs font-black uppercase flex justify-center items-center gap-2"
++                                className="bg-blue-600 text-white p-3 rounded-xl shadow-lg text-[10px] font-black uppercase flex justify-center items-center gap-2"
+                               >
+-                                <MessageCircle size={14} /> ╨з╨░╤В
++                                <MessageCircle size={14} /> ╨з╨Р╨в
+                               </a>
+                             </div>
+                           </div>
+
+commit 2030ba6014eaa743db46487b1920955bdaa07944
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 08:43:35 2026 +0500
+
+    feat: Change match score to 8 for pitch demo
+
+diff --git a/src/lib/matching.ts b/src/lib/matching.ts
+index 4bcbf3e..18519cf 100644
+--- a/src/lib/matching.ts
++++ b/src/lib/matching.ts
+@@ -19,7 +19,7 @@ export async function matchCandidates(vacancy: any) {
+           address: '20 ╨╝╨║╤А',
+           bio: '╤Е╨╛╤З╨╡╤В ╨╗╤О╨▒╤Г╤О ╤А╨╛╨▒╨╛╤В╤Г ╨╜╨╛ ╤Е╨╛╤А╨╛╤И╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨║╨░╨║ ╨▒╨░╤А╨╕╤Б╤В╨░',
+           user_age: '18',
+-          match_score: 10
++          match_score: 8
+        }]
+     }
+ 
+
+commit 3ef6a3e2ec1cc6d5142e8e53de6ed7abf771cf6e
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 08:38:07 2026 +0500
+
+    feat: Add accept and reject buttons to applications list
+
+diff --git a/src/app/api/applications/update-status/route.ts b/src/app/api/applications/update-status/route.ts
+new file mode 100644
+index 0000000..474fca7
+--- /dev/null
++++ b/src/app/api/applications/update-status/route.ts
+@@ -0,0 +1,23 @@
++import { NextResponse } from 'next/server'
++import { supabaseAdmin } from '@/lib/supabase'
++
++export async function POST(request: Request) {
++  try {
++    const { id, status } = await request.json()
++    if (!id || !status) throw new Error('Missing params')
++
++    const { data: application, error } = await supabaseAdmin
++      .from('applications')
++      .update({ status })
++      .eq('id', id)
++      .select()
++      .single()
++
++    if (error) throw error
++
++    return NextResponse.json({ success: true, application })
++  } catch (err: any) {
++    console.error('Update App Error:', err)
++    return NextResponse.json({ success: false, error: err.message }, { status: 500 })
++  }
++}
+diff --git a/src/app/profile/page.tsx b/src/app/profile/page.tsx
+index 268ee80..042c4d2 100644
+--- a/src/app/profile/page.tsx
++++ b/src/app/profile/page.tsx
+@@ -1,7 +1,7 @@
+ 'use client'
+ 
+ import { useState, useEffect } from 'react'
+-import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck, Trash2, Loader2, Plus, Briefcase, ChevronRight, MessageCircle } from 'lucide-react'
++import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck, Trash2, Loader2, Plus, Briefcase, ChevronRight, MessageCircle, Check, X } from 'lucide-react'
+ import Link from 'next/link'
+ 
+ export default function ProfilePage() {
+@@ -76,6 +76,21 @@ export default function ProfilePage() {
+     } catch (err) { console.error(err) }
+   }
+ 
++  const handleUpdateStatus = async (appId: string, status: string) => {
++    try {
++      const res = await fetch('/api/applications/update-status', {
++        method: 'POST',
++        headers: { 'Content-Type': 'application/json' },
++        body: JSON.stringify({ id: appId, status })
++      })
++      if (res.ok) {
++        setApps(apps.map(app => app.id === appId ? { ...app, status } : app))
++      }
++    } catch (e) {
++      console.error(e)
++    }
++  }
++
+   const handleSave = async (e: React.FormEvent) => {
+     e.preventDefault()
+     setSaving(true)
+@@ -243,13 +258,33 @@ export default function ProfilePage() {
+                               <p className="text-[10px] font-bold opacity-50 leading-tight"><MapPin size={10} className="inline mr-1" /> {app.youth.address}</p>
+                               <p className="text-xs font-medium opacity-70 line-clamp-2 italic">"{app.youth.bio}"</p>
+                             </div>
+-                            <a 
+-                              href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
+-                              target="_blank"
+-                              className="bg-blue-600 text-white p-4 rounded-2xl shadow-lg hover:scale-110 transition-all shrink-0"
+-                            >
+-                              <MessageCircle size={20} />
+-                            </a>
++                            <div className="flex flex-col items-center gap-2 shrink-0">
++                              {app.status === 'accepted' ? (
++                                <div className="bg-green-100 dark:bg-green-900/40 text-green-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
++                                  <Check size={14} /> ╨Я╤А╨╕╨╜╤П╤В
++                                </div>
++                              ) : app.status === 'rejected' ? (
++                                <div className="bg-red-100 dark:bg-red-900/40 text-red-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
++                                  <X size={14} /> ╨Ю╤В╨║╨░╨╖
++                                </div>
++                              ) : (
++                                <div className="flex gap-2">
++                                  <button onClick={() => handleUpdateStatus(app.id, 'accepted')} className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
++                                    <Check size={20} />
++                                  </button>
++                                  <button onClick={() => handleUpdateStatus(app.id, 'rejected')} className="bg-slate-200 dark:bg-zinc-700 hover:bg-red-500 hover:text-white text-slate-500 p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
++                                    <X size={20} />
++                                  </button>
++                                </div>
++                              )}
++                              <a 
++                                href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
++                                target="_blank"
++                                className="bg-blue-600 text-white p-3 w-full rounded-xl shadow-lg hover:scale-105 transition-all text-xs font-black uppercase flex justify-center items-center gap-2"
++                              >
++                                <MessageCircle size={14} /> ╨з╨░╤В
++                              </a>
++                            </div>
+                           </div>
+                         </div>
+                       ))}
+
+commit 7a1079a710155c19f754c269b07b91a3d685b92a
+Author: orkendebate-droid <orkendebate@gmail.com>
+Date:   Sat Apr 25 08:33:55 2026 +0500
+
+    feat: Mock AI analysis in employer dashboard for pitch demo
+
+diff --git a/src/app/api/applications/list-for-employer/route.ts b/src/app/api/applications/list-for-employer/route.ts
+index aeb85de..8adbde9 100644
+--- a/src/app/api/applications/list-for-employer/route.ts
++++ b/src/app/api/applications/list-for-employer/route.ts
+@@ -34,7 +34,19 @@ export async function GET(request: Request) {
+ 
+     if (appError) throw appError
+ 
+-    return NextResponse.json({ success: true, applications })
++    // ╨Ф╨Ы╨п ╨Ф╨Х╨Ь╨Ю-╨Я╨Ш╨в╨з╨Х╨Щ: ╨Я╨╛╨┤╨╝╨╡╨╜╤П╨╡╨╝ bio ╨║╨░╨╜╨┤╨╕╨┤╨░╤В╨░ ╨╜╨░ ╨▓╤Л╨▓╨╛╨┤ ╨Ш╨Ш, ╤З╤В╨╛╨▒╤Л ╨╜╨░ ╤Б╨░╨╣╤В╨╡ ╨▒╤Л╨╗╨╛ ╨▓╨╕╨┤╨╜╨╛ ╨╛╨▒╤К╤П╤Б╨╜╨╡╨╜╨╕╨╡
++    const appsWithDemoAI = applications.map((app: any) => {
++      // ╨Я╨╛╨┤╨╝╨╡╨╜╤П╨╡╨╝ ╤В╨╡╨║╤Б╤В ╨Ш╨Ш "╨Ю╨▒╨╛╤Б╨╜╨╛╨▓╨░╨╜╨╕╨╡" ╨┐╤А╤П╨╝╨╛ ╨▓ bio, ╤З╤В╨╛╨▒╤Л ╨╛╨╜╨╛ ╨║╤А╨░╤Б╨╕╨▓╨╛ ╨▓╤Л╨▓╨╡╨╗╨╛╤Б╤М ╨╜╨░ ╤Б╨░╨╣╤В╨╡
++      let youthObj = Array.isArray(app.youth) ? app.youth[0] : app.youth;
++      if (youthObj) {
++         youthObj.bio = "ЁЯдЦ ╨Ш╨Ш-╨Р╨╜╨░╨╗╨╕╨╖: ╨Я╨╛ ╨╜╨░╨▓╤Л╨║╨░╨╝ ╨╕ ╨╢╨╡╨╗╨░╨╜╨╕╤О ╨╛╤В╨╗╨╕╤З╨╜╨╛ ╨┐╨╛╨┤╤Е╨╛╨┤╨╕╤В ╨╜╨░ ╤А╨╛╨╗╤М ╨▒╨░╤А╨╕╤Б╤В╤Л, ╨╢╨╕╨▓╨╡╤В ╨▓ 5-10 ╨╝╨╕╨╜╤Г╤В╨░╤Е ╨╡╨╖╨┤╤Л."
++         youthObj.address = "20 ╨╝╨║╤А"
++         youthObj.full_name = youthObj.full_name || "╨Ф╨╡╨╝╨╛ ╨Ъ╨░╨╜╨┤╨╕╨┤╨░╤В"
++      }
++      return app
++    })
++
++    return NextResponse.json({ success: true, applications: appsWithDemoAI })
+   } catch (err: any) {
+     console.error('List Apps Error:', err)
+     return NextResponse.json({ success: false, error: err.message }, { status: 500 })

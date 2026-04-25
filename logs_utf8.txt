@@ -1,0 +1,58 @@
+﻿node : c:\Users\user\Desktop\
+F84\node_modules\postgres\cjs
+\src\index.js:550
+строка:1 знак:1
++ node c:\Users\user\Desktop\
+F84\src\scripts\delete_one_us
+er.cjs > c:\U ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~
+    + CategoryInfo           
+   : NotSpecified: (c:\User  
+  s\user\D...rc\index.js:5   
+ 50:String) [], RemoteExc    
+eption
+    + FullyQualifiedErrorId  
+   : NativeCommandError
+ 
+      password: decodeURIComp
+onent(urlObj.password),
+                ^
+
+URIError: URI malformed
+    at decodeURIComponent (<a
+nonymous>)
+    at parseUrl (c:\Users\use
+r\Desktop\F84\node_modules\po
+stgres\cjs\src\index.js:550:1
+7)
+    at parseOptions (c:\Users
+\user\Desktop\F84\node_module
+s\postgres\cjs\src\index.js:4
+36:30)
+    at Postgres (c:\Users\use
+r\Desktop\F84\node_modules\po
+stgres\cjs\src\index.js:50:19
+)
+    at Object.<anonymous> (c:
+\Users\user\Desktop\F84\src\s
+cripts\delete_one_user.cjs:3:
+13)
+    at Module._compile (node:
+internal/modules/cjs/loader:1
+761:14)
+    at Object..js (node:inter
+nal/modules/cjs/loader:1893:1
+0)
+    at Module.load (node:inte
+rnal/modules/cjs/loader:1481:
+32)
+    at Module._load (node:int
+ernal/modules/cjs/loader:1300
+:12)
+    at TracingChannel.traceSy
+nc (node:diagnostics_channel:
+328:14)
+
+Node.js v24.13.0

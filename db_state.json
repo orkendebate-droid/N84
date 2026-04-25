@@ -1,0 +1,51 @@
+{
+  "authUsers": [],
+  "profiles": [
+    {
+      "id": "46ec648f-a749-421a-9e09-faba34ad0b6b",
+      "telegram_id": "8081104467",
+      "username": "jsstaguy",
+      "first_name": null,
+      "last_name": null,
+      "embedding": null,
+      "created_at": "2026-04-24T16:31:57.603Z",
+      "updated_at": "2026-04-24T16:31:57.304Z",
+      "role": "youth",
+      "full_name": "Gondon Ebanyi",
+      "address": "в 19 мкр 21 дом",
+      "birthday": null,
+      "bio": "Официантом",
+      "verification_code": null,
+      "is_verified": true,
+      "otp_code": "5558",
+      "company_name": null,
+      "bin_iin": null,
+      "industry": null,
+      "user_age": "2008.23.11",
+      "link": null
+    },
+    {
+      "id": "97fee37e-3b3f-49a5-9c44-dea2af4648f0",
+      "telegram_id": null,
+      "username": "anime5hka",
+      "first_name": null,
+      "last_name": null,
+      "embedding": null,
+      "created_at": "2026-04-25T08:20:29.868Z",
+      "updated_at": "2026-04-25T08:20:29.868Z",
+      "role": "employer",
+      "full_name": "Ихлас Мустафа Ерланулы",
+      "address": null,
+      "birthday": null,
+      "bio": null,
+      "verification_code": null,
+      "is_verified": false,
+      "otp_code": null,
+      "company_name": null,
+      "bin_iin": null,
+      "industry": null,
+      "user_age": null,
+      "link": null
+    }
+  ]
+}
