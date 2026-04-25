@@ -42,6 +42,7 @@ export async function GET(request: Request) {
          youthObj.bio = "🤖 ИИ-Анализ: По навыкам и желанию отлично подходит на роль баристы, живет в 5-10 минутах езды."
          youthObj.address = "20 мкр"
          youthObj.full_name = youthObj.full_name || "Демо Кандидат"
+         app.match_score = 8
       }
       return app
     })
