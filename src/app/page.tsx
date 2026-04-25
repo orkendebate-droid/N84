@@ -1,11 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Briefcase, Users, Bot, ArrowRight, Send, ShieldCheck, TrendingUp, Globe, Sparkles, MessageSquare, ChevronRight, User } from "lucide-react";
+import { Briefcase, Users, Bot, ArrowRight, Send, ShieldCheck, TrendingUp, Globe, Sparkles, MessageSquare, ChevronRight, User, Loader2, X } from "lucide-react";
 import Link from 'next/link'
 
 export default function Home() {
   const [user, setUser] = useState<any>(null)
+  const [health, setHealth] = useState<any>(null)
+  const [checkingHealth, setCheckingHealth] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('n84_user')
@@ -14,6 +16,17 @@ export default function Home() {
     }
   }, [])
 
+  const runHealthCheck = async () => {
+    setCheckingHealth(true)
+    try {
+      const res = await fetch('/api/health')
+      const data = await res.json()
+      setHealth(data)
+    } finally {
+      setCheckingHealth(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-950 text-slate-900 dark:text-zinc-50 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden">
       {/* Background Decor */}
@@ -21,6 +34,38 @@ export default function Home() {
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-600 blur-[130px] animate-pulse"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] rounded-full bg-blue-400 blur-[100px]"></div>
       </div>
+
+      {/* HEALTH MODAL */}
+      {health && (
+        <div className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 max-w-sm w-full shadow-2xl relative">
+            <button onClick={() => setHealth(null)} className="absolute top-6 right-6 opacity-30 hover:opacity-100">
+              <X size={24} />
+            </button>
+            <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-2">
+               <Bot className="text-blue-600" /> STATUS
+            </h3>
+            <div className="space-y-4 font-bold text-sm">
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl shadow-inner">
+                  <span>ВЕБ-САЙТ</span>
+                  <span>{health.website}</span>
+               </div>
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl shadow-inner">
+                  <span>БАЗА ДАННЫХ</span>
+                  <span>{health.database}</span>
+               </div>
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl shadow-inner">
+                  <span>ТЕЛЕГРАМ БОТ</span>
+                  <span>{health.telegram}</span>
+               </div>
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl shadow-inner">
+                  <span>QWEN ИИ</span>
+                  <span>{health.ai}</span>
+               </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-zinc-800">
@@ -36,14 +81,25 @@ export default function Home() {
              <Link href="/login" className="hover:text-blue-600 transition-colors">Вход / Регистрация</Link>
           </div>
 
-          {user ? (
-            <Link href="/profile" className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm hover:border-blue-600 transition-all group">
-              <span className="font-bold text-sm tracking-tight">{user.full_name}</span>
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-xs uppercase">{user.full_name?.[0]}</div>
-            </Link>
-          ) : (
-            <Link href="/login" className="bg-blue-600 text-white px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:scale-[1.03] active:scale-95 transition-all">Войти</Link>
-          )}
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={runHealthCheck} 
+              disabled={checkingHealth}
+              className="bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white px-4 py-2.5 text-[10px] uppercase font-black tracking-widest rounded-2xl flex items-center gap-2 hover:bg-slate-200 dark:hover:bg-zinc-700 transition-all border border-slate-200 dark:border-zinc-700 shadow-sm"
+            >
+              {checkingHealth ? <Loader2 className="animate-spin" size={14} /> : <ShieldCheck size={14} className="text-blue-600" />} 
+              <span className="hidden sm:inline">{checkingHealth ? 'Тест...' : 'ИИ-ТЕСТ'}</span>
+            </button>
+
+            {user ? (
+              <Link href="/profile" className="flex items-center gap-3 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 px-4 py-2 rounded-2xl shadow-sm hover:border-blue-600 transition-all group">
+                <span className="font-bold text-sm tracking-tight hidden sm:block">{user.full_name}</span>
+                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black text-xs uppercase">{user.full_name?.[0]}</div>
+              </Link>
+            ) : (
+              <Link href="/login" className="bg-blue-600 text-white px-6 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:scale-[1.03] active:scale-95 transition-all">Войти</Link>
+            )}
+          </div>
         </div>
       </nav>
 
