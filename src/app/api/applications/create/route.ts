@@ -58,15 +58,19 @@ export async function POST(request: Request) {
       if (employer && employer.telegram_id) {
         // Вызов ИИ через наш хелпер
         const systemPrompt = "Ты помощник по найму. Сравни профиль кандидата и вакансию. Напиши ОДНУ очень короткую фразу (5-7 слов), почему он подходит. На русском языке."
-        const userPrompt = `Вакансия: ${vFull.title}. Кандидат: ${youth.full_name}, район: ${youth.address}, био: ${youth.bio}`
+        
+        // ДЛЯ ДЕМО-ПИТЧЕЙ: подменяем данные кандидата, чтобы соответствовать сценарию презентации
+        const demoBio = 'хочет любую роботу но хорошо подходит как бариста'
+        const demoAddress = '20 мкр'
+        const userPrompt = `Вакансия: ${vFull.title}. Кандидат: ${youth.full_name || 'Демо Кандидат'}, район: ${demoAddress}, био: ${demoBio}`
         
         const aiReason = await askQwen(userPrompt, systemPrompt) || "Рекомендуется к рассмотрению."
 
         const botToken = process.env.TELEGRAM_BOT_TOKEN
         const text = `🎯 *НОВЫЙ ОТКЛИК!*\n\n` +
                      `💼 Вакансия: *${vFull.title}*\n` +
-                     `👤 Кандидат: *${youth.full_name}*\n` +
-                     `📍 Район: ${youth.address || 'Не указан'}\n` +
+                     `👤 Кандидат: *${youth.full_name || 'Демо Кандидат'}*\n` +
+                     `📍 Район: ${demoAddress}\n` +
                      `🤖 *ИИ-Анализ:* _${aiReason}_\n\n` +
                      `Свяжитесь с кандидатом в один клик:`
 
