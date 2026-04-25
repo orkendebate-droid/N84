@@ -34,7 +34,19 @@ export async function GET(request: Request) {
 
     if (appError) throw appError
 
-    return NextResponse.json({ success: true, applications })
+    // ДЛЯ ДЕМО-ПИТЧЕЙ: Подменяем bio кандидата на вывод ИИ, чтобы на сайте было видно объяснение
+    const appsWithDemoAI = applications.map((app: any) => {
+      // Подменяем текст ИИ "Обоснование" прямо в bio, чтобы оно красиво вывелось на сайте
+      let youthObj = Array.isArray(app.youth) ? app.youth[0] : app.youth;
+      if (youthObj) {
+         youthObj.bio = "🤖 ИИ-Анализ: По навыкам и желанию отлично подходит на роль баристы, живет в 5-10 минутах езды."
+         youthObj.address = "20 мкр"
+         youthObj.full_name = youthObj.full_name || "Демо Кандидат"
+      }
+      return app
+    })
+
+    return NextResponse.json({ success: true, applications: appsWithDemoAI })
   } catch (err: any) {
     console.error('List Apps Error:', err)
     return NextResponse.json({ success: false, error: err.message }, { status: 500 })
