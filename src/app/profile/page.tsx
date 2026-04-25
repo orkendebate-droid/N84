@@ -258,31 +258,27 @@ export default function ProfilePage() {
                               <p className="text-[10px] font-bold opacity-50 leading-tight"><MapPin size={10} className="inline mr-1" /> {app.youth.address}</p>
                               <p className="text-xs font-medium opacity-70 line-clamp-2 italic">"{app.youth.bio}"</p>
                             </div>
-                            <div className="flex flex-col items-center gap-2 shrink-0">
+                            <div className="flex flex-col gap-2 shrink-0 min-w-[120px]">
                               {app.status === 'accepted' ? (
-                                <div className="bg-green-100 dark:bg-green-900/40 text-green-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
-                                  <Check size={14} /> Принят
-                                </div>
+                                <div className="bg-green-100 text-green-600 p-2 rounded-lg text-center text-[10px] font-black uppercase">ПРИНЯТ</div>
                               ) : app.status === 'rejected' ? (
-                                <div className="bg-red-100 dark:bg-red-900/40 text-red-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
-                                  <X size={14} /> Отказ
-                                </div>
+                                <div className="bg-red-100 text-red-600 p-2 rounded-lg text-center text-[10px] font-black uppercase">ОТКАЗ</div>
                               ) : (
                                 <div className="flex gap-2">
-                                  <button onClick={() => handleUpdateStatus(app.id, 'accepted')} className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
-                                    <Check size={20} />
+                                  <button onClick={() => handleUpdateStatus(app.id, 'accepted')} className="flex-1 bg-green-500 text-white p-3 rounded-xl shadow-lg flex items-center justify-center">
+                                    <Check size={24} strokeWidth={3} />
                                   </button>
-                                  <button onClick={() => handleUpdateStatus(app.id, 'rejected')} className="bg-slate-200 dark:bg-zinc-700 hover:bg-red-500 hover:text-white text-slate-500 p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
-                                    <X size={20} />
+                                  <button onClick={() => handleUpdateStatus(app.id, 'rejected')} className="flex-1 bg-slate-300 text-slate-600 p-3 rounded-xl shadow-lg flex items-center justify-center">
+                                    <X size={24} strokeWidth={3} />
                                   </button>
                                 </div>
                               )}
                               <a 
                                 href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
                                 target="_blank"
-                                className="bg-blue-600 text-white p-3 w-full rounded-xl shadow-lg hover:scale-105 transition-all text-xs font-black uppercase flex justify-center items-center gap-2"
+                                className="bg-blue-600 text-white p-3 rounded-xl shadow-lg text-[10px] font-black uppercase flex justify-center items-center gap-2"
                               >
-                                <MessageCircle size={14} /> Чат
+                                <MessageCircle size={14} /> ЧАТ
                               </a>
                             </div>
                           </div>
