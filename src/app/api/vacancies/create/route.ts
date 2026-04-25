@@ -4,7 +4,7 @@ import { matchCandidates } from '@/lib/matching'
 
 export async function POST(request: Request) {
   try {
-    const { title, description, short_description, salary, area, requirements, employer_id, employment_type, industry } = await request.json()
+    const { title, description, salary, area, requirements, employer_id, employment_type, industry } = await request.json()
 
     // 1. Создаем вакансию в БД
     const { data: vacancy, error } = await supabaseAdmin
@@ -12,7 +12,6 @@ export async function POST(request: Request) {
       .insert({
         title,
         description,
-        short_description,
         salary,
         area,
         requirements,
@@ -38,12 +37,15 @@ export async function POST(request: Request) {
         if (!user || !user.telegram_id) continue;
         try {
           console.log(`[POST-JOB] Sending notification to ${user.telegram_id}...`);
+          const TYPE_LABELS: any = { full_time: 'Полная занятость', part_time: 'Частичная', gig: 'Подработка' }
+          const empTypeStr = TYPE_LABELS[employment_type] || employment_type
+
           const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
                           `🎯 *Подходимость:* ${user.match_score}/10\n` +
-                          `💼 *Должность:* ${title}\n` +
-                          `📝 *О вакансии:* ${short_description || description || 'Отличная возможность!'}\n` +
+                          `💼 *Професия:* ${title}\n` +
+                          `⏳ *Занятость:* ${empTypeStr}\n` +
                           `💰 *Зарплата:* ${salary}\n` +
-                          `📍 *Район:* ${area}\n\n` +
+                          `📍 *Адрес:* ${area}\n\n` +
                           `_Наш ИИ проанализировал твой профиль и считает, что эта вакансия тебе подходит!_`
           
           const keyboard = {

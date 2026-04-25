@@ -10,7 +10,6 @@ export default function NewVacancyPage() {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    short_description: '',
     salary: '',
     area: '',
     requirements: '',
@@ -186,17 +185,6 @@ export default function NewVacancyPage() {
                     <option value="gig">Подработка</option>
                   </select>
                 </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[10px] font-black uppercase tracking-widest opacity-40 ml-2">Краткое описание (для пуш-уведомлений)</label>
-                <textarea 
-                  className="w-full bg-slate-50 dark:bg-zinc-800 border-none p-6 rounded-2xl outline-none focus:ring-2 ring-blue-600 transition-all font-bold resize-none"
-                  placeholder="Коротко о вакансии, чтобы заинтересовать в Telegram..."
-                  value={formData.short_description || ''}
-                  onChange={e => setFormData({...formData, short_description: e.target.value})}
-                  rows={2}
-                />
               </div>
 
               <div className="space-y-1">

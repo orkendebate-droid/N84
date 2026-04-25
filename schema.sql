@@ -50,7 +50,6 @@ CREATE TABLE IF NOT EXISTS public.vacancies (
     employer_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE,
     title TEXT NOT NULL,
     description TEXT,
-    short_description TEXT,
     salary TEXT,
     area TEXT, -- Location / District
     requirements TEXT,
