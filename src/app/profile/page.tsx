@@ -26,6 +26,17 @@ export default function ProfilePage() {
     if (savedUser) {
       const user = JSON.parse(savedUser)
       fetchProfile(user.id)
+
+      // Авто-обновление откликов каждые 8 секунд (для питч-демо)
+      const interval = setInterval(() => {
+        const currentUser = localStorage.getItem('n84_user')
+        if (currentUser) {
+          const u = JSON.parse(currentUser)
+          fetchApplications(u.id)
+        }
+      }, 8000)
+
+      return () => clearInterval(interval)
     } else { setLoading(false) }
   }, [])
 
