@@ -152,7 +152,7 @@ bot.callbackQuery(/^apply_(.+)$/, async (ctx) => {
       .single();
 
     if (!youth) {
-      await ctx.answerCallbackQuery('⚠️ Ошибка: ваш профиль не найден в базе.');
+      try { await ctx.answerCallbackQuery('⚠️ Ошибка: ваш профиль не найден в базе.'); } catch(e){}
       return;
     }
 
@@ -169,7 +169,7 @@ bot.callbackQuery(/^apply_(.+)$/, async (ctx) => {
 
     if (error) {
       if (error.code === '23505') {
-        await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Вы уже откликнулись на эту вакансию._', { parse_mode: 'Markdown' });
+        try { await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Вы уже откликнулись на эту вакансию._', { parse_mode: 'Markdown' }); } catch(e){}
         return;
       }
       throw error;
@@ -225,10 +225,16 @@ bot.callbackQuery(/^apply_(.+)$/, async (ctx) => {
       }
     }
 
-    await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Отклик успешно отправлен работодателю!_', { parse_mode: 'Markdown' });
+    // ...
+    try {
+      await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Отклик успешно отправлен работодателю!_', { parse_mode: 'Markdown' });
+    } catch (e) {}
+
   } catch (err) {
     console.error('Apply error:', err);
-    await ctx.answerCallbackQuery('Ошибка отправки отклика');
+    try {
+      await ctx.answerCallbackQuery('Ошибка отправки отклика');
+    } catch (e) {}
   }
 });
 
