@@ -4,7 +4,7 @@ import { matchCandidates } from '@/lib/matching'
 
 export async function POST(request: Request) {
   try {
-    const { title, description, salary, area, requirements, employer_id, employment_type, industry } = await request.json()
+    const { title, description, short_description, salary, area, requirements, employer_id, employment_type, industry } = await request.json()
 
     // 1. Создаем вакансию в БД
     const { data: vacancy, error } = await supabaseAdmin
@@ -12,6 +12,7 @@ export async function POST(request: Request) {
       .insert({
         title,
         description,
+        short_description,
         salary,
         area,
         requirements,
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
           const message = `🔥 *НОВАЯ РАБОТА ДЛЯ ТЕБЯ!*\n\n` +
                           `🎯 *Подходимость:* ${user.match_score}/10\n` +
                           `💼 *Должность:* ${title}\n` +
+                          `📝 *О вакансии:* ${short_description || description || 'Отличная возможность!'}\n` +
                           `💰 *Зарплата:* ${salary}\n` +
                           `📍 *Район:* ${area}\n\n` +
                           `_Наш ИИ проанализировал твой профиль и считает, что эта вакансия тебе подходит!_`

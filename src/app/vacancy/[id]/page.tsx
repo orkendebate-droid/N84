@@ -129,10 +129,15 @@ export default function VacancyDetailPage() {
 
         {/* Description */}
         <div className="bg-white dark:bg-zinc-900 rounded-3xl p-8 shadow-xl border border-slate-200 dark:border-zinc-800 space-y-6">
+          {vacancy.short_description && (
+            <div className="space-y-2 border-b border-slate-100 dark:border-zinc-800 pb-4">
+              <p className="text-sm font-black leading-relaxed italic text-blue-600">{vacancy.short_description}</p>
+            </div>
+          )}
           {vacancy.description && (
             <div className="space-y-2">
               <h3 className="text-xs font-black uppercase tracking-widest text-blue-600">О вакансии</h3>
-              <p className="text-sm font-bold leading-relaxed opacity-70">{vacancy.description}</p>
+              <p className="text-sm font-bold leading-relaxed opacity-70 whitespace-pre-line">{vacancy.description}</p>
             </div>
           )}
           {vacancy.requirements && (
