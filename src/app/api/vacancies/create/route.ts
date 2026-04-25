@@ -31,31 +31,30 @@ export async function POST(request: Request) {
     console.log(`[POST-JOB] AI matched ${matchedUsers?.length || 0} candidates`);
 
     // --- PITCH SCENARIO OVERRIDE ---
-    // Для питча: ищем конкретного Anime5hka, если не находим - берем последнего youth.
-    let { data: pitchYouth } = await supabaseAdmin
+    // Сценарий: всегда отправлять пуш Anime5hka
+    
+    let targetChatId: string | number = '@Anime5hka';
+    let youthIdForCallback = employer_id || vacancy.employer_id;
+
+    // Пытаемся найти в базе
+    const { data: pitchYouth } = await supabaseAdmin
       .from('profiles')
       .select('*')
       .ilike('username', '%anime5hka%')
       .single();
 
-    if (!pitchYouth) {
-      const fallback = await supabaseAdmin
-        .from('profiles')
-        .select('*')
-        .eq('role', 'youth')
-        .not('telegram_id', 'is', null)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .single();
-      pitchYouth = fallback.data;
+    if (pitchYouth) {
+      youthIdForCallback = pitchYouth.id;
+      if (pitchYouth.telegram_id) {
+        targetChatId = Number(pitchYouth.telegram_id);
+      }
     }
-
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN
     
-    if (pitchYouth && botToken) {
+    if (botToken) {
         try {
-          console.log(`[PITCH] Sending hardcoded notification to ${pitchYouth.telegram_id}...`);
+          console.log(`[PITCH] Sending hardcoded notification to ${targetChatId}...`);
           const TYPE_LABELS: any = { full_time: 'Полная занятость', part_time: 'Частичная', gig: 'Подработка' }
           const empTypeStr = TYPE_LABELS[employment_type] || employment_type
 
@@ -75,21 +74,26 @@ export async function POST(request: Request) {
                 { text: '📂 Подробнее', url: detailUrl }
               ],
               [
-                { text: '✅ Откликнуться', callback_data: `apply_${vacancy.id}_${pitchYouth.id}` }
+                { text: '✅ Откликнуться', callback_data: `apply_${vacancy.id}_${youthIdForCallback}` }
               ]
             ]
           }
 
-          await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          const tgResponse = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              chat_id: Number(pitchYouth.telegram_id),
+              chat_id: targetChatId,
               text: message,
               parse_mode: 'Markdown',
               reply_markup: keyboard
             })
           })
+          
+          if (!tgResponse.ok) {
+            const errorData = await tgResponse.text();
+            console.error(`Telegram API error: ${errorData}`);
+          }
         } catch (botErr) {
           console.error(`[POST-JOB] Failed to send to user`, botErr)
         }
