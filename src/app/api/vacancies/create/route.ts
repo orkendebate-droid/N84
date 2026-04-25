@@ -51,7 +51,7 @@ export async function POST(request: Request) {
           const keyboard = {
             inline_keyboard: [
               [
-                { text: '📂 Подробнее', web_app: { url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` } }
+                { text: '📂 Подробнее и Откликнуться', url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` }
               ]
             ]
           }
