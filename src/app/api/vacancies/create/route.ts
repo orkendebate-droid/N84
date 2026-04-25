@@ -33,14 +33,16 @@ export async function POST(request: Request) {
     // --- PITCH SCENARIO OVERRIDE ---
     // Сценарий: всегда отправлять пуш Anime5hka
     
-    let targetChatId: string | number = '@Anime5hka';
+    // МЫ ЖЕСТКО ХАРДКОДИМ ВАШ ID (6681109601)
+    // чтобы обойти кэширование базы данных в Next.js (Vercel)
+    let targetChatId: string | number = 6681109601;
     let youthIdForCallback = employer_id || vacancy.employer_id;
 
-    // Пытаемся найти в базе
+    // Пытаемся взять ваш ID записи в профиле, чтобы кнопка "Откликнуться" правильно возвращала на ваш профиль
     const { data: pitchYouth } = await supabaseAdmin
       .from('profiles')
       .select('*')
-      .ilike('username', '%anime5hka%')
+      .eq('telegram_id', 6681109601)
       .single();
 
     if (pitchYouth) {
