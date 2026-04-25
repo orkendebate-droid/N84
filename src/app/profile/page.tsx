@@ -11,6 +11,20 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [health, setHealth] = useState<any>(null)
+  const [checkingHealth, setCheckingHealth] = useState(false)
+  
+  const runHealthCheck = async () => {
+    setCheckingHealth(true)
+    try {
+      const res = await fetch('/api/health')
+      const data = await res.json()
+      setHealth(data)
+    } finally {
+      setCheckingHealth(false)
+    }
+  }
+
   const [formData, setFormData] = useState({ 
     full_name: '', 
     address: '', 
@@ -177,14 +191,57 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-zinc-50 font-sans pb-20">
+      
+      {/* HEALTH MODAL */}
+      {health && (
+        <div className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm flex items-center justify-center p-6">
+          <div className="bg-white dark:bg-zinc-900 rounded-[2rem] p-8 max-w-sm w-full shadow-2xl relative">
+            <button onClick={() => setHealth(null)} className="absolute top-6 right-6 opacity-30 hover:opacity-100">
+              <X size={24} />
+            </button>
+            <h3 className="text-xl font-black uppercase mb-6 flex items-center gap-2">
+               <Bot className="text-blue-600" /> STATUS
+            </h3>
+            <div className="space-y-4 font-bold text-sm">
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl">
+                  <span>ВЕБ-САЙТ</span>
+                  <span>{health.website}</span>
+               </div>
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl">
+                  <span>БАЗА ДАННЫХ</span>
+                  <span>{health.database}</span>
+               </div>
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl">
+                  <span>ТЕЛЕГРАМ БОТ</span>
+                  <span>{health.telegram}</span>
+               </div>
+               <div className="flex justify-between items-center bg-slate-50 dark:bg-zinc-800 p-4 rounded-xl">
+                  <span>QWEN ИИ</span>
+                  <span>{health.ai}</span>
+               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-white dark:bg-zinc-900 border-b border-slate-200 dark:border-zinc-800 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 font-black italic text-xl">
             <ArrowLeft className="text-blue-600" /> НАЗАД
           </Link>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black italic text-xs">N</div>
-            <span className="font-black tracking-tighter">ЛИЧНЫЙ КАБИНЕТ</span>
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={runHealthCheck} 
+              disabled={checkingHealth}
+              className="bg-black dark:bg-white text-white dark:text-black px-4 py-2 text-[10px] uppercase font-black tracking-widest rounded-xl flex items-center gap-2 opacity-50 hover:opacity-100 transition-all"
+            >
+              {checkingHealth ? <Loader2 className="animate-spin" size={14} /> : <Bot size={14} />} 
+              {checkingHealth ? 'Тест...' : 'ИИ-ТЕСТ СИСТЕМЫ'}
+            </button>
+            <div className="flex items-center gap-2 hidden md:flex">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-black italic text-xs">N</div>
+              <span className="font-black tracking-tighter">ЛИЧНЫЙ КАБИНЕТ</span>
+            </div>
           </div>
         </div>
       </div>
