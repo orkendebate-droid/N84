@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck, Trash2, Loader2, Plus, Briefcase, ChevronRight, MessageCircle } from 'lucide-react'
+import { User, MapPin, Calendar, Save, ArrowLeft, Bot, Sparkles, ShieldCheck, Trash2, Loader2, Plus, Briefcase, ChevronRight, MessageCircle, Check, X } from 'lucide-react'
 import Link from 'next/link'
 
 export default function ProfilePage() {
@@ -74,6 +74,21 @@ export default function ProfilePage() {
         if (data.success) setApps(data.applications)
       }
     } catch (err) { console.error(err) }
+  }
+
+  const handleUpdateStatus = async (appId: string, status: string) => {
+    try {
+      const res = await fetch('/api/applications/update-status', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: appId, status })
+      })
+      if (res.ok) {
+        setApps(apps.map(app => app.id === appId ? { ...app, status } : app))
+      }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   const handleSave = async (e: React.FormEvent) => {
@@ -243,13 +258,33 @@ export default function ProfilePage() {
                               <p className="text-[10px] font-bold opacity-50 leading-tight"><MapPin size={10} className="inline mr-1" /> {app.youth.address}</p>
                               <p className="text-xs font-medium opacity-70 line-clamp-2 italic">"{app.youth.bio}"</p>
                             </div>
-                            <a 
-                              href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
-                              target="_blank"
-                              className="bg-blue-600 text-white p-4 rounded-2xl shadow-lg hover:scale-110 transition-all shrink-0"
-                            >
-                              <MessageCircle size={20} />
-                            </a>
+                            <div className="flex flex-col items-center gap-2 shrink-0">
+                              {app.status === 'accepted' ? (
+                                <div className="bg-green-100 dark:bg-green-900/40 text-green-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
+                                  <Check size={14} /> Принят
+                                </div>
+                              ) : app.status === 'rejected' ? (
+                                <div className="bg-red-100 dark:bg-red-900/40 text-red-600 px-3 py-2 rounded-xl text-xs font-black uppercase flex items-center gap-1">
+                                  <X size={14} /> Отказ
+                                </div>
+                              ) : (
+                                <div className="flex gap-2">
+                                  <button onClick={() => handleUpdateStatus(app.id, 'accepted')} className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
+                                    <Check size={20} />
+                                  </button>
+                                  <button onClick={() => handleUpdateStatus(app.id, 'rejected')} className="bg-slate-200 dark:bg-zinc-700 hover:bg-red-500 hover:text-white text-slate-500 p-3 rounded-xl shadow-lg hover:scale-110 transition-all">
+                                    <X size={20} />
+                                  </button>
+                                </div>
+                              )}
+                              <a 
+                                href={`https://t.me/${app.youth.username || app.youth.telegram_id}`} 
+                                target="_blank"
+                                className="bg-blue-600 text-white p-3 w-full rounded-xl shadow-lg hover:scale-105 transition-all text-xs font-black uppercase flex justify-center items-center gap-2"
+                              >
+                                <MessageCircle size={14} /> Чат
+                              </a>
+                            </div>
                           </div>
                         </div>
                       ))}
