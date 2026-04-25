@@ -48,10 +48,16 @@ export async function POST(request: Request) {
                           `📍 *Адрес:* ${area}\n\n` +
                           `_Наш ИИ проанализировал твой профиль и считает, что эта вакансия тебе подходит!_`
           
+          const applyUrl = `https://n84-platform.vercel.app/api/apply?vacancy_id=${vacancy.id}&youth_id=${user.id}`
+          const detailUrl = `https://n84-platform.vercel.app/vacancy/${vacancy.id}`
+
           const keyboard = {
             inline_keyboard: [
               [
-                { text: '📂 Подробнее и Откликнуться', url: `https://n84-platform.vercel.app/vacancy/${vacancy.id}` }
+                { text: '📂 Подробнее', url: detailUrl }
+              ],
+              [
+                { text: '✅ Откликнуться', url: applyUrl }
               ]
             ]
           }
