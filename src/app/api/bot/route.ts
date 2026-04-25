@@ -140,41 +140,96 @@ bot.callbackQuery('feedback_down', async (ctx) => { await ctx.answerCallbackQuer
 bot.callbackQuery('reject_vacancy', async (ctx) => { await ctx.editMessageText(ctx.msg?.text + '\n\n❌ _Отклонено._', { parse_mode: 'Markdown' }) })
 
 bot.callbackQuery(/^apply_(.+)$/, async (ctx) => {
-  const vacancy_id = ctx.match[1]
+  const vacancy_id = ctx.match[1];
+  const telegramId = Number(ctx.from?.id);
 
-  // ЖЕСТКИЙ ХАРДКОД ДЛЯ ДЕМО-ПИТЧА
   try {
-    const employerChatId = 6681109601; // ID Работодателя (Anime5hka) - он же тестит за молодежь
-    
-    // 1. Показываем молодежи тост об успехе
-    await ctx.answerCallbackQuery('✅ Отклик успешно отправлен!');
-    await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Вы уже откликнулись на эту вакансию._', { parse_mode: 'Markdown' });
+    // 1. Ищем молодежь по Telegram ID
+    const { data: youth } = await supabaseAdmin
+      .from('profiles')
+      .select('*')
+      .eq('telegram_id', telegramId)
+      .single();
 
-    // 2. Сразу отправляем "Работодателю" сообщение об отклике
-    const text = `🎯 *НОВЫЙ ОТКЛИК!*\n\n` +
-                 `💼 Вакансия: *Бариста*\n` +
-                 `👤 Кандидат: *Anime5hka (Pitch Demo)*\n` +
-                 `📍 Район: 20 мкр\n` +
-                 `🤖 *ИИ-Анализ:* _Идеально подходит по навыкам общения и живет всего в 5 минутах пешком от кофейни._\n\n` +
-                 `🔗 Ссылка на кандидата: @Anime5hka`;
+    if (!youth) {
+      await ctx.answerCallbackQuery('⚠️ Ошибка: ваш профиль не найден в базе.');
+      return;
+    }
 
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: employerChatId,
-        text,
-        parse_mode: 'Markdown',
-        reply_markup: {
-          inline_keyboard: [[
-            { text: "💬 Написать", url: "https://t.me/Anime5hka" }
-          ]]
-        }
-      })
+    const youth_id = youth.id;
+
+    // 2. Добавляем отклик
+    const { error } = await supabaseAdmin.from('applications').insert({
+      vacancy_id: vacancy_id,
+      youth_id: youth_id,
+      applicant_id: youth_id,
+      status: 'pending',
+      match_score: 8
     });
+
+    if (error) {
+      if (error.code === '23505') {
+        await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Вы уже откликнулись на эту вакансию._', { parse_mode: 'Markdown' });
+        return;
+      }
+      throw error;
+    }
+
+    // 3. Отправляем ИИ-уведомление работодателю
+    const { data: vFull } = await supabaseAdmin
+      .from('vacancies')
+      .select('title, employer_id, area')
+      .eq('id', vacancy_id)
+      .single();
+
+    if (vFull) {
+      const { data: employer } = await supabaseAdmin
+        .from('profiles')
+        .select('telegram_id, username')
+        .eq('id', vFull.employer_id)
+        .single();
+
+      if (employer?.telegram_id) {
+        const systemPrompt = "Ты помощник по найму. Сформируй ОДНУ короткую фразу (7-10 слов), почему кандидат хорошо подходит. Скажи, что по навыкам и желанию он отлично подходит на эту роль, и живет недалеко.";
+        const userPrompt = `Вакансия: ${vFull.title}. Кандидат: ${youth.full_name || youth.username || 'Кандидат'}`;
+        const aiReason = await askQwen(userPrompt, systemPrompt) || "Хорошо подходит по навыкам и расположению.";
+
+        const candidateLink = youth.username
+          ? `https://t.me/${youth.username}`
+          : `tg://user?id=${youth.telegram_id}`;
+
+        const BASE_URL = 'https://n84-platform.vercel.app';
+
+        const text = `🎯 *НОВЫЙ ОТКЛИК!*\n\n` +
+                     `💼 Вакансия: *${vFull.title}*\n` +
+                     `👤 Кандидат: *${youth.full_name || youth.username || 'Кандидат'}*\n` +
+                     `📍 Район вакансии: ${vFull.area || 'Не указан'}\n` +
+                     `🤖 *ИИ-Анализ:* _${aiReason}_\n\n` +
+                     `🔗 Ссылка на кандидата: ${candidateLink}`;
+
+        await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: employer.telegram_id,
+            text,
+            parse_mode: 'Markdown',
+            reply_markup: {
+              inline_keyboard: [[
+                { text: "💬 Написать кандидату", url: candidateLink },
+                { text: "📋 Мой кабинет", url: `${BASE_URL}/profile` }
+              ]]
+            }
+          })
+        });
+      }
+    }
+
+    await ctx.editMessageText(ctx.msg?.text + '\n\n✅ _Отклик успешно отправлен работодателю!_', { parse_mode: 'Markdown' });
   } catch (err) {
-    console.error('Apply error:', err)
+    console.error('Apply error:', err);
+    await ctx.answerCallbackQuery('Ошибка отправки отклика');
   }
-})
+});
 
 export const POST = webhookCallback(bot, 'std/http')
