@@ -1,0 +1,31 @@
+============================================================
+  N84 SUPABASE SCHEMA CHECK — 13:00:00
+============================================================
+
+📋 Таблица: PROFILES
+----------------------------------------
+  ✅ Строк найдено: 1
+  📊 Реальные колонки (21): id, telegram_id, username, first_name, last_name, embedding, created_at, updated_at, role, full_name, address, birthday, bio, verification_code, is_verified, otp_code, company_name, bin_iin, industry, user_age, link
+  🟡 ЛИШНИЕ в БД (нет в schema.sql): last_name, birthday, verification_code
+
+📋 Таблица: VACANCIES
+----------------------------------------
+  ✅ Строк найдено: 1
+  📊 Реальные колонки (15): id, employer_id, title, description, category, district, salary, embedding, created_at, is_active, employment_type, industry, experience, area, requirements
+  🟡 ЛИШНИЕ в БД (нет в schema.sql): category, district, experience
+
+📋 Таблица: APPLICATIONS
+----------------------------------------
+  ✅ Строк найдено: 1
+  📊 Реальные колонки (7): id, vacancy_id, applicant_id, status, created_at, youth_id, match_score
+  🟡 ЛИШНИЕ в БД (нет в schema.sql): applicant_id
+
+============================================================
+🌐 ПРОВЕРКА VERCEL ENDPOINTS
+============================================================
+  /api/vacancies/list-all: Supabase OK (200)
+  /api/auth/verify: Supabase OK (200)
+
+============================================================
+✅ Проверка завершена. Результаты сохранены в tests/schema_check_result.txt
+============================================================

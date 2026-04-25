@@ -1,0 +1,31 @@
+﻿============================================================
+  N84 SUPABASE SCHEMA CHECK тАФ 13:00:00
+============================================================
+
+ЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: PROFILES
+----------------------------------------
+  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: 1
+  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (21): id, telegram_id, username, first_name, last_name, embedding, created_at, updated_at, role, full_name, address, birthday, bio, verification_code, is_verified, otp_code, company_name, bin_iin, industry, user_age, link
+  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): last_name, birthday, verification_code
+
+ЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: VACANCIES
+----------------------------------------
+  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: 1
+  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (15): id, employer_id, title, description, category, district, salary, embedding, created_at, is_active, employment_type, industry, experience, area, requirements
+  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): category, district, experience
+
+ЁЯУЛ ╨в╨░╨▒╨╗╨╕╤Ж╨░: APPLICATIONS
+----------------------------------------
+  тЬЕ ╨б╤В╤А╨╛╨║ ╨╜╨░╨╣╨┤╨╡╨╜╨╛: 1
+  ЁЯУК ╨а╨╡╨░╨╗╤М╨╜╤Л╨╡ ╨║╨╛╨╗╨╛╨╜╨║╨╕ (7): id, vacancy_id, applicant_id, status, created_at, youth_id, match_score
+  ЁЯЯб ╨Ы╨Ш╨и╨Э╨Ш╨Х ╨▓ ╨С╨Ф (╨╜╨╡╤В ╨▓ schema.sql): applicant_id
+
+============================================================
+ЁЯМР ╨Я╨а╨Ю╨Т╨Х╨а╨Ъ╨Р VERCEL ENDPOINTS
+============================================================
+  /api/vacancies/list-all: Supabase OK (200)
+  /api/auth/verify: Supabase OK (200)
+
+============================================================
+тЬЕ ╨Я╤А╨╛╨▓╨╡╤А╨║╨░ ╨╖╨░╨▓╨╡╤А╤И╨╡╨╜╨░. ╨а╨╡╨╖╤Г╨╗╤М╤В╨░╤В╤Л ╤Б╨╛╤Е╤А╨░╨╜╨╡╨╜╤Л ╨▓ tests/schema_check_result.txt
+============================================================
