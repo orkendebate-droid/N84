@@ -63,7 +63,7 @@ export async function POST(request: Request) {
           reply_markup: {
             inline_keyboard: [
               [{ text: '📂 Подробнее', url: detailUrl }],
-              [{ text: '✅ Откликнуться', callback_data: `apply_${vacancy.id}_${youthIdForCallback}` }]
+              [{ text: '✅ Откликнуться', callback_data: `apply_${vacancy.id}` }]
             ]
           }
         })
